@@ -7,7 +7,8 @@ class AppTheme {
     return ThemeData(
       scaffoldBackgroundColor: Colors.white,
       primaryColor: AppColor.mainColor,
-      hintColor: AppColor.greyColor,
+      hintColor: AppColor.yellowColor,
+      fontFamily: "IBMPlexSans",
       colorScheme: const ColorScheme.light(
         primary: AppColor.mainColor,
         secondary: AppColor.mainColor,
