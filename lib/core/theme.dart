@@ -22,8 +22,14 @@ class AppTheme {
         ),
         bodyMedium: TextStyle(
           fontFamily: "IBMPlexSans",
-          color: Colors.black,
+          color: AppColor.greyColor,
           fontSize: 22,
+          fontWeight: FontWeight.w400,
+        ),
+        bodySmall: TextStyle(
+          fontFamily: "IBMPlexSans",
+          color: AppColor.mainColor,
+          fontSize: 16,
           fontWeight: FontWeight.w400,
         ),
         labelLarge: TextStyle(

@@ -7,4 +7,5 @@ abstract class AppImages {
   static const String imageIconWithText =
       "${mainPathOfImages}icon_with_text.png";
   static const String imageTracksIntro = "${mainPathOfImages}tracks_intro.png";
+  static const String imageLibyaFlag = "${mainPathOfImages}libya_flag.png";
 }
