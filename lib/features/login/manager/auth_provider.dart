@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/utils.dart';
+import '../presentation/screen/name_screen.dart';
+
 export 'package:provider/provider.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -26,5 +29,15 @@ class AuthProvider extends ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  doneOtp(BuildContext context) {
+    Utils.navigateAndRemoveUntilTo(NameScreen(), context);
+  }
+
+  String currentOtp = '';
+  updateCurrentOtp({required String char}) {
+    currentOtp = char;
+    notifyListeners();
   }
 }

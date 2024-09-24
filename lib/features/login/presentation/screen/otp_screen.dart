@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 import '../../../../core/assets_images.dart';
-import '../../../../core/validation_text_field.dart';
-import '../../../../core/widget/text_field_widget.dart';
+import '../../../../core/utils.dart';
 import '../../manager/auth_provider.dart';
+import 'name_screen.dart';
 
 class OtpScreen extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
@@ -18,7 +18,9 @@ class OtpScreen extends StatelessWidget {
       persistentFooterAlignment: AlignmentDirectional.bottomEnd,
       appBar: AppBar(),
       floatingActionButton: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Utils.navigateAndRemoveUntilTo(NameScreen(), context);
+        },
         style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
           padding: const EdgeInsets.all(20),
@@ -65,9 +67,9 @@ class OtpScreen extends StatelessWidget {
                           autofocus: true,
                           controller: _controller,
                           highlight: true,
-                          highlightColor: AppColor.greyColor.withOpacity(.3),
+                          highlightColor: AppColor.greyColor.withOpacity(.1),
                           defaultBorderColor:
-                              AppColor.greyColor.withOpacity(.3),
+                              AppColor.greyColor.withOpacity(.1),
                           hasTextBorderColor: AppColor.mainColor,
                           pinTextStyle: Theme.of(context).textTheme.bodySmall,
                           maxLength: 6,
@@ -78,9 +80,13 @@ class OtpScreen extends StatelessWidget {
                           pinBoxBorderWidth: 1,
                           onTextChanged: (text) {
                             // _otp = text;
+                            context
+                                .read<AuthProvider>()
+                                .updateCurrentOtp(char: text);
                           },
                           onDone: (text) {
                             // checkOTP();
+                            context.read<AuthProvider>().doneOtp(context);
                           },
                           pinBoxWidth:
                               (MediaQuery.of(context).size.width - 180) / 4,

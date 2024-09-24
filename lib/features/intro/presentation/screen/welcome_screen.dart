@@ -3,7 +3,9 @@ import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/assets_images.dart';
+import '../../../../core/utils.dart';
 import '../../../../core/widget/button_widget.dart';
+import '../../../login/presentation/screen/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -35,7 +37,9 @@ class WelcomeScreen extends StatelessWidget {
                 bgColor: Theme.of(context).hintColor,
                 textButton: 'طلب توصيلة',
                 textStyle: Theme.of(context).textTheme.labelLarge!,
-                onTap: () {},
+                onTap: () {
+                  Utils.navigateAndRemoveUntilTo(LoginScreen(), context);
+                },
               ),
               10.ph,
               ButtonWidget(

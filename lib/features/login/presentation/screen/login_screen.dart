@@ -2,7 +2,6 @@ import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:fisaa/features/login/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../core/assets_images.dart';
 import '../../../../core/utils.dart';

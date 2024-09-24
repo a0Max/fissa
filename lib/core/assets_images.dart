@@ -8,4 +8,8 @@ abstract class AppImages {
       "${mainPathOfImages}icon_with_text.png";
   static const String imageTracksIntro = "${mainPathOfImages}tracks_intro.png";
   static const String imageLibyaFlag = "${mainPathOfImages}libya_flag.png";
+  static const String iconUser = "${mainPathOfImages}user.png";
+  static const String iconMail = "${mainPathOfImages}mail.png";
+  static const String imageTopPartOfComplete =
+      "${mainPathOfImages}top_part_of_complete.png";
 }
