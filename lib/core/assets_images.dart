@@ -10,6 +10,14 @@ abstract class AppImages {
   static const String imageLibyaFlag = "${mainPathOfImages}libya_flag.png";
   static const String iconUser = "${mainPathOfImages}user.png";
   static const String iconMail = "${mainPathOfImages}mail.png";
+  static const String bgHomeScreen = "${mainPathOfImages}bg_home_screen.png";
+  static const String handOfHome = "${mainPathOfImages}hand_of_home.png";
+  static const String vehicle = "${mainPathOfImages}vehicle.png";
+  static const String furniture = "${mainPathOfImages}furniture.png";
+  static const String cars = "${mainPathOfImages}cars.png";
+  static const String chatWithSupport =
+      "${mainPathOfImages}chat_with_support.png";
+  static const String notifications = "${mainPathOfImages}notifications.png";
   static const String imageTopPartOfComplete =
       "${mainPathOfImages}top_part_of_complete.png";
 }

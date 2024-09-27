@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'core/theme.dart';
+import 'features/home/presentation/screens/home_screen.dart';
 import 'features/intro/presentation/screen/intro_screen.dart';
 import 'features/login/manager/auth_provider.dart';
 import 'firebase_options.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.getLightTheme(),
           themeMode: ThemeMode.light,
           debugShowCheckedModeBanner: false,
-          home: IntroScreen(),
+          home: HomeScreen(),
         ));
   }
 }
