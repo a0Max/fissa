@@ -2,6 +2,7 @@ import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:fisaa/features/login/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/assets_images.dart';
 import '../../../../core/utils.dart';
@@ -63,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.h),
                       decoration: BoxDecoration(
                           color: AppColor.greyColor.withOpacity(.05),
                           borderRadius: BorderRadius.circular(12),
@@ -81,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                           5.pw,
                           Image.asset(
                             AppImages.imageLibyaFlag,
-                            height: 30,
+                            height: 30.h,
                           ),
                         ],
                       ),
@@ -89,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                     10.pw,
                     Expanded(
                       child: SizedBox(
-                        height: 50,
+                        height: 50.h,
                         child: TextFieldWidget(
                             hintText: 'رقم الهاتف',
                             controler: _phoneController,
@@ -98,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                             labelText: 'رقم الهاتف',
                             onChanged: (e) {},
                             keyboardType: TextInputType.number,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             borderSideColor: AppColor.greyColor.withOpacity(.3),
                             fillColor: AppColor.greyColor.withOpacity(.05)),
                       ),

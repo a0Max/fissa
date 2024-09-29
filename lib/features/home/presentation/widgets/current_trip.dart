@@ -3,6 +3,7 @@ import 'package:fisaa/core/assets_images.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:fisaa/features/home/presentation/widgets/steps_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'pending_request.dart';
 
 class CurrentTrip extends StatelessWidget {
@@ -88,14 +89,14 @@ class CurrentTrip extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(fontSize: 12),
+                          ?.copyWith(fontSize: 12.sp),
                     ),
                     Text(
                       '1:34 PM 2 March',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
-                          ?.copyWith(fontSize: 10),
+                          ?.copyWith(fontSize: 10.sp),
                     ),
                   ],
                 ),
@@ -109,14 +110,14 @@ class CurrentTrip extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(fontSize: 12),
+                          ?.copyWith(fontSize: 12.sp),
                     ),
                     Text(
                       '1:34 PM 2 March',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
-                          ?.copyWith(fontSize: 10),
+                          ?.copyWith(fontSize: 10.sp),
                     ),
                   ],
                 ),

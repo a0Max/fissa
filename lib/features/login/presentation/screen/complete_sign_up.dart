@@ -1,6 +1,8 @@
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
+import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils.dart';
 import '../../../home/presentation/screens/home_screen.dart';
@@ -10,6 +12,8 @@ class CompleteSignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'MediaQuery.of(context).size.height:${MediaQuery.of(context).size.height}');
     return Scaffold(
       backgroundColor: AppColor.lightGreyColor,
       body: Center(
@@ -25,47 +29,55 @@ class CompleteSignUp extends StatelessWidget {
             alignment: AlignmentDirectional.center,
             children: [
               Positioned(
-                top: -90,
-                child: Image.asset(
-                  AppImages.imageTopPartOfComplete,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height / 4,
-                margin: const EdgeInsets.only(top: 100),
+                top: (MediaQuery.of(context).size.height > 900) ? -250 : -90,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        text: "تم تفعيل حسابك ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontSize: 44),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'بنجـــاح',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                      fontSize: 44, color: Colors.green)),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
+                    Image.asset(
+                      AppImages.imageTopPartOfComplete,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.fitWidth,
                     ),
                     FittedBox(
-                      child: Text(
-                        'قم بطلب توصيلتك بسهولة ووفر وقتك وجهدك',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontSize: 18),
-                        overflow: TextOverflow.visible,
+                      child: Container(
+                        // height: MediaQuery.of(context).size.height / 4,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: "تم تفعيل حسابك ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(fontSize: 44),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: 'بنجـــاح',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              fontSize: 44,
+                                              color: Colors.green)),
+                                ],
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            20.ph,
+                            FittedBox(
+                              child: Text(
+                                'قم بطلب توصيلتك بسهولة ووفر وقتك وجهدك',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontSize: 18),
+                                overflow: TextOverflow.visible,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

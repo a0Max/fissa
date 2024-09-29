@@ -1,5 +1,6 @@
 import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/app_color.dart';
 import '../../../../core/assets_images.dart';
@@ -36,14 +37,10 @@ class StepsLine extends StatelessWidget {
     );
   }
 
-  _theSteps() {
-    return;
-  }
-
   _linesOfLoadingStep({required int currentStep, required int lineStep}) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.only(right: 10, left: 10, bottom: 15),
+        margin: const EdgeInsets.only(right: 10, left: 10),
         child: Divider(
           color: currentStep == lineStep
               ? AppColor.mainColor
@@ -55,9 +52,8 @@ class StepsLine extends StatelessWidget {
 
   _disActivePoint({required int currentStep, required int index}) {
     return Container(
-      padding: EdgeInsets.only(bottom: 15),
       child: CircleAvatar(
-        radius: 5,
+        radius: 5.w,
         backgroundColor: currentStep >= index
             ? AppColor.mainColor
             : AppColor.lightGreyColor2,
@@ -67,22 +63,12 @@ class StepsLine extends StatelessWidget {
 
   _secondStepWidget({required context}) {
     return FittedBox(
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 20,
-            backgroundColor: AppColor.mainColor,
-            child: Container(
-                padding: const EdgeInsets.all(5),
-                child: Image.asset(AppImages.cars)),
-          ),
-          10.ph,
-          Text(
-            'في الطريق',
-            style:
-                Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
-          )
-        ],
+      child: CircleAvatar(
+        radius: 20.w,
+        backgroundColor: AppColor.mainColor,
+        child: Container(
+            padding: const EdgeInsets.all(5),
+            child: Image.asset(AppImages.cars)),
       ),
     );
   }
@@ -92,7 +78,7 @@ class StepsLine extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: 20,
+            radius: 20.w,
             backgroundColor: AppColor.mainColor,
             child: Container(
                 padding: const EdgeInsets.all(5), child: Icon(Icons.search)),
@@ -105,7 +91,7 @@ class StepsLine extends StatelessWidget {
   _thirdStepWidget({required context}) {
     return FittedBox(
       child: CircleAvatar(
-        radius: 20,
+        radius: 20.w,
         backgroundColor: AppColor.mainColor,
         child: Container(
             padding: const EdgeInsets.all(10),

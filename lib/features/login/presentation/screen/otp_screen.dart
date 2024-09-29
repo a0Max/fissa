@@ -63,44 +63,47 @@ class OtpScreen extends StatelessWidget {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         alignment: Alignment.center,
-                        child: PinCodeTextField(
-                          isCupertino: true,
-                          autofocus: true,
-                          controller: _controller,
-                          highlight: true,
-                          highlightColor: AppColor.greyColor.withOpacity(.1),
-                          defaultBorderColor:
-                              AppColor.greyColor.withOpacity(.1),
-                          hasTextBorderColor: AppColor.mainColor,
-                          pinTextStyle: Theme.of(context).textTheme.bodySmall,
-                          maxLength: 6,
-                          hasError: false,
-                          pinBoxColor: AppColor.greyColor.withOpacity(.1),
-                          pinBoxRadius: 13,
-                          pinBoxBorderWidth: 1,
-                          onTextChanged: (text) {
-                            // _otp = text;
-                            context
-                                .read<AuthProvider>()
-                                .updateCurrentOtp(char: text);
-                          },
-                          onDone: (text) {
-                            // checkOTP();
-                            context.read<AuthProvider>().doneOtp(context);
-                          },
-                          pinBoxWidth:
-                              (MediaQuery.of(context).size.width - 200) / 4,
-                          pinBoxHeight: 60,
-                          wrapAlignment: WrapAlignment.spaceAround,
-                          pinBoxDecoration:
-                              ProvidedPinBoxDecoration.defaultPinBoxDecoration,
-                          pinTextAnimatedSwitcherTransition:
-                              ProvidedPinBoxTextAnimation.scalingTransition,
-                          pinTextAnimatedSwitcherDuration:
-                              const Duration(milliseconds: 300),
-                          highlightAnimationBeginColor: Colors.black,
-                          highlightAnimationEndColor: Colors.white12,
-                          keyboardType: TextInputType.number,
+                        child: FittedBox(
+                          child: PinCodeTextField(
+                            isCupertino: true,
+                            autofocus: true,
+                            controller: _controller,
+                            highlight: true,
+                            highlightColor: AppColor.greyColor.withOpacity(.1),
+                            defaultBorderColor:
+                                AppColor.greyColor.withOpacity(.1),
+                            hasTextBorderColor: AppColor.mainColor,
+                            pinTextStyle: Theme.of(context).textTheme.bodySmall,
+                            maxLength: 6,
+                            hasError: false,
+                            pinBoxColor: AppColor.greyColor.withOpacity(.1),
+                            pinBoxRadius: 13,
+                            pinBoxBorderWidth: 1,
+                            onTextChanged: (text) {
+                              // _otp = text;
+                              context
+                                  .read<AuthProvider>()
+                                  .updateCurrentOtp(char: text);
+                            },
+                            onDone: (text) {
+                              // checkOTP();
+                              context.read<AuthProvider>().doneOtp(context);
+                            },
+                            pinBoxWidth:
+                                (MediaQuery.of(context).size.width - 200) / 4,
+                            pinBoxHeight:
+                                (MediaQuery.of(context).size.width - 200) / 4,
+                            wrapAlignment: WrapAlignment.spaceAround,
+                            pinBoxDecoration: ProvidedPinBoxDecoration
+                                .defaultPinBoxDecoration,
+                            pinTextAnimatedSwitcherTransition:
+                                ProvidedPinBoxTextAnimation.scalingTransition,
+                            pinTextAnimatedSwitcherDuration:
+                                const Duration(milliseconds: 300),
+                            highlightAnimationBeginColor: Colors.black,
+                            highlightAnimationEndColor: Colors.white12,
+                            keyboardType: TextInputType.number,
+                          ),
                         ),
                       ),
                     ),

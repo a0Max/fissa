@@ -1,6 +1,7 @@
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/assets_images.dart';
 import '../../../../core/utils.dart';
@@ -53,7 +54,7 @@ class EmailScreen extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(fontSize: 21),
+                          ?.copyWith(fontSize: 21.sp),
                       textAlign: TextAlign.end,
                     ),
                     15.ph,
@@ -62,7 +63,7 @@ class EmailScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: SizedBox(
-                            height: 50,
+                            height: 50.h,
                             child: TextFieldWidget(
                               hintText: 'البريد الالكترونى',
                               controler: _emailController,
@@ -71,7 +72,7 @@ class EmailScreen extends StatelessWidget {
                               labelText: 'البريد الالكترونى',
                               onChanged: (e) {},
                               keyboardType: TextInputType.text,
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               borderSideColor:
                                   AppColor.greyColor.withOpacity(.1),
                               fillColor: AppColor.greyColor.withOpacity(.05),

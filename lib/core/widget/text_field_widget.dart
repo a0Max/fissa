@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/app_color.dart';
 import '../border_manager.dart';
 
@@ -63,9 +64,9 @@ class TextFieldWidget extends StatelessWidget {
                 fillColor: fillColor ?? Colors.white,
                 hintText: hintText,
                 labelStyle:
-                    TextStyle(color: Colors.grey, fontSize: fontSize ?? 15),
+                    TextStyle(color: Colors.grey, fontSize: fontSize ?? 15.sp),
                 hintStyle:
-                    TextStyle(color: Colors.grey, fontSize: fontSize ?? 15)),
+                    TextStyle(color: Colors.grey, fontSize: fontSize ?? 15.sp)),
             onTap: onTap,
             obscureText: obscureText ?? false));
   }
