@@ -2,6 +2,9 @@ import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/utils.dart';
+import '../../../home/presentation/screens/home_screen.dart';
+
 class CompleteSignUp extends StatelessWidget {
   const CompleteSignUp({super.key});
 
@@ -71,7 +74,9 @@ class CompleteSignUp extends StatelessWidget {
               Positioned(
                 bottom: -25,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(20),

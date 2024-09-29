@@ -30,7 +30,8 @@ class OtpScreen extends StatelessWidget {
         child: const Icon(Icons.arrow_forward, color: Colors.white),
       ),
       body: SingleChildScrollView(
-        child: SizedBox(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height / 2,
           child: Consumer<AuthProvider>(builder: (context, state, __) {
@@ -74,8 +75,7 @@ class OtpScreen extends StatelessWidget {
                           pinTextStyle: Theme.of(context).textTheme.bodySmall,
                           maxLength: 6,
                           hasError: false,
-                          pinBoxColor:
-                              Theme.of(context).scaffoldBackgroundColor,
+                          pinBoxColor: AppColor.greyColor.withOpacity(.1),
                           pinBoxRadius: 13,
                           pinBoxBorderWidth: 1,
                           onTextChanged: (text) {
@@ -89,7 +89,7 @@ class OtpScreen extends StatelessWidget {
                             context.read<AuthProvider>().doneOtp(context);
                           },
                           pinBoxWidth:
-                              (MediaQuery.of(context).size.width - 180) / 4,
+                              (MediaQuery.of(context).size.width - 200) / 4,
                           pinBoxHeight: 60,
                           wrapAlignment: WrapAlignment.spaceAround,
                           pinBoxDecoration:

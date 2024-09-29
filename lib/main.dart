@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/theme.dart';
 import 'features/home/presentation/screens/home_screen.dart';
 import 'features/intro/presentation/screen/intro_screen.dart';
 import 'features/login/manager/auth_provider.dart';
+import 'features/login/presentation/screen/login_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -13,6 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await ScreenUtil.ensureScreenSize();
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -31,12 +34,18 @@ class MyApp extends StatelessWidget {
             create: (context) => AuthProvider(),
           ),
         ],
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: AppTheme.getLightTheme(),
-          themeMode: ThemeMode.light,
-          debugShowCheckedModeBanner: false,
-          home: HomeScreen(),
-        ));
+        child: ScreenUtilInit(
+            designSize: const Size(360, 690),
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: (_, child) {
+              return MaterialApp(
+                title: 'Flutter Demo',
+                theme: AppTheme.getLightTheme(),
+                themeMode: ThemeMode.light,
+                debugShowCheckedModeBanner: false,
+                home: LoginScreen(),
+              );
+            }));
   }
 }

@@ -30,7 +30,8 @@ class NameScreen extends StatelessWidget {
         child: const Icon(Icons.arrow_forward, color: Colors.white),
       ),
       body: SingleChildScrollView(
-        child: SizedBox(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height / 2,
           child: Column(
