@@ -5,6 +5,9 @@
         android:label="fisaa"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyBrh998WPZDBJbbrthzu_4_zk7FQIsXmwE"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -33,5 +36,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
 
 </manifest>
