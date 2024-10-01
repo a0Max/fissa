@@ -28,6 +28,11 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app needs access to location to show near stores and to locate your position on map when adding address</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location to show near stores and to locate your position on map when adding address</string>
+
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
