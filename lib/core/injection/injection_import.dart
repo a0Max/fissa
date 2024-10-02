@@ -4,7 +4,7 @@ var sl = GetIt.instance;
 
 Future<void> init() async {
   // bloc
-  sl.registerFactory(() => SearchLocationCubit(mapInformationUseCases: sl()));
+  sl.registerFactory(() => MapInformation(mapInformationUseCases: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => MapInformationUseCases(sl()));
