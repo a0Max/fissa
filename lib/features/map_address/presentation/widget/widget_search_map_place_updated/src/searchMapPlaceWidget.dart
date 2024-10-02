@@ -9,7 +9,7 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.clearIcon = Icons.clear,
     this.iconColor = Colors.blue,
     this.onSelected,
-    this.onSearch,
+    required this.onSearch,
     this.language = 'en',
     this.location,
     this.radius,
@@ -34,7 +34,7 @@ class SearchMapPlaceWidget extends StatefulWidget {
   final void Function(Place place)? onSelected;
 
   /// The callback that is called when the user taps on the search icon.
-  final void Function(Place place)? onSearch;
+  final void Function(String text) onSearch;
 
   /// Language used for the autocompletion.
   ///
@@ -182,8 +182,8 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget>
       child: TextField(
         decoration: _inputStyle(),
         controller: _textEditingController,
-        onSubmitted: (_) => _selectPlace(),
-        onEditingComplete: _selectPlace,
+        onSubmitted: (text) => widget.onSearch(text),
+        onEditingComplete: () => widget.onSearch(_textEditingController.text),
         autofocus: false,
         focusNode: _fn,
         style: TextStyle(
@@ -330,7 +330,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget>
         url += "&types=${widget.placeType!.apiString}";
       }
     }
-
+    print('url:$url');
     final response = await http.get(Uri.parse(url));
     final json = JSON.jsonDecode(response.body);
 

@@ -7,7 +7,8 @@ import 'core/theme.dart';
 import 'features/home/presentation/screens/home_screen.dart';
 import 'features/intro/presentation/screen/intro_screen.dart';
 import 'features/login/manager/auth_provider.dart';
-import 'features/login/presentation/screen/login_screen.dart';
+import 'core/injection/injection_container.dart' as di;
+import 'features/map_address/presentation/screens/map_address.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -19,6 +20,8 @@ Future<void> main() async {
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await di.init();
+
   runApp(const MyApp());
 }
 
@@ -44,7 +47,7 @@ class MyApp extends StatelessWidget {
                 theme: AppTheme.getLightTheme(),
                 themeMode: ThemeMode.light,
                 debugShowCheckedModeBanner: false,
-                home: LoginScreen(),
+                home: MapAddress(),
               );
             }));
   }

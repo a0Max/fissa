@@ -1,13 +1,16 @@
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/main_map_informations.dart';
 import '../../../../core/widget/button_widget.dart';
 import '../../../login/manager/auth_provider.dart';
 import '../manager/map_information.dart';
+import '../manager/search_location_cubit.dart';
 import '../widget/widget_search_map_place_updated/search_map_place_updated.dart';
+import '../../../../core/injection/injection_container.dart' as di;
 
 class MapAddress extends StatelessWidget {
   const MapAddress({super.key});
@@ -57,40 +60,60 @@ class MapAddress extends StatelessWidget {
                             Expanded(
                                 child: Column(
                               children: [
-                                SearchMapPlaceWidget(
-                                  apiKey: MainMapInformation.mapKey,
-                                  location: LatLng(
-                                    state.kGooglePlex?.latitude.toDouble() ??
-                                        MainMapInformation.latitude,
-                                    state.kGooglePlex?.longitude.toDouble() ??
-                                        MainMapInformation.longitude,
-                                  ),
-                                  radius: 2000,
-                                  placeholder: 'نقطة البداية',
-                                  bgColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  textColor: Colors.grey,
-                                  iconColor: AppColor.lightGreyColor2,
-                                  onSearch: (Place place) async {},
-                                  onSelected: (Place place) async {},
-                                ),
-                                SearchMapPlaceWidget(
-                                  apiKey: MainMapInformation.mapKey,
-                                  location: LatLng(
-                                    state.kGooglePlex?.latitude.toDouble() ??
-                                        MainMapInformation.latitude,
-                                    state.kGooglePlex?.longitude.toDouble() ??
-                                        MainMapInformation.longitude,
-                                  ),
-                                  radius: 2000,
-                                  placeholder: 'نقطة النهاية',
-                                  bgColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  textColor: Colors.grey,
-                                  iconColor: AppColor.lightGreyColor2,
-                                  onSearch: (Place place) async {},
-                                  onSelected: (Place place) async {},
-                                ),
+                                BlocProvider<SearchLocationCubit>(
+                                    create: (_) => di.sl<SearchLocationCubit>(),
+                                    child: SearchMapPlaceWidget(
+                                      apiKey: MainMapInformation.mapKey,
+                                      location: LatLng(
+                                        state.kGooglePlex?.latitude
+                                                .toDouble() ??
+                                            MainMapInformation.latitude,
+                                        state.kGooglePlex?.longitude
+                                                .toDouble() ??
+                                            MainMapInformation.longitude,
+                                      ),
+                                      radius: 2000,
+                                      placeholder: 'نقطة البداية',
+                                      bgColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      textColor: Colors.grey,
+                                      iconColor: AppColor.lightGreyColor2,
+                                      onSearch: (String text) async {
+                                        di
+                                            .sl<SearchLocationCubit>()
+                                            .startSearch(
+                                                text: text,
+                                                latLng: LatLng(
+                                                  state.kGooglePlex?.latitude
+                                                          .toDouble() ??
+                                                      MainMapInformation
+                                                          .latitude,
+                                                  state.kGooglePlex?.longitude
+                                                          .toDouble() ??
+                                                      MainMapInformation
+                                                          .longitude,
+                                                ),
+                                                radius: 2000);
+                                      },
+                                      onSelected: (Place place) async {},
+                                    )),
+                                // SearchMapPlaceWidget(
+                                //   apiKey: MainMapInformation.mapKey,
+                                //   location: LatLng(
+                                //     state.kGooglePlex?.latitude.toDouble() ??
+                                //         MainMapInformation.latitude,
+                                //     state.kGooglePlex?.longitude.toDouble() ??
+                                //         MainMapInformation.longitude,
+                                //   ),
+                                //   radius: 2000,
+                                //   placeholder: 'نقطة النهاية',
+                                //   bgColor:
+                                //       Theme.of(context).scaffoldBackgroundColor,
+                                //   textColor: Colors.grey,
+                                //   iconColor: AppColor.lightGreyColor2,
+                                //   onSearch: (Place place) async {},
+                                //   onSelected: (Place place) async {},
+                                // ),
                               ],
                             )),
                             Column(
