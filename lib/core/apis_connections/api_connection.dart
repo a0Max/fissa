@@ -39,14 +39,19 @@ class MainApiConnection {
   };
 
   ////////////////////////////// END POINTS ///////////////////////////////////
-  String locationInformationEndPoint = "place/autocomplete/json";
+  String locationInformationEndPoint = "place/textsearch/json";
 
 ////////////////////////////////////////////////////////////////////////////
 
   // Validating Request.
   bool validResponse(di.Response response) {
     int? statusCode = response.statusCode;
-    bool? result = response.data['status'];
+    bool? result;
+    try {
+      result = response.data['status'];
+    } catch (e) {
+      result = true;
+    }
     if (statusCode == null || result == false) {
       return false;
     } else {

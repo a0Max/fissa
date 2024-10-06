@@ -21,13 +21,15 @@ class LessonRepositoryImpl implements MapRepository {
       required LatLng latLng,
       required int radius}) async {
     if (await networkInfo.isConnected) {
-      try {
-        final res = await remoteDataSource.getMapDataRemotely(
-            text: text, radius: radius, latLng: latLng);
-        return Right(res);
-      } catch (e, s) {
-        return Left(LoginFailure());
-      }
+      // try {
+      final res = await remoteDataSource.getMapDataRemotely(
+          text: text, radius: radius, latLng: latLng);
+      return Right(res);
+      // } catch (e, s) {
+      //   print('error:$e');
+      //   log('error:$e');
+      //   return Left(LoginFailure());
+      // }
     } else {
       return Left(CheckYourNetwork());
     }

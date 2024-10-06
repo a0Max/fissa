@@ -32,7 +32,7 @@ class DataSourceRemotelyOfLocationsImpl
         });
     if (dio.validResponse(response)) {
       final List<PredictionsModel> l = [];
-      response.data['predictions'].forEach((e) {
+      response.data['results'].forEach((e) {
         l.add(PredictionsModel.fromJson(e));
       });
       return l;

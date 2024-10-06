@@ -8,6 +8,8 @@ import '../../../../core/widget/button_widget.dart';
 import '../../../login/manager/auth_provider.dart';
 import '../manager/map_information.dart';
 import '../../../../core/injection/injection_container.dart' as di;
+import '../widget/item_of_search_map.dart';
+import '../widget/item_of_search_map.dart';
 import '../widget/search_map_place_widget.dart';
 
 class MapAddress extends StatelessWidget {
@@ -18,8 +20,7 @@ class MapAddress extends StatelessWidget {
     return Scaffold(
       body: ChangeNotifierProvider<MapInformation>(
           create: (context) => di.sl<MapInformation>(),
-          child: Consumer<MapInformation>(
-              builder: (context, MapInformation state, child) {
+          child: Consumer<MapInformation>(builder: (context, state, child) {
             return Stack(
               children: [
                 GoogleMap(
@@ -44,80 +45,6 @@ class MapAddress extends StatelessWidget {
                     state.controller.complete(controller);
                     state.gmapController = controller;
                   },
-                ),
-                Positioned(
-                  top: 0,
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width),
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        (MediaQuery.of(context).padding.top + 10).ph,
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Column(
-                              children: [
-                                SearchMapPlaceWidget(
-                                  placeholder: 'نقطة البداية',
-                                  bgColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  textColor: Colors.grey,
-                                  iconColor: AppColor.lightGreyColor2,
-                                  onSearch: (String text) async {
-                                    // print('current text:$text');
-                                    di.sl<MapInformation>().startSearch(
-                                        text: text,
-                                        latLng: LatLng(
-                                          state.kGooglePlex?.latitude
-                                                  .toDouble() ??
-                                              MainMapInformation.latitude,
-                                          state.kGooglePlex?.longitude
-                                                  .toDouble() ??
-                                              MainMapInformation.longitude,
-                                        ),
-                                        radius: 2000);
-                                  },
-                                ),
-                                SearchMapPlaceWidget(
-                                  placeholder: 'نقطة النهاية',
-                                  bgColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  textColor: Colors.grey,
-                                  iconColor: AppColor.lightGreyColor2,
-                                  onSearch: (String text) async {
-                                    di.sl<MapInformation>().startSearch(
-                                        text: text,
-                                        latLng: LatLng(
-                                          state.kGooglePlex?.latitude
-                                                  .toDouble() ??
-                                              MainMapInformation.latitude,
-                                          state.kGooglePlex?.longitude
-                                                  .toDouble() ??
-                                              MainMapInformation.longitude,
-                                        ),
-                                        radius: 2000);
-                                  },
-                                ),
-                              ],
-                            )),
-                            Column(
-                              children: [
-                                Icon(Icons.location_on_rounded),
-                                Container(
-                                  height: 20.h,
-                                  width: 2,
-                                  color: AppColor.lightGreyColor2,
-                                ),
-                                Icon(Icons.circle_outlined),
-                              ],
-                            ),
-                            5.pw
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
                 ),
                 Positioned(
                     bottom: (MediaQuery.of(context).padding.top + 10),
@@ -148,7 +75,152 @@ class MapAddress extends StatelessWidget {
                           },
                         )
                       ],
-                    ))
+                    )),
+                Positioned(
+                  top: 0,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: (MediaQuery.of(context).size.width),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10))),
+                        child: Column(
+                          children: [
+                            (MediaQuery.of(context).padding.top + 10).ph,
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Column(
+                                  children: [
+                                    SearchMapPlaceWidget(
+                                      placeholder: 'نقطة البداية',
+                                      text: state.startAddress,
+                                      bgColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      textColor: Colors.grey,
+                                      iconColor: AppColor.lightGreyColor2,
+                                      onSearch: (String text) async {
+                                        // print('current text:$text');
+                                        context
+                                            .read<MapInformation>()
+                                            .startSearch(
+                                                text: text,
+                                                latLng: LatLng(
+                                                  state.kGooglePlex?.latitude
+                                                          .toDouble() ??
+                                                      MainMapInformation
+                                                          .latitude,
+                                                  state.kGooglePlex?.longitude
+                                                          .toDouble() ??
+                                                      MainMapInformation
+                                                          .longitude,
+                                                ),
+                                                radius: 15000);
+                                      },
+                                      onTapOutside: () {
+                                        context
+                                            .read<MapInformation>()
+                                            .saveShowAddress(action: false);
+                                      },
+                                      onTap: () {
+                                        context
+                                            .read<MapInformation>()
+                                            .saveShowAddress(action: true);
+                                      },
+                                    ),
+                                    SearchMapPlaceWidget(
+                                      placeholder: 'نقطة النهاية',
+                                      bgColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      textColor: Colors.grey,
+                                      iconColor: AppColor.lightGreyColor2,
+                                      onSearch: (String text) async {
+                                        context
+                                            .read<MapInformation>()
+                                            .startSearch(
+                                                text: text,
+                                                latLng: LatLng(
+                                                  state.kGooglePlex?.latitude
+                                                          .toDouble() ??
+                                                      MainMapInformation
+                                                          .latitude,
+                                                  state.kGooglePlex?.longitude
+                                                          .toDouble() ??
+                                                      MainMapInformation
+                                                          .longitude,
+                                                ),
+                                                radius: 15000);
+                                      },
+                                      onTapOutside: () {
+                                        context
+                                            .read<MapInformation>()
+                                            .saveEndShowAddress(action: false);
+                                      },
+                                      onTap: () {
+                                        context
+                                            .read<MapInformation>()
+                                            .saveEndShowAddress(action: true);
+                                      },
+                                    ),
+                                    10.ph
+                                  ],
+                                )),
+                                Column(
+                                  children: [
+                                    Icon(Icons.location_on_rounded),
+                                    Container(
+                                      height: 20.h,
+                                      width: 2,
+                                      color: AppColor.lightGreyColor2,
+                                    ),
+                                    Icon(Icons.circle_outlined),
+                                  ],
+                                ),
+                                5.pw
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (state.locations.isNotEmpty) ...{
+                        Container(
+                          height: MediaQuery.of(context).size.height - 150.h,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.white,
+                          alignment: Alignment.center,
+                          child: ListView(
+                            children: List.generate(
+                                state.locations.length,
+                                (index) => GestureDetector(
+                                      onTap: () {
+                                        context
+                                            .read<MapInformation>()
+                                            .saveStartLocation(
+                                                location: state.locations[index]
+                                                    .geometry?.location,
+                                                address: state.locations[index]
+                                                        .formattedAddress ??
+                                                    '');
+                                      },
+                                      child: ItemOfSearchMap(
+                                        description: state.locations[index]
+                                                .formattedAddress ??
+                                            '',
+                                        structuredFormatting: state
+                                                .locations[index]
+                                                .formattedAddress ??
+                                            '',
+                                      ),
+                                    )),
+                          ),
+                        )
+                      }
+                    ],
+                  ),
+                ),
               ],
             );
           })),

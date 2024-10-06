@@ -16,10 +16,14 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.bgColor = Colors.blue,
     this.textColor = Colors.white,
     this.key,
+    required this.onTapOutside,
+    this.text,
+    required this.onTap,
   }) : super(key: key);
 
   final Key? key;
   final String placeholder;
+  final String? text;
   final void Function(String text) onSearch;
   final IconData icon;
   final bool hasClearButton;
@@ -27,7 +31,8 @@ class SearchMapPlaceWidget extends StatefulWidget {
   final Color iconColor;
   final Color bgColor;
   final Color textColor;
-
+  final Function() onTap;
+  final Function() onTapOutside;
   @override
   _SearchMapPlaceWidgetState createState() => _SearchMapPlaceWidgetState();
 }
@@ -73,8 +78,12 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget>
       textDirection: TextDirection.rtl,
       child: TextField(
         decoration: _inputStyle(),
-        controller: _textEditingController,
+        controller: widget.text != null
+            ? TextEditingController(text: widget.text)
+            : _textEditingController,
         onSubmitted: (_) => _selectPlace(),
+        onTap: () => widget.onTap(),
+        onTapOutside: (_) => widget.onTapOutside(),
         onEditingComplete: _selectPlace,
         autofocus: false,
         focusNode: _fn,

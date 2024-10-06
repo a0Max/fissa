@@ -1,28 +1,43 @@
 import 'package:equatable/equatable.dart';
-import 'package:fisaa/features/map_address/domain/entities/terms_model.dart';
+import 'package:fisaa/features/map_address/domain/entities/location_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'matched_substrings_model.dart';
+import 'geometry_model.dart';
+import 'plus_code_model.dart';
 part 'predictions_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class PredictionsModel extends Equatable {
-  String? description;
-  List<MatchedSubstringsModel>? matchedSubstrings;
+  String? businessStatus;
+  String? formattedAddress;
+  GeometryModel? geometry;
+  String? icon;
+  String? iconBackgroundColor;
+  String? iconMaskBaseUri;
+  String? name;
   String? placeId;
+  PlusCodeModel? plusCode;
+  double? rating;
   String? reference;
-  MatchedSubstringsModel? structuredFormatting;
-  List<TermsModel>? terms;
   List<String>? types;
+  int? userRatingsTotal;
+  int? priceLevel;
 
   PredictionsModel(
-      {this.description,
-      this.matchedSubstrings,
+      {this.businessStatus,
+      this.formattedAddress,
+      this.geometry,
+      this.icon,
+      this.iconBackgroundColor,
+      this.iconMaskBaseUri,
+      this.name,
       this.placeId,
+      this.plusCode,
+      this.rating,
       this.reference,
-      this.structuredFormatting,
-      this.terms,
-      this.types});
+      this.types,
+      this.userRatingsTotal,
+      this.priceLevel});
 
   factory PredictionsModel.fromJson(Map<String, dynamic> json) {
     return _$PredictionsModelFromJson(json);
@@ -32,12 +47,19 @@ class PredictionsModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        description,
-        matchedSubstrings,
+        businessStatus,
+        formattedAddress,
+        priceLevel,
         placeId,
+        rating,
+        userRatingsTotal,
         reference,
-        structuredFormatting,
-        terms,
+        plusCode,
+        geometry,
+        name,
+        iconMaskBaseUri,
+        iconBackgroundColor,
+        icon,
         types
       ];
 }

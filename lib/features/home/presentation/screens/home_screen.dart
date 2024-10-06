@@ -98,6 +98,7 @@ class HomeScreen extends StatelessWidget {
                                   .bodyLarge
                                   ?.copyWith(color: AppColor.lightPurpleColor),
                             ),
+                            10.ph,
                             CurrentTrip()
                           ]),
                     ))
