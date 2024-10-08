@@ -29,11 +29,7 @@ class ItemOfSearchMap extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                    description
-                        .split(',')
-                        .sublist(1, description.split(',').length - 1)
-                        .join(),
+                Text(description,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 15.sp, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.start),

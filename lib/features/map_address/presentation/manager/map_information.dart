@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/state_requests.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/assets_images.dart';
+import '../../../../core/enums/state_of_search.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
 import '../../../../core/main_map_informations.dart';
@@ -55,7 +57,7 @@ class MapInformation extends ChangeNotifier {
         .then((Position position) {
       currentPosition = position;
       notifyListeners();
-      _getAddressFromLatLng(position);
+      _getAddressFromLatLng(position.latitude, position.longitude, '', true);
       _updateKGooglePlex(position);
     }).catchError((e) {
       _addMarkFromUserLocation();
@@ -72,17 +74,24 @@ class MapInformation extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? currentAddress;
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(position.latitude, position.longitude)
-        .then((List<Placemark> placemarks) {
+  Future<String> _getAddressFromLatLng(double latitude, double longitude,
+      String? deuletTex, bool? fromClickButton) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
       Placemark place = placemarks[0];
-      currentAddress =
-          '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+      String currentAddress =
+          '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.country}';
       notifyListeners();
-    }).catchError((e) {
-      debugPrint(e);
-    });
+      if (fromClickButton == true) {
+        startLocation = LocationModel(lat: latitude, lng: longitude);
+        startAddress = currentAddress;
+        notifyListeners();
+      }
+      return currentAddress;
+    } catch (e) {
+      return deuletTex ?? '';
+    }
   }
 
   final Set<Marker> markers = <Marker>{};
@@ -122,7 +131,7 @@ class MapInformation extends ChangeNotifier {
     stateOfTextField = StateOfTextField.loading;
     notifyListeners();
 
-    _eitherLoadedOrErrorState(await mapInformationUseCases.call(
+    await _eitherLoadedOrErrorState(await mapInformationUseCases(
         text: text, radius: radius, latLng: latLng));
     notifyListeners();
   }
@@ -130,7 +139,7 @@ class MapInformation extends ChangeNotifier {
   _eitherLoadedOrErrorState(
       Either<Failure, List<PredictionsModel>> failureOrTrivia) async {
     log('_eitherLoadedOrErrorState');
-    failureOrTrivia.fold(
+    await failureOrTrivia.fold(
       (failure) => _stateOfGetErrorMessage(failure),
       (data) => _stateOfSaveLocationsData(data),
     );
@@ -141,12 +150,31 @@ class MapInformation extends ChangeNotifier {
     message = _mapFailureToMessage(failure);
   }
 
-  _stateOfSaveLocationsData(List<PredictionsModel> data) {
+  Future<void> _stateOfSaveLocationsData(List<PredictionsModel> data) async {
     locations.clear();
-    locations.addAll(data);
-    stateOfTextField = StateOfTextField.done;
+
+    List<PredictionsModel> _subData = await _handlingDataOfLocations(data);
+    print('_subData: ${_subData.length}');
+
+    locations.addAll(_subData);
+    print('formattedAddress:${locations.first.formattedAddress}');
     notifyListeners();
-    print('_stateOfSaveLocationsData:${locations.length}');
+  }
+
+  Future<List<PredictionsModel>> _handlingDataOfLocations(
+      List<PredictionsModel> data) async {
+    List<PredictionsModel> _subData = [];
+
+    for (var element in data) {
+      var formattedAddress = await _getAddressFromLatLng(
+          element.geometry?.location?.lat ?? 0,
+          element.geometry?.location?.lng ?? 0,
+          element.formattedAddress,
+          false);
+      _subData.add(element.copyWith(formattedAddress: formattedAddress));
+    }
+
+    return _subData;
   }
 
   String _mapFailureToMessage(Failure failure) {
@@ -163,36 +191,105 @@ class MapInformation extends ChangeNotifier {
     }
   }
 
-  bool startShowAddress = false;
-  bool endShowAddress = false;
-  saveShowAddress({required bool action}) {
+  StateOfSearch? startShowAddress;
+  saveShowAddress({required StateOfSearch action}) {
     startShowAddress = action;
     notifyListeners();
   }
 
-  saveEndShowAddress({required bool action}) {
-    endShowAddress = action;
-    notifyListeners();
-  }
-
   LocationModel? startLocation;
+  LocationModel? endLocation;
+  String? endAddress;
   String? startAddress;
   saveStartLocation(
       {required LocationModel? location, required String address}) {
-    startLocation = location;
-    startAddress = address;
+    if (startShowAddress == StateOfSearch.endPointSearch) {
+      endLocation = location;
+      endAddress = address;
+      kGooglePlex = LatLng(location?.lat ?? 0, location?.lng ?? 0);
+      gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
+    } else if (startShowAddress == StateOfSearch.firstPointSearch) {
+      startLocation = location;
+      startAddress = address;
+      kGooglePlex = LatLng(location?.lat ?? 0, location?.lng ?? 0);
+      gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
+    }
     locations.clear();
-    kGooglePlex = LatLng(location?.lat ?? 0, location?.lng ?? 0);
-    gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
+    startShowAddress = StateOfSearch.endSearch;
     notifyListeners();
-
-    // changeLocation(LatLng(location?.lat ?? MainMapInformation.latitude,
-    //     location?.lng ?? MainMapInformation.longitude));
   }
 
-  LocationModel? endLocation;
-  saveEndLocation({required LocationModel? location}) {
-    endLocation = location;
+  clearStartSearch() {
+    startLocation = null;
+    startAddress = null;
+    locations.clear();
+    markers.clear();
+
+    notifyListeners();
+
+    getUserLocation();
+  }
+
+  clearEndSearch() {
+    endLocation = null;
+    endAddress = null;
+    locations.clear();
+    markers.clear();
+
+    notifyListeners();
+  }
+
+  bool checkEndPoint = false;
+  updateCheckEndPoint({required bool updateCheck}) {
+    print('updateCheckEndPoint');
+    checkEndPoint = updateCheck;
+    if (updateCheck == true) {
+      goToTheEndOfLocation();
+    }
+    notifyListeners();
+  }
+
+  goToTheEndOfLocation() {
+    kGooglePlex = LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0);
+    gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
+  }
+
+  Set<Polyline> polylines = {};
+
+  drawTheDirection() async {
+    markers.clear();
+    Polyline polyline = Polyline(
+      polylineId: PolylineId("line1"),
+      visible: true,
+      points: [
+        LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
+        LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0)
+      ],
+      color: AppColor.yellowColor,
+      width: 5,
+    );
+    polylines.add(polyline);
+
+    kGooglePlex = LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0);
+    gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
+    markers.add(Marker(
+        markerId: MarkerId(
+            LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0)
+                .toString()),
+        position: LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
+        icon: await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 2.5), AppImages.markerFixCar)
+        // infoWindow: InfoWindow(title: 'Point 1'),
+        ));
+    markers.add(Marker(
+        markerId: MarkerId(
+            LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0).toString()),
+        position: LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0),
+        icon: await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 2.5), AppImages.endMarker)
+        // infoWindow: InfoWindow(title: 'Point 1'),
+        ));
+
     notifyListeners();
   }
 }

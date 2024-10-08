@@ -19,6 +19,7 @@ class SearchMapPlaceWidget extends StatefulWidget {
     required this.onTapOutside,
     this.text,
     required this.onTap,
+    required this.suffixIconOnTap,
   }) : super(key: key);
 
   final Key? key;
@@ -32,6 +33,7 @@ class SearchMapPlaceWidget extends StatefulWidget {
   final Color bgColor;
   final Color textColor;
   final Function() onTap;
+  final Function() suffixIconOnTap;
   final Function() onTapOutside;
   @override
   _SearchMapPlaceWidgetState createState() => _SearchMapPlaceWidgetState();
@@ -106,6 +108,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget>
       prefixIcon: Icon(widget.icon, color: widget.iconColor),
       suffixIcon: IconButton(
         onPressed: () {
+          widget.suffixIconOnTap();
           // if (_crossFadeState == CrossFadeState.showSecond)
           _textEditingController.clear();
           _fn.unfocus();
