@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ import '../manager/map_information.dart';
 import '../../../../core/injection/injection_container.dart' as di;
 import '../widget/item_of_search_map.dart';
 import '../widget/item_of_search_map.dart';
-import '../widget/make_sure_about_the_end_point.dart';
+import '../widget/body_of_bottom_sheet.dart';
 import '../widget/search_map_place_widget.dart';
 
 class MapAddress extends StatelessWidget {
@@ -43,6 +45,13 @@ class MapAddress extends StatelessWidget {
                   polylines: state.polylines, // Add the polylines to the map
 
                   markers: state.markers,
+                  onCameraIdle: () {
+                    context.read<MapInformation>().getAddressFromLatLng(
+                        state.markers.first.position.latitude,
+                        state.markers.first.position.longitude,
+                        null,
+                        true);
+                  },
                   onCameraMove: (position) => context
                       .read<MapInformation>()
                       .changeLocation(position.target),
@@ -87,7 +96,7 @@ class MapAddress extends StatelessWidget {
                                         .updateCheckEndPoint(updateCheck: true);
                                     Utils.showCustomBottomSheetWithButton(
                                       context,
-                                      MakeSureAboutTheEndPoint(),
+                                      BodyOfBottomSheet(),
                                     );
                                     print('startAddress:${state.startAddress}');
                                     print(
@@ -215,7 +224,7 @@ class MapAddress extends StatelessWidget {
                                   )),
                                   Column(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.location_on_rounded,
                                         color: AppColor.mainColor,
                                       ),
@@ -224,7 +233,7 @@ class MapAddress extends StatelessWidget {
                                         width: 2,
                                         color: AppColor.lightMainColor,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.circle_outlined,
                                         color: AppColor.lightMainColor,
                                       ),

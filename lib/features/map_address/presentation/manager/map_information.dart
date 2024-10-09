@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/assets_images.dart';
 import '../../../../core/enums/state_of_search.dart';
@@ -57,7 +58,7 @@ class MapInformation extends ChangeNotifier {
         .then((Position position) {
       currentPosition = position;
       notifyListeners();
-      _getAddressFromLatLng(position.latitude, position.longitude, '', true);
+      getAddressFromLatLng(position.latitude, position.longitude, '', true);
       _updateKGooglePlex(position);
     }).catchError((e) {
       _addMarkFromUserLocation();
@@ -74,7 +75,7 @@ class MapInformation extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> _getAddressFromLatLng(double latitude, double longitude,
+  Future<String> getAddressFromLatLng(double latitude, double longitude,
       String? deuletTex, bool? fromClickButton) async {
     try {
       List<Placemark> placemarks =
@@ -90,16 +91,23 @@ class MapInformation extends ChangeNotifier {
       }
       return currentAddress;
     } catch (e) {
+      if (isBlank(deuletTex) == true) {
+        getAddressFromLatLng(latitude, longitude, deuletTex, fromClickButton);
+      }
       return deuletTex ?? '';
     }
+  }
+
+  Future<BitmapDescriptor> _mainMarker({required String image}) async {
+    return await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 3.5), AppImages.marker);
   }
 
   final Set<Marker> markers = <Marker>{};
   _addMarkFromUserLocation({Position? position}) async {
     markers.add(
       Marker(
-        icon: await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), AppImages.marker),
+        icon: await _mainMarker(image: AppImages.marker),
         markerId: MarkerId(LatLng(
                 position?.latitude ?? MainMapInformation.latitude,
                 position?.longitude ?? MainMapInformation.longitude)
@@ -115,8 +123,7 @@ class MapInformation extends ChangeNotifier {
     markers.clear();
     markers.add(
       Marker(
-        icon: await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), AppImages.marker),
+        icon: await _mainMarker(image: AppImages.marker),
         markerId: MarkerId(LatLng(arg.latitude, arg.longitude).toString()),
         position: LatLng(arg.latitude, arg.longitude),
       ),
@@ -138,7 +145,6 @@ class MapInformation extends ChangeNotifier {
 
   _eitherLoadedOrErrorState(
       Either<Failure, List<PredictionsModel>> failureOrTrivia) async {
-    log('_eitherLoadedOrErrorState');
     await failureOrTrivia.fold(
       (failure) => _stateOfGetErrorMessage(failure),
       (data) => _stateOfSaveLocationsData(data),
@@ -154,10 +160,8 @@ class MapInformation extends ChangeNotifier {
     locations.clear();
 
     List<PredictionsModel> _subData = await _handlingDataOfLocations(data);
-    print('_subData: ${_subData.length}');
 
     locations.addAll(_subData);
-    print('formattedAddress:${locations.first.formattedAddress}');
     notifyListeners();
   }
 
@@ -166,7 +170,7 @@ class MapInformation extends ChangeNotifier {
     List<PredictionsModel> _subData = [];
 
     for (var element in data) {
-      var formattedAddress = await _getAddressFromLatLng(
+      var formattedAddress = await getAddressFromLatLng(
           element.geometry?.location?.lat ?? 0,
           element.geometry?.location?.lng ?? 0,
           element.formattedAddress,
@@ -178,7 +182,6 @@ class MapInformation extends ChangeNotifier {
   }
 
   String _mapFailureToMessage(Failure failure) {
-    log('_mapFailureToMessage:$failure');
     switch (failure.runtimeType) {
       case ServerFailure:
         return SERVER_FAILURE_MESSAGE;
@@ -224,10 +227,7 @@ class MapInformation extends ChangeNotifier {
     startAddress = null;
     locations.clear();
     markers.clear();
-
     notifyListeners();
-
-    getUserLocation();
   }
 
   clearEndSearch() {
@@ -241,7 +241,6 @@ class MapInformation extends ChangeNotifier {
 
   bool checkEndPoint = false;
   updateCheckEndPoint({required bool updateCheck}) {
-    print('updateCheckEndPoint');
     checkEndPoint = updateCheck;
     if (updateCheck == true) {
       goToTheEndOfLocation();
@@ -277,16 +276,14 @@ class MapInformation extends ChangeNotifier {
             LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0)
                 .toString()),
         position: LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
-        icon: await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), AppImages.markerFixCar)
+        icon: await _mainMarker(image: AppImages.markerFixCar)
         // infoWindow: InfoWindow(title: 'Point 1'),
         ));
     markers.add(Marker(
         markerId: MarkerId(
             LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0).toString()),
         position: LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0),
-        icon: await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), AppImages.endMarker)
+        icon: await _mainMarker(image: AppImages.endMarker)
         // infoWindow: InfoWindow(title: 'Point 1'),
         ));
 

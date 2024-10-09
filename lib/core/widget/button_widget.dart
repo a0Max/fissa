@@ -20,7 +20,7 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap(),
       child: Container(
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(vertical: 10),
