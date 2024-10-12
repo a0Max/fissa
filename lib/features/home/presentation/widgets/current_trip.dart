@@ -7,12 +7,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'pending_request.dart';
 
 class CurrentTrip extends StatelessWidget {
-  const CurrentTrip({super.key});
+  final int currentStep;
+  CurrentTrip({super.key, required this.currentStep})
+      : assert(() {
+          if (currentStep == 0) {
+            throw FlutterError(
+              "currentStep can't be zero",
+            );
+          }
+          return true;
+        }());
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(13)),
       child: Column(
@@ -23,7 +33,7 @@ class CurrentTrip extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: PendingRequest()),
+              Expanded(child: PendingRequest(currentStep: currentStep)),
               Expanded(
                   child: FittedBox(
                 child: Row(
@@ -72,9 +82,9 @@ class CurrentTrip extends StatelessWidget {
           10.ph,
           Directionality(
             textDirection: TextDirection.rtl,
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: const StepsLine(totalSteps: 4, currentStep: 1),
+              child: StepsLine(totalSteps: 4, currentStep: (currentStep - 1)),
             ),
           ),
           10.ph,

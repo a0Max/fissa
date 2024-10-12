@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                 theme: AppTheme.getLightTheme(),
                 themeMode: ThemeMode.light,
                 debugShowCheckedModeBanner: false,
-                home: MapAddress(),
+                home: HomeScreen(),
               );
             }));
   }

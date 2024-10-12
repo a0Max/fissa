@@ -1,15 +1,19 @@
 import 'package:fisaa/core/vars.dart';
+import 'package:fisaa/features/login/manager/auth_provider.dart';
+import 'package:fisaa/features/map_address/presentation/manager/map_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/enums/selected_help.dart';
+import '../../../../core/utils.dart';
 import '../../../../core/widget/button_widget.dart';
+import '../../../details_of_transports_goods/presentation/pages/details_of_transports_goods.dart';
 
 class MakeSureAboutTheEndPoint extends StatelessWidget {
   const MakeSureAboutTheEndPoint({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -29,7 +33,14 @@ class MakeSureAboutTheEndPoint extends StatelessWidget {
           bgColor: Theme.of(context).primaryColor,
           textButton: 'إستمرار',
           textStyle: Theme.of(context).textTheme.labelLarge!,
-          onTap: () {},
+          onTap: () {
+            if (context.read<MapInformation>().typeOfHelp ==
+                SelectedHelp.transportOfGoods) {
+              Utils.navigateTo(DetailsOfTransportsGoods(), context);
+            } else {
+              context.read<MapInformation>().updateTheCurrentWidget();
+            }
+          },
         ),
         30.ph
       ],

@@ -3,6 +3,7 @@ import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/app_color.dart';
+import '../../../../core/enums/selected_help.dart';
 import '../widgets/current_trip.dart';
 import '../widgets/items_widget.dart';
 
@@ -82,14 +83,25 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: List.generate(
-                                  2,
-                                  (index) => Column(
-                                        children: [ItemsWidget(), 10.ph],
-                                      )),
-                            ),
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ItemsWidget(
+                                    title: 'سحب مركبـــة',
+                                    subTitle: 'ســاحبة',
+                                    image: AppImages.vehicle,
+                                    discount: 50,
+                                    keyOfOption: SelectedHelp.vehicleTowing,
+                                  ),
+                                  10.ph,
+                                  ItemsWidget(
+                                    title: 'نقل بضاعـــة',
+                                    subTitle: 'بورتل',
+                                    image: AppImages.transportOfGoods,
+                                    keyOfOption: SelectedHelp.transportOfGoods,
+                                  ),
+                                  10.ph
+                                ]),
                             20.ph,
                             Text(
                               'رحلاتي الحالية',
@@ -99,7 +111,9 @@ class HomeScreen extends StatelessWidget {
                                   ?.copyWith(color: AppColor.lightPurpleColor),
                             ),
                             10.ph,
-                            CurrentTrip()
+                            CurrentTrip(currentStep: 1),
+                            CurrentTrip(currentStep: 2),
+                            CurrentTrip(currentStep: 3),
                           ]),
                     ))
               ],

@@ -5,6 +5,7 @@ import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../../core/enums/selected_help.dart';
 import '../../../../core/enums/state_of_search.dart';
 import '../../../../core/main_map_informations.dart';
 import '../../../../core/utils.dart';
@@ -18,13 +19,16 @@ import '../widget/body_of_bottom_sheet.dart';
 import '../widget/search_map_place_widget.dart';
 
 class MapAddress extends StatelessWidget {
-  const MapAddress({super.key});
+  final SelectedHelp typeOfHelp;
+
+  const MapAddress({super.key, required this.typeOfHelp});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ChangeNotifierProvider<MapInformation>(
-          create: (context) => di.sl<MapInformation>(),
+          create: (context) => di.sl<MapInformation>()
+            ..submitTypeOfHelp(newTypeOfHelp: typeOfHelp),
           child: Consumer<MapInformation>(builder: (context, state, child) {
             return Stack(
               children: [
@@ -94,9 +98,15 @@ class MapAddress extends StatelessWidget {
                                     context
                                         .read<MapInformation>()
                                         .updateCheckEndPoint(updateCheck: true);
+                                    final mapInformation =
+                                        context.read<MapInformation>();
+
                                     Utils.showCustomBottomSheetWithButton(
                                       context,
-                                      BodyOfBottomSheet(),
+                                      ChangeNotifierProvider<
+                                              MapInformation>.value(
+                                          value: mapInformation,
+                                          child: BodyOfBottomSheet()),
                                     );
                                     print('startAddress:${state.startAddress}');
                                     print(
@@ -124,6 +134,37 @@ class MapAddress extends StatelessWidget {
                           child: Column(
                             children: [
                               (MediaQuery.of(context).padding.top + 10).ph,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      width: 50.w,
+                                      // padding: EdgeInsets.all(20),
+                                      child: Icon(Icons.clear),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    child: Text(
+                                      (state.typeOfHelp ==
+                                              SelectedHelp.vehicleTowing)
+                                          ? 'سحب مركبة'
+                                          : 'نقل بضاعة',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              fontSize: 24.sp,
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  50.pw,
+                                ],
+                              ),
                               Row(
                                 children: [
                                   Expanded(

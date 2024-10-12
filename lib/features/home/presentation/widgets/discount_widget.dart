@@ -4,6 +4,10 @@ import '../../../../core/app_color.dart';
 import 'gradient_boarder.dart';
 
 class DiscountcWidget extends StatelessWidget {
+  final double discount;
+
+  const DiscountcWidget({super.key, required this.discount});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -23,7 +27,7 @@ class DiscountcWidget extends StatelessWidget {
               colors: [AppColor.pinkColor, AppColor.lightRedColor],
             )),
         child: Text(
-          'تخفيض 50% ',
+          'تخفيض $discount% ',
           style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 11),
         ),
       ),

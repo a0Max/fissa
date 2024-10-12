@@ -12,6 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/assets_images.dart';
+import '../../../../core/enums/selected_help.dart';
 import '../../../../core/enums/state_of_search.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
@@ -19,6 +20,10 @@ import '../../../../core/main_map_informations.dart';
 import '../../domain/entities/location_model.dart';
 import '../../domain/entities/predictions_model.dart';
 import '../../domain/use_cases/map_information_use_cases.dart';
+import '../widget/check_the_address.dart';
+import '../widget/loading_bottom_sheet.dart';
+import '../widget/make_sure_about_the_end_point.dart';
+import '../widget/the_way_of_payment.dart';
 
 class MapInformation extends ChangeNotifier {
   final MapInformationUseCases mapInformationUseCases;
@@ -85,8 +90,16 @@ class MapInformation extends ChangeNotifier {
           '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.country}';
       notifyListeners();
       if (fromClickButton == true) {
-        startLocation = LocationModel(lat: latitude, lng: longitude);
-        startAddress = currentAddress;
+        print(
+            'startShowAddress:$startShowAddress -${(startShowAddress == StateOfSearch.endPointSearch)}');
+        if (startShowAddress == StateOfSearch.endPointSearch) {
+          endLocation = LocationModel(lat: latitude, lng: longitude);
+          endAddress = currentAddress;
+        } else {
+          startLocation = LocationModel(lat: latitude, lng: longitude);
+          startAddress = currentAddress;
+        }
+
         notifyListeners();
       }
       return currentAddress;
@@ -217,6 +230,9 @@ class MapInformation extends ChangeNotifier {
       kGooglePlex = LatLng(location?.lat ?? 0, location?.lng ?? 0);
       gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
     }
+    print('startShowAddress:$startShowAddress');
+    print('startAddress:$startAddress');
+    print('endAddress:$endAddress');
     locations.clear();
     startShowAddress = StateOfSearch.endSearch;
     notifyListeners();
@@ -287,6 +303,59 @@ class MapInformation extends ChangeNotifier {
         // infoWindow: InfoWindow(title: 'Point 1'),
         ));
 
+    notifyListeners();
+  }
+
+  int selectedWayOfPayment = 0;
+  submitWayOfPayment(int newWay) {
+    selectedWayOfPayment = newWay;
+    notifyListeners();
+    print('selectedWayOfPayment:$selectedWayOfPayment');
+  }
+
+  Widget currentWidget = MakeSureAboutTheEndPoint();
+  int indexOfCurrentWidget = 0;
+  late SelectedHelp typeOfHelp;
+  submitTypeOfHelp({required SelectedHelp newTypeOfHelp}) {
+    typeOfHelp = newTypeOfHelp;
+    notifyListeners();
+  }
+
+  updateTheCurrentWidget() {
+    indexOfCurrentWidget = indexOfCurrentWidget + 1;
+    notifyListeners();
+    if (typeOfHelp == SelectedHelp.transportOfGoods) {
+      updateTheIndexAndCurrentWidgetOfTransportOfGoods(
+          index: indexOfCurrentWidget);
+    } else if (typeOfHelp == SelectedHelp.vehicleTowing) {
+      updateTheIndexAndCurrentWidgetOfVehicleTowing(
+          index: indexOfCurrentWidget);
+    }
+    print('indexOfCurrentWidget:$indexOfCurrentWidget');
+    print('currentWidget:${currentWidget.runtimeType}');
+    notifyListeners();
+  }
+
+  updateTheIndexAndCurrentWidgetOfTransportOfGoods({required int index}) {
+    switch (index) {
+      case 0:
+        currentWidget = MakeSureAboutTheEndPoint();
+    }
+    notifyListeners();
+  }
+
+  updateTheIndexAndCurrentWidgetOfVehicleTowing({required int index}) {
+    print('index:$index');
+    switch (index) {
+      case 0:
+        currentWidget = MakeSureAboutTheEndPoint();
+      case 1:
+        currentWidget = CheckTheAddress();
+      case 2:
+        currentWidget = TheWayOfPayment();
+      case 3:
+        currentWidget = LoadingBottomSheet();
+    }
     notifyListeners();
   }
 }
