@@ -83,6 +83,8 @@ class MapInformation extends ChangeNotifier {
   Future<String> getAddressFromLatLng(double latitude, double longitude,
       String? deuletTex, bool? fromClickButton) async {
     try {
+      // isAnimatingCamera = false;
+      // notifyListeners();
       List<Placemark> placemarks =
           await placemarkFromCoordinates(latitude, longitude);
       Placemark place = placemarks[0];
@@ -113,7 +115,7 @@ class MapInformation extends ChangeNotifier {
 
   Future<BitmapDescriptor> _mainMarker({required String image}) async {
     return await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 3.5), AppImages.marker);
+        ImageConfiguration(devicePixelRatio: 3.5), image);
   }
 
   final Set<Marker> markers = <Marker>{};
@@ -132,7 +134,13 @@ class MapInformation extends ChangeNotifier {
     notifyListeners();
   }
 
+  // bool isAnimatingCamera = false;
+  //
   changeLocation(LatLng arg) async {
+    print('isAnimatingCamera:$checkEndPoint');
+    if (checkEndPoint == true) {
+      return;
+    }
     markers.clear();
     markers.add(
       Marker(
@@ -269,9 +277,13 @@ class MapInformation extends ChangeNotifier {
   bool checkEndPoint = false;
   updateCheckEndPoint({required bool updateCheck}) {
     checkEndPoint = updateCheck;
-    if (updateCheck == true) {
-      goToTheEndOfLocation();
-    }
+    polylines.clear();
+    currentWidget = MakeSureAboutTheEndPoint();
+    indexOfCurrentWidget = 0;
+    notifyListeners();
+    // if (updateCheck == true) {
+    goToTheEndOfLocation();
+    // }
     notifyListeners();
   }
 
@@ -284,6 +296,9 @@ class MapInformation extends ChangeNotifier {
 
   drawTheDirection() async {
     markers.clear();
+
+    // isAnimatingCamera = true;
+    // notifyListeners();
     Polyline polyline = Polyline(
       polylineId: PolylineId("line1"),
       visible: true,
@@ -297,15 +312,13 @@ class MapInformation extends ChangeNotifier {
     polylines.add(polyline);
 
     kGooglePlex = LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0);
-    gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
+    // gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
     markers.add(Marker(
         markerId: MarkerId(
             LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0)
                 .toString()),
         position: LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
-        icon: await _mainMarker(image: AppImages.markerFixCar)
-        // infoWindow: InfoWindow(title: 'Point 1'),
-        ));
+        icon: await _mainMarker(image: AppImages.markerFixCar)));
     markers.add(Marker(
         markerId: MarkerId(
             LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0).toString()),
@@ -313,7 +326,27 @@ class MapInformation extends ChangeNotifier {
         icon: await _mainMarker(image: AppImages.endMarker)
         // infoWindow: InfoWindow(title: 'Point 1'),
         ));
+    LatLngBounds bounds = LatLngBounds(
+      southwest: LatLng(
+        (startLocation?.lat ?? 0) < (endLocation?.lat ?? 0)
+            ? (startLocation?.lat ?? 0)
+            : (endLocation?.lat ?? 0),
+        (startLocation?.lng ?? 0) < (endLocation?.lng ?? 0)
+            ? (startLocation?.lng ?? 0)
+            : (endLocation?.lng ?? 0),
+      ),
+      northeast: LatLng(
+        (startLocation?.lat ?? 0) > (endLocation?.lat ?? 0)
+            ? (startLocation?.lat ?? 0)
+            : (endLocation?.lat ?? 0),
+        (startLocation?.lng ?? 0) > (endLocation?.lng ?? 0)
+            ? (startLocation?.lng ?? 0)
+            : (endLocation?.lng ?? 0),
+      ),
+    );
 
+    CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 140);
+    gmapController?.animateCamera(cameraUpdate);
     notifyListeners();
   }
 

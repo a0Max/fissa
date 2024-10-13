@@ -43,6 +43,7 @@ class MakeSureAboutTheEndPoint extends StatelessWidget {
                   ),
                   context);
             } else {
+              context.read<MapInformation>().drawTheDirection();
               context.read<MapInformation>().updateTheCurrentWidget();
             }
           },

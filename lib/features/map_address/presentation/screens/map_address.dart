@@ -76,11 +76,11 @@ class MapAddress extends StatelessWidget {
                                   .read<MapInformation>()
                                   .getUserLocation(),
                               child: Container(
-                                  padding: EdgeInsets.all(15),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: const BoxDecoration(
                                       color: AppColor.mainColor,
                                       shape: BoxShape.circle),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.my_location_outlined,
                                     color: Colors.white,
                                   ))),
