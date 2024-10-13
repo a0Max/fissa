@@ -16,7 +16,7 @@ class MakeSureAboutTheEndPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         10.ph,
         Text(
@@ -36,7 +36,12 @@ class MakeSureAboutTheEndPoint extends StatelessWidget {
           onTap: () {
             if (context.read<MapInformation>().typeOfHelp ==
                 SelectedHelp.transportOfGoods) {
-              Utils.navigateTo(DetailsOfTransportsGoods(), context);
+              Utils.navigateTo(
+                  DetailsOfTransportsGoods(
+                    endPointAddress:
+                        context.read<MapInformation>().endAddress ?? '',
+                  ),
+                  context);
             } else {
               context.read<MapInformation>().updateTheCurrentWidget();
             }

@@ -33,12 +33,17 @@ class CurrentTrip extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: PendingRequest(currentStep: currentStep)),
               Expanded(
                   child: FittedBox(
                 child: Row(
                   children: [
+                    Image.asset(
+                      AppImages.furniture,
+                      width: 40,
+                    ),
+                    10.pw,
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         RichText(
                           text: TextSpan(
@@ -65,14 +70,10 @@ class CurrentTrip extends StatelessWidget {
                                 ?.copyWith(fontSize: 10)),
                       ],
                     ),
-                    10.pw,
-                    Image.asset(
-                      AppImages.furniture,
-                      width: 40,
-                    )
                   ],
                 ),
               )),
+              Expanded(child: PendingRequest(currentStep: currentStep)),
             ],
           ),
           10.ph,
@@ -80,12 +81,9 @@ class CurrentTrip extends StatelessWidget {
             color: AppColor.lightGreyColor2.withOpacity(.3),
           ),
           10.ph,
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: StepsLine(totalSteps: 4, currentStep: (currentStep - 1)),
-            ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: StepsLine(totalSteps: 4, currentStep: (currentStep - 1)),
           ),
           10.ph,
           Row(
@@ -143,15 +141,15 @@ class CurrentTrip extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Icon(
+                  Icons.info_outline,
+                  color: AppColor.yellowColor,
+                ),
+                10.pw,
                 Text(
                   'تفاصيل الطلب',
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
-                10.pw,
-                const Icon(
-                  Icons.info_outline,
-                  color: AppColor.yellowColor,
-                )
               ],
             ),
           ),

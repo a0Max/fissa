@@ -34,10 +34,9 @@ class ItemsWidget extends StatelessWidget {
         padding: EdgeInsets.all(15),
         child: Row(
           children: [
-            Expanded(child: Image.asset(image)),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (discount != null) ...{
@@ -57,6 +56,7 @@ class ItemsWidget extends StatelessWidget {
                 ],
               ),
             ),
+            Expanded(child: Image.asset(image)),
           ],
         ),
       ),

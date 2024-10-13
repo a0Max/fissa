@@ -10,6 +10,7 @@ class AppTheme {
       primaryColor: AppColor.mainColor,
       hintColor: AppColor.yellowColor,
       fontFamily: "IBMPlexSans",
+      useMaterial3: true,
       colorScheme: const ColorScheme.light(
         primary: AppColor.mainColor,
         secondary: AppColor.mainColor,

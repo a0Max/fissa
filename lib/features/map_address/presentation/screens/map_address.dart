@@ -67,9 +67,9 @@ class MapAddress extends StatelessWidget {
                 if (state.checkEndPoint == false) ...{
                   Positioned(
                       bottom: (MediaQuery.of(context).padding.top + 10),
-                      left: (MediaQuery.of(context).padding.left + 10),
+                      right: (MediaQuery.of(context).padding.right + 10),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           GestureDetector(
                               onTap: () => context
@@ -126,7 +126,7 @@ class MapAddress extends StatelessWidget {
                       children: [
                         Container(
                           width: (MediaQuery.of(context).size.width),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(10),
@@ -138,16 +138,7 @@ class MapAddress extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Container(
-                                      width: 50.w,
-                                      // padding: EdgeInsets.all(20),
-                                      child: Icon(Icons.clear),
-                                    ),
-                                  ),
+                                  50.pw,
                                   SizedBox(
                                     child: Text(
                                       (state.typeOfHelp ==
@@ -162,11 +153,38 @@ class MapAddress extends StatelessWidget {
                                               fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                  50.pw,
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      width: 50.w,
+                                      // padding: EdgeInsets.all(20),
+                                      child: Icon(Icons.clear),
+                                    ),
+                                  ),
                                 ],
                               ),
                               Row(
                                 children: [
+                                  5.pw,
+                                  Column(
+                                    children: [
+                                      const Icon(
+                                        Icons.location_on_rounded,
+                                        color: AppColor.mainColor,
+                                      ),
+                                      Container(
+                                        height: 20.h,
+                                        width: 2,
+                                        color: AppColor.lightMainColor,
+                                      ),
+                                      const Icon(
+                                        Icons.circle_outlined,
+                                        color: AppColor.lightMainColor,
+                                      ),
+                                    ],
+                                  ),
                                   Expanded(
                                       child: Column(
                                     children: [
@@ -263,32 +281,12 @@ class MapAddress extends StatelessWidget {
                                       10.ph
                                     ],
                                   )),
-                                  Column(
-                                    children: [
-                                      const Icon(
-                                        Icons.location_on_rounded,
-                                        color: AppColor.mainColor,
-                                      ),
-                                      Container(
-                                        height: 20.h,
-                                        width: 2,
-                                        color: AppColor.lightMainColor,
-                                      ),
-                                      const Icon(
-                                        Icons.circle_outlined,
-                                        color: AppColor.lightMainColor,
-                                      ),
-                                    ],
-                                  ),
-                                  5.pw
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        if (state.locations.isNotEmpty &&
-                            state.startShowAddress !=
-                                StateOfSearch.endSearch) ...{
+                        if (state.locations.isNotEmpty) ...{
                           Container(
                             height: MediaQuery.of(context).size.height - 150.h,
                             width: MediaQuery.of(context).size.width,

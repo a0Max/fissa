@@ -1,5 +1,1 @@
-enum StateOfSearch {
-  firstPointSearch,
-  endPointSearch,
-  endSearch,
-}
+enum StateOfSearch { firstPointSearch, endPointSearch }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/theme.dart';
+import 'features/details_of_transports_goods/presentation/pages/details_of_transports_goods.dart';
 import 'features/home/presentation/screens/home_screen.dart';
 import 'features/intro/presentation/screen/intro_screen.dart';
 import 'features/login/manager/auth_provider.dart';
@@ -48,6 +49,13 @@ class MyApp extends StatelessWidget {
                 themeMode: ThemeMode.light,
                 debugShowCheckedModeBanner: false,
                 home: HomeScreen(),
+                builder: (context, widget) {
+                  return Directionality(
+                    textDirection:
+                        TextDirection.rtl, // Set the text direction to RTL
+                    child: widget!,
+                  );
+                },
               );
             }));
   }

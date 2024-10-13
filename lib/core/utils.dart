@@ -37,8 +37,8 @@ class Utils {
           // height: MediaQuery.of(context).size.height / 2,
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             // mainAxisAlignment: MainAxisAlignment.
             // clipBehavior: Clip.none,
             children: [
@@ -47,7 +47,7 @@ class Utils {
                 child: ButtonWidget(
                   width: 50,
                   bgColor: Colors.white,
-                  child: Icon(Icons.arrow_back_ios_outlined,
+                  child: Icon(Icons.arrow_forward_ios_rounded,
                       color: Theme.of(context).primaryColor),
                   textStyle: Theme.of(context)
                       .textTheme

@@ -18,6 +18,14 @@ abstract class AppImages {
   static const String handOfHome = "${mainPathOfImages}hand_of_home.png";
   static const String boxThirdStep = "${mainPathOfImages}box_third_step.png";
   static const String vehicle = "${mainPathOfImages}vehicle.png";
+  static const String aIcon = "${mainPathOfImages}a_icon.png";
+  static const String phoneIcon = "${mainPathOfImages}phone_icon.png";
+  static const String personIcon = "${mainPathOfImages}person_icon.png";
+  static const String needWorkers = "${mainPathOfImages}need_workers.png";
+  static const String good1 = "${mainPathOfImages}good1.png";
+  static const String good2 = "${mainPathOfImages}good2.png";
+  static const String good3 = "${mainPathOfImages}good3.png";
+  static const String good4 = "${mainPathOfImages}good4.png";
   static const String transportOfGoods =
       "${mainPathOfImages}transport_of_goods.png";
   static const String furniture = "${mainPathOfImages}furniture.png";

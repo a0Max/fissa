@@ -211,6 +211,17 @@ class MapInformation extends ChangeNotifier {
   saveShowAddress({required StateOfSearch action}) {
     startShowAddress = action;
     notifyListeners();
+    if (startLocation != null && action == StateOfSearch.firstPointSearch) {
+      changeLocation(LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0));
+      gmapController?.animateCamera(CameraUpdate.newLatLng(
+          LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0)));
+      notifyListeners();
+    } else if (endLocation != null && action == StateOfSearch.endPointSearch) {
+      changeLocation(LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0));
+      gmapController?.animateCamera(CameraUpdate.newLatLng(
+          LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0)));
+      notifyListeners();
+    }
   }
 
   LocationModel? startLocation;
@@ -234,7 +245,7 @@ class MapInformation extends ChangeNotifier {
     print('startAddress:$startAddress');
     print('endAddress:$endAddress');
     locations.clear();
-    startShowAddress = StateOfSearch.endSearch;
+    startShowAddress = StateOfSearch.endPointSearch;
     notifyListeners();
   }
 

@@ -68,6 +68,12 @@ class TextFieldWidget extends StatelessWidget {
                 hintStyle:
                     TextStyle(color: Colors.grey, fontSize: fontSize ?? 15.sp)),
             onTap: onTap,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: fontSize ?? 15.sp,
+            ),
+            textAlign: TextAlign.right,
+            scrollPadding: EdgeInsets.zero,
             obscureText: obscureText ?? false));
   }
 }

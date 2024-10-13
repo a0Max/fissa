@@ -29,12 +29,12 @@ class HomeScreen extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   actions: [
                     IconButton(
-                      icon: Image.asset(AppImages.chatWithSupport),
+                      icon: Image.asset(AppImages.notifications),
                       onPressed: () {},
                     ),
                   ],
                   leading: IconButton(
-                    icon: Image.asset(AppImages.notifications),
+                    icon: Image.asset(AppImages.chatWithSupport),
                     onPressed: () {},
                   ),
                 ),
@@ -42,22 +42,22 @@ class HomeScreen extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Image.asset(
-                            AppImages.handOfHome,
-                            height: 30,
-                          ),
                           Text(
                             'مرحباً بك في فيسع',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge
                                 ?.copyWith(fontSize: 20, color: Colors.white38),
+                          ),
+                          Image.asset(
+                            AppImages.handOfHome,
+                            height: 30,
                           ),
                         ],
                       ),
@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                           // mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

@@ -16,7 +16,7 @@ class TheWayOfPayment extends StatelessWidget {
       padding: EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'وسيلة الدفع',
@@ -99,17 +99,8 @@ class TheWayOfPayment extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            subWidget,
             Row(
               children: [
-                Text(
-                  text,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontSize: 16.sp),
-                ),
-                10.pw,
                 if (image != null) ...{
                   Image.asset(
                     image,
@@ -117,9 +108,18 @@ class TheWayOfPayment extends StatelessWidget {
                   ),
                 } else ...{
                   20.pw
-                }
+                },
+                10.pw,
+                Text(
+                  text,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontSize: 16.sp),
+                ),
               ],
-            )
+            ),
+            subWidget,
           ],
         ),
       ),

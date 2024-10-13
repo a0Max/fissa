@@ -20,10 +20,9 @@ class CheckTheAddress extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
-              Expanded(child: Image.asset(AppImages.puller)),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'ساحبة فيسع',
@@ -42,6 +41,7 @@ class CheckTheAddress extends StatelessWidget {
                   ],
                 ),
               ),
+              Expanded(child: Image.asset(AppImages.puller)),
             ],
           ),
         ),
@@ -57,30 +57,10 @@ class CheckTheAddress extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "التكلفة",
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(fontSize: 16.sp),
-                  ),
-                  Text(
-                    "24.00 دل",
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontSize: 18.sp),
-                  ),
-                ],
-              ),
               Row(
                 children: [
+                  Image.asset(AppImages.requestStartEndLocation),
+                  10.pw,
                   Container(
                     width: MediaQuery.of(context).size.width / 2,
                     child: Column(
@@ -105,8 +85,28 @@ class CheckTheAddress extends StatelessWidget {
                       ],
                     ),
                   ),
-                  10.pw,
-                  Image.asset(AppImages.requestStartEndLocation),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "التكلفة",
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontSize: 16.sp),
+                  ),
+                  Text(
+                    "24.00 دل",
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontSize: 18.sp),
+                  ),
                 ],
               ),
             ],

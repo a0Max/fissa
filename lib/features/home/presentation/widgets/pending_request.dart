@@ -19,14 +19,6 @@ class PendingRequest extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              _textWillDisplay(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColor.mainColor),
-            ),
-            10.pw,
             Container(
               // width: 10,
               // height: 10,
@@ -39,7 +31,15 @@ class PendingRequest extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: AppColor.mainColor, shape: BoxShape.circle),
               ),
-            )
+            ),
+            10.pw,
+            Text(
+              _textWillDisplay(),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: AppColor.mainColor),
+            ),
           ],
         ),
       ),
