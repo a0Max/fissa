@@ -1,0 +1,41 @@
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'categories_model.g.dart';
+
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
+class CategoriesModel extends Equatable {
+  int? id;
+  String? title;
+  String? shortTitle;
+  int? isDiscount;
+  int? isActive;
+  int? discount;
+  int? forceUserDiscount;
+
+  CategoriesModel(
+      {this.id,
+      this.title,
+      this.shortTitle,
+      this.isDiscount,
+      this.isActive,
+      this.discount,
+      this.forceUserDiscount});
+
+  factory CategoriesModel.fromJson(Map<String, dynamic> json) {
+    return _$CategoriesModelFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => _$CategoriesModelToJson(this);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        title,
+        shortTitle,
+        isDiscount,
+        isActive,
+        discount,
+        forceUserDiscount
+      ];
+}
