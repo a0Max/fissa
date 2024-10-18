@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../../../../core/apis_connections/api_connection.dart';
 import '../../../../../core/connection.dart';
 import '../../domain/entities/get_stuff_types_model.dart';
@@ -16,12 +18,11 @@ class DataSourceRemotelyOfIntroImpl implements DataSourceRemotelyOfIntro {
   @override
   Future<List<GetStuffTypesModel>> getStuffTypesDataRepository() async {
     final response =
-        await dio.get(url: '${Connection.baseURL}${dio.userEndPoint}');
+        await dio.get(url: '${Connection.baseURL}${dio.getStuffTypesEndPoint}');
     if (dio.validResponse(response)) {
       final List<GetStuffTypesModel> l = [];
-      response.data['data'].forEach((e) {
-        l.add(GetStuffTypesModel.fromJson(e));
-      });
+      response.data['data']
+          .forEach((e) => l.add(GetStuffTypesModel.fromJson(e)));
       return l;
     } else {
       throw response.data['msg'];

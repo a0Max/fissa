@@ -79,4 +79,18 @@ class Utils {
       },
     );
   }
+
+  static void showMainBottomSheetWithButton(
+      BuildContext mainContext, Widget child) {
+    showModalBottomSheet(
+      context: mainContext,
+      isDismissible: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return child;
+      },
+    );
+  }
 }

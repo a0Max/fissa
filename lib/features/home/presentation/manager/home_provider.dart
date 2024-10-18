@@ -3,11 +3,10 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fisaa/features/home/domain/entities/home_model.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
 import '../../domain/use_cases/get_home_data_use_cases.dart';
-
-enum HomeState { loading, error, done, initial }
 
 class HomeProvider extends ChangeNotifier {
   final GetHomeDataUseCases getHomeDataUseCases;
@@ -16,18 +15,17 @@ class HomeProvider extends ChangeNotifier {
     log('HomeProvider');
     _getHomeData();
   }
-  HomeState stateOfHome = HomeState.initial;
+  RequestState stateOfHome = RequestState.initial;
   String? message;
   HomeModel? homeData;
 
   _getHomeData() async {
-    print('_getHomeData');
-    log('_getHomeData');
-    stateOfHome = HomeState.loading;
+    stateOfHome = RequestState.loading;
     notifyListeners();
 
     final failureOrDoneMessage = await getHomeDataUseCases();
     _eitherLoadedOrErrorState(failureOrDoneMessage);
+    notifyListeners();
   }
 
   _eitherLoadedOrErrorState(
@@ -41,6 +39,8 @@ class HomeProvider extends ChangeNotifier {
         homeData = data;
       },
     );
+    stateOfHome = RequestState.done;
+
     notifyListeners();
   }
 }

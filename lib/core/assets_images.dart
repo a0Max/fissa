@@ -1,5 +1,6 @@
 abstract class AppImages {
   static const String mainPathOfImages = 'assets/images/';
+  static const String mainPathOfSvg = 'assets/svg/';
   static const String imageArrowsIntro = "${mainPathOfImages}arrows_intro.png";
   static const String imageCompleteSignUp =
       "${mainPathOfImages}complete_sign_up.png";
@@ -13,6 +14,8 @@ abstract class AppImages {
   static const String marker = "${mainPathOfImages}marker.png";
   static const String markerFixCar = "${mainPathOfImages}marker_fix_car.png";
   static const String endMarker = "${mainPathOfImages}end_marker.png";
+  static const String pathOfTransportGoods =
+      "${mainPathOfImages}path_of_transport_goods.png";
   static const String iconMail = "${mainPathOfImages}mail.png";
   static const String bgHomeScreen = "${mainPathOfImages}bg_home_screen.png";
   static const String handOfHome = "${mainPathOfImages}hand_of_home.png";
@@ -37,6 +40,10 @@ abstract class AppImages {
   static const String chatWithSupport =
       "${mainPathOfImages}chat_with_support.png";
   static const String notifications = "${mainPathOfImages}notifications.png";
+  static const String goods = "${mainPathOfSvg}goods.svg";
+  static const String orderAccepted = "${mainPathOfSvg}order_accepted.svg";
+  static const String orderOnWay = "${mainPathOfSvg}order_on_way.svg";
+  static const String orderSending = "${mainPathOfSvg}order_sending.svg";
   static const String imageTopPartOfComplete =
       "${mainPathOfImages}top_part_of_complete.png";
 }

@@ -2,14 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'core/theme.dart';
-import 'features/details_of_transports_goods/presentation/pages/details_of_transports_goods.dart';
 import 'features/home/presentation/screens/home_screen.dart';
 import 'features/intro/presentation/screen/intro_screen.dart';
 import 'features/login/manager/auth_provider.dart';
 import 'core/injection/injection_container.dart' as di;
-import 'features/map_address/presentation/screens/map_address.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -35,28 +32,34 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<AuthProvider>(
-            create: (context) => AuthProvider(),
+            create: (context) => AuthProvider(
+                getUserDataUseCases: di.sl(),
+                getStuffTypesDataUseCases: di.sl()),
           ),
+          // di.sl<AuthProvider>(),
         ],
         child: ScreenUtilInit(
             designSize: const Size(360, 690),
             minTextAdapt: true,
             splitScreenMode: true,
             builder: (_, child) {
-              return MaterialApp(
-                title: 'Flutter Demo',
-                theme: AppTheme.getLightTheme(),
-                themeMode: ThemeMode.light,
-                debugShowCheckedModeBanner: false,
-                home: HomeScreen(),
-                builder: (context, widget) {
-                  return Directionality(
-                    textDirection:
-                        TextDirection.rtl, // Set the text direction to RTL
-                    child: widget!,
-                  );
-                },
-              );
+              return Consumer<AuthProvider>(builder:
+                  (BuildContext context, AuthProvider auth, Widget? child) {
+                return MaterialApp(
+                  title: 'Flutter Demo',
+                  theme: AppTheme.getLightTheme(),
+                  themeMode: ThemeMode.light,
+                  debugShowCheckedModeBanner: false,
+                  home: IntroScreen(),
+                  builder: (context, widget) {
+                    return Directionality(
+                      textDirection:
+                          TextDirection.rtl, // Set the text direction to RTL
+                      child: widget!,
+                    );
+                  },
+                );
+              });
             }));
   }
 }

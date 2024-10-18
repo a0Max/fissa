@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/enums/selected_help.dart';
+import '../../../details_of_transports_goods/presentation/widgets/complete_of_trip.dart';
 import '../../../map_address/presentation/screens/map_address.dart';
 import 'discount_widget.dart';
 

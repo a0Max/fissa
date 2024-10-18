@@ -8,6 +8,7 @@ import '../../../../core/enums/selected_help.dart';
 import '../../../../core/utils.dart';
 import '../../../../core/widget/button_widget.dart';
 import '../../../details_of_transports_goods/presentation/pages/details_of_transports_goods.dart';
+import '../../domain/entities/full_location_model.dart';
 
 class MakeSureAboutTheEndPoint extends StatelessWidget {
   const MakeSureAboutTheEndPoint({super.key});
@@ -38,8 +39,15 @@ class MakeSureAboutTheEndPoint extends StatelessWidget {
                 SelectedHelp.transportOfGoods) {
               Utils.navigateTo(
                   DetailsOfTransportsGoods(
-                    endPointAddress:
-                        context.read<MapInformation>().endAddress ?? '',
+                    locationData: FullLocationModel(
+                      endAddress:
+                          context.read<MapInformation>().endAddress ?? '',
+                      startAddress:
+                          context.read<MapInformation>().startAddress ?? '',
+                      startLocation:
+                          context.read<MapInformation>().startLocation,
+                      endLocation: context.read<MapInformation>().endLocation,
+                    ),
                   ),
                   context);
             } else {
