@@ -17,7 +17,7 @@ class StepLineOfTransportsGoods extends StatelessWidget {
           _linesOfLoadingStep(currentStep: currentStep, lineStep: 2),
           _firstStepWidget(context: context, keyIndex: 2),
           _linesOfLoadingStep(currentStep: currentStep, lineStep: 3),
-          _firstStepWidget(context: context, keyIndex: 4),
+          _firstStepWidget(context: context, keyIndex: 5),
         ],
       ),
     );

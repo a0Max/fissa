@@ -5,6 +5,7 @@ import 'package:fisaa/features/login/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../intro/domain/entities/get_stuff_types_model.dart';
 import '../widgets/type_of_good.dart';
 
 class FirstStepDetails extends StatelessWidget {
@@ -37,36 +38,33 @@ class FirstStepDetails extends StatelessWidget {
                     spacing: 10,
                     runSpacing: 10,
                     children: List.generate(
-                        context
-                            .read<ManagerOfTransportGoods>()
-                            .listOfTypesOfGoods
-                            .length,
+                        context.read<AuthProvider>().stuffTypesData?.length ??
+                            0,
                         (index) => TypeOfGood(
                               title: context
-                                      .read<ManagerOfTransportGoods>()
-                                      .listOfTypesOfGoods[index]
-                                      .title ??
+                                      .read<AuthProvider>()
+                                      .stuffTypesData?[index]
+                                      .name ??
                                   '',
                               image: context
-                                  .read<ManagerOfTransportGoods>()
-                                  .listOfTypesOfGoods[index]
+                                  .read<AuthProvider>()
+                                  .stuffTypesData?[index]
                                   .image,
                               goodKey: context
-                                      .read<ManagerOfTransportGoods>()
-                                      .listOfTypesOfGoods[index]
-                                      .goodKey ??
+                                      .read<AuthProvider>()
+                                      .stuffTypesData?[index]
+                                      .id ??
                                   0,
                               onTap: () {
                                 context
                                     .read<ManagerOfTransportGoods>()
                                     .updateSelectTypeOfGood(
                                         typeOfGood: (context
-                                                .read<ManagerOfTransportGoods>()
-                                                .listOfTypesOfGoods[index]
-                                                .goodKey ??
-                                            0));
+                                                .read<AuthProvider>()
+                                                .stuffTypesData?[index] ??
+                                            GetStuffTypesModel()));
                               },
-                              currentKey: state.selectTypeOfGood ?? 0,
+                              currentKey: state.selectTypeOfGood?.id ?? 0,
                             )),
                   );
                 })
@@ -122,14 +120,13 @@ class FirstStepDetails extends StatelessWidget {
                                             .read<ManagerOfTransportGoods>()
                                             .updateSelectWeightOfGood(
                                                 typeOfGood: (context
-                                                        .read<
-                                                            ManagerOfTransportGoods>()
-                                                        .listOfWeightOfGoods[
-                                                            index]
-                                                        .goodKey ??
-                                                    0));
+                                                    .read<
+                                                        ManagerOfTransportGoods>()
+                                                    .listOfWeightOfGoods[index]));
                                       },
-                                      currentKey: state.selectWeightOfGood ?? 0,
+                                      currentKey:
+                                          state.selectWeightOfGood?.goodKey ??
+                                              0,
                                     ),
                                     10.pw,
                                   ],

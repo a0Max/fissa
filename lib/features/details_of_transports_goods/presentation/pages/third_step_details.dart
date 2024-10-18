@@ -12,8 +12,6 @@ import '../widgets/type_of_good.dart';
 
 class ThirdStepDetails extends StatelessWidget {
   ThirdStepDetails({super.key});
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

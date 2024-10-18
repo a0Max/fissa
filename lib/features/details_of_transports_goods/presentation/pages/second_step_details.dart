@@ -57,7 +57,7 @@ class SecondStepDetails extends StatelessWidget {
                               Container(
                                 width: MediaQuery.of(context).size.width - 100,
                                 child: Text(
-                                  state.endPointAddress,
+                                  state.locationData.endAddress ?? '',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall
