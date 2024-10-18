@@ -10,14 +10,20 @@ Future<void> init() async {
   //UseCase
   sl.registerLazySingleton(() => MapInformationUseCases(sl()));
   sl.registerLazySingleton(() => GetHomeDataUseCases(sl()));
+  sl.registerLazySingleton(() => GetUserDataUseCases(sl()));
+  sl.registerLazySingleton(() => GetStuffTypesDataUseCases(sl()));
 
   //Repository
+  sl.registerLazySingleton<IntroRepository>(
+      () => IntroRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<MapRepository>(
       () => LessonRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
 
   //Datasources
+  sl.registerLazySingleton<DataSourceRemotelyOfIntro>(
+      () => DataSourceRemotelyOfIntroImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfLocations>(
       () => DataSourceRemotelyOfLocationsImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfHome>(

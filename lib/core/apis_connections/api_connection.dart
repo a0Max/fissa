@@ -9,7 +9,7 @@ import 'package:dio/dio.dart' as di;
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../../features/intro/domain/entities/user_data_model.dart';
+import '../../features/intro/domain/domain/entities/user_data_model.dart';
 
 class MainApiConnection {
   //Singleton
@@ -41,6 +41,8 @@ class MainApiConnection {
   ////////////////////////////// END POINTS ///////////////////////////////////
   String locationInformationEndPoint = "place/textsearch/json";
   String homeEndPoint = "homeScr";
+  String getStuffTypesEndPoint = "get-stuff-types";
+  String userEndPoint = "user";
 
 ////////////////////////////////////////////////////////////////////////////
 
