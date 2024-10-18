@@ -22,16 +22,16 @@ class StepsLine extends StatelessWidget {
         currentStep == 0
             ? _firstStepWidget(context: context)
             : _disActivePoint(index: 1, currentStep: currentStep),
-        _linesOfLoadingStep(currentStep: 1, lineStep: 1),
+        _linesOfLoadingStep(currentStep: currentStep, lineStep: 1),
         currentStep == 1
             ? _secondStepWidget(context: context)
             : _disActivePoint(index: 2, currentStep: currentStep),
-        _linesOfLoadingStep(currentStep: 2, lineStep: 1),
+        _linesOfLoadingStep(currentStep: currentStep, lineStep: 2),
 
         currentStep == 2
             ? _thirdStepWidget(context: context)
             : _disActivePoint(index: 3, currentStep: currentStep),
-        _linesOfLoadingStep(currentStep: 3, lineStep: 2),
+        _linesOfLoadingStep(currentStep: currentStep, lineStep: 3),
         _disActivePoint(currentStep: currentStep, index: 3),
       ],
     );

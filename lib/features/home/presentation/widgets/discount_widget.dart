@@ -4,7 +4,7 @@ import '../../../../core/app_color.dart';
 import 'gradient_boarder.dart';
 
 class DiscountcWidget extends StatelessWidget {
-  final double discount;
+  final num discount;
 
   const DiscountcWidget({super.key, required this.discount});
 

@@ -5,6 +5,7 @@ var sl = GetIt.instance;
 Future<void> init() async {
   // bloc
   sl.registerFactory(() => MapInformation(mapInformationUseCases: sl()));
+  sl.registerFactory(() => HomeProvider(getHomeDataUseCases: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => MapInformationUseCases(sl()));

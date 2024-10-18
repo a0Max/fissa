@@ -11,7 +11,7 @@ class ItemsWidget extends StatelessWidget {
   final String title;
   final String subTitle;
   final String image;
-  final double? discount;
+  final num? discount;
   final SelectedHelp keyOfOption;
 
   const ItemsWidget(

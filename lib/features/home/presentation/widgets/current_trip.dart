@@ -4,19 +4,17 @@ import 'package:fisaa/core/vars.dart';
 import 'package:fisaa/features/home/presentation/widgets/steps_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/enums/state_of_ride.dart';
+import '../../domain/entities/trips_model.dart';
 import 'pending_request.dart';
 
 class CurrentTrip extends StatelessWidget {
-  final int currentStep;
-  CurrentTrip({super.key, required this.currentStep})
-      : assert(() {
-          if (currentStep == 0) {
-            throw FlutterError(
-              "currentStep can't be zero",
-            );
-          }
-          return true;
-        }());
+  late int currentStep;
+  final TripsModel data;
+  CurrentTrip({super.key, required this.data}) {
+    currentStep = TypeExtensionOfStateOfRide.getStepOfState(
+        textDataBase: data.status ?? 'searching');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class CurrentTrip extends StatelessWidget {
                   children: [
                     Image.asset(
                       AppImages.furniture,
-                      width: 40,
+                      width: 20.w,
                     ),
                     10.pw,
                     Column(
@@ -51,19 +49,21 @@ class CurrentTrip extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
-                                ?.copyWith(fontSize: 13),
+                                ?.copyWith(fontSize: 10.sp),
                             children: <TextSpan>[
                               TextSpan(
-                                text: '(100 ك.ج)',
+                                text: data.weight != null
+                                    ? ' (${data.weight})'
+                                    : '        ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
-                                    ?.copyWith(fontSize: 13),
+                                    ?.copyWith(fontSize: 10.sp),
                               ),
                             ],
                           ),
                         ),
-                        Text('رقم الطلب BFF34223',
+                        Text('رقم الطلب #${data.id}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -93,7 +93,7 @@ class CurrentTrip extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'شارع المدار, طرابلس ليبيا',
+                      data.from ?? '',
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -114,7 +114,7 @@ class CurrentTrip extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'شارع المدار, طرابلس ليبيا',
+                      data.to ?? '',
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge

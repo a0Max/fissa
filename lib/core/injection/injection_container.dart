@@ -6,6 +6,7 @@ import '../../features/home/data/data_sources/home_data_sources.dart';
 import '../../features/home/data/repositories/home_repository_impl.dart';
 import '../../features/home/domain/repositories/repositories_home.dart';
 import '../../features/home/domain/use_cases/get_home_data_use_cases.dart';
+import '../../features/home/presentation/manager/home_provider.dart';
 import '../../features/map_address/data/data_sources/search_about_location_information.dart';
 import '../../features/map_address/data/repositories/map_repository_impl.dart';
 import '../../features/map_address/domain/repositories/repositories_map.dart';
