@@ -136,7 +136,6 @@ class MapInformation extends ChangeNotifier {
   // bool isAnimatingCamera = false;
   //
   changeLocation(LatLng arg) async {
-    print('isAnimatingCamera:$checkEndPoint');
     if (checkEndPoint == true) {
       return;
     }

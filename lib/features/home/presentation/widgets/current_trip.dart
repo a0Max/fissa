@@ -19,7 +19,6 @@ class CurrentTrip extends StatelessWidget {
     try {
       dateTime = DateTime.parse(data.createdAt ?? '');
     } catch (e) {
-      print('time:${data.createdAt} - ${data.id}');
       dateTime = DateTime.now();
     }
   }
@@ -53,21 +52,21 @@ class CurrentTrip extends StatelessWidget {
                       children: [
                         RichText(
                           text: TextSpan(
-                            text: 'أثاث / فرش',
+                            text: data.stuffTypeName ?? data.typeName ?? '',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
                                 ?.copyWith(fontSize: 10.sp),
                             children: <TextSpan>[
-                              // TextSpan(
-                              //   text: data.weight != null
-                              //       ? ' (${data.weight})'
-                              //       : '        ',
-                              //   style: Theme.of(context)
-                              //       .textTheme
-                              //       .bodyMedium
-                              //       ?.copyWith(fontSize: 10.sp),
-                              // ),
+                              TextSpan(
+                                text: data.weight != null
+                                    ? ' (${data.weight})'
+                                    : '        ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontSize: 10.sp),
+                              ),
                             ],
                           ),
                         ),

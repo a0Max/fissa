@@ -159,6 +159,15 @@ class ManagerOfTransportGoods extends ChangeNotifier {
           backgroundColor: AppColor.mainColor,
           textColor: Colors.white,
           fontSize: 16.0.sp);
+    } else if (stateOfHome == RequestState.done) {
+      Fluttertoast.showToast(
+          msg: "Carrier trip created successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: AppColor.mainColor,
+          textColor: Colors.white,
+          fontSize: 16.0.sp);
     }
   }
 

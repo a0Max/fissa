@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fisaa/core/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -55,7 +57,18 @@ class ItemsWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(child: Image.network(image)),
+            Expanded(
+                child: CachedNetworkImage(
+                    imageUrl: image,
+                    progressIndicatorBuilder: (x, b, c) {
+                      return const CupertinoActivityIndicator();
+                    },
+                    errorWidget: (context, url, error) {
+                      return const Icon(
+                        Icons.info,
+                        color: Colors.red,
+                      );
+                    })),
           ],
         ),
       ),

@@ -44,12 +44,13 @@ class TransportsGoodsRepositoryImpl
             workersNeeded: workersNeeded);
         return Right(res);
       } on DioException catch (e, s) {
-        print('error:$e');
+        print('error:0$e');
         if (e is MessageException) {
           return Left(ServerFailure(message: "${e.message}"));
         }
         return Left(LoginFailure());
       } catch (e, s) {
+        print('error:$e');
         if (e is MessageException) {
           return Left(ServerFailure(message: e.message));
         }

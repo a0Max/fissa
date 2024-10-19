@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiver/strings.dart';
@@ -34,10 +36,21 @@ class TypeOfGood extends StatelessWidget {
           child: Row(
             children: [
               if (isBlank(image) == false) ...{
-                Image.network(
-                  image ?? '',
-                  height: 20.h,
-                ),
+                CachedNetworkImage(
+                    imageUrl: image ?? '',
+                    height: 20.h,
+                    progressIndicatorBuilder: (x, b, c) {
+                      return const CupertinoActivityIndicator();
+                    },
+                    errorWidget: (context, url, error) {
+                      return const Icon(
+                        Icons.info,
+                        color: Colors.red,
+                      );
+                    }),
+                // Image.network(
+                //   image ?? '',
+                // ),
                 10.pw,
               },
               Text(

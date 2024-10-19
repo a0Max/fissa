@@ -8,13 +8,25 @@ class TripDetailsModel extends Equatable {
   final int? passengerId;
   final String? typeId;
   final String? from;
+  final String? stuffTypeName;
+  final String? weightName;
+  final String? tripTime;
+  final String? stuffTypeImage;
+  final String? workerName;
+  final String? typeName;
+  final String? paymentBy;
+  final String? receiverPhone;
+  final String? receiverName;
+  final String? senderPhone;
+  final String? senderName;
+  final String? weight;
   final String? fromLat;
   final String? fromLng;
   final String? to;
   final String? toLat;
   final String? toLng;
-  final String? price;
-  final String? isCash;
+  var price;
+  var isCash;
   final String? updatedAt;
   final String? createdAt;
   final String? status;
@@ -23,10 +35,16 @@ class TripDetailsModel extends Equatable {
   TripDetailsModel(
       {this.passengerId,
       this.typeId,
+      this.stuffTypeImage,
+      this.weightName,
+      this.workerName,
+      this.typeName,
+      this.stuffTypeName,
       this.from,
       this.fromLat,
       this.fromLng,
       this.to,
+      this.weight,
       this.status,
       this.toLat,
       this.toLng,
@@ -34,7 +52,13 @@ class TripDetailsModel extends Equatable {
       this.isCash,
       this.updatedAt,
       this.createdAt,
-      this.id});
+      this.id,
+      this.tripTime,
+      this.paymentBy,
+      this.receiverName,
+      this.receiverPhone,
+      this.senderName,
+      this.senderPhone});
 
   factory TripDetailsModel.fromJson(Map<String, dynamic> json) {
     return _$TripDetailsModelFromJson(json);
@@ -43,20 +67,32 @@ class TripDetailsModel extends Equatable {
   Map<String, dynamic> toJson() => _$TripDetailsModelToJson(this);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         passengerId,
         typeId,
+        stuffTypeImage,
+        weightName,
+        workerName,
+        typeName,
+        stuffTypeName,
         from,
         fromLat,
         fromLng,
         to,
+        weight,
+        status,
         toLat,
         toLng,
         price,
         isCash,
         updatedAt,
         createdAt,
-        id
+        id,
+        tripTime,
+        paymentBy,
+        receiverName,
+        receiverPhone,
+        senderName,
+        senderPhone,
       ];
 }
