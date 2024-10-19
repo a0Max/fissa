@@ -48,9 +48,6 @@ class DetailsOfTransportsGoods extends StatelessWidget {
           ),
           body:
               Consumer<ManagerOfTransportGoods>(builder: (context, state, __) {
-            if (state.stateOfHome == RequestState.done) {
-              Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
-            }
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -178,12 +175,8 @@ class DetailsOfTransportsGoods extends StatelessWidget {
                                             .getTripDetails(
                                                 userData: context
                                                     .read<AuthProvider>()
-                                                    .userData!);
-                                        if (state.stateOfHome ==
-                                            RequestState.done) {
-                                          Utils.showMainBottomSheetWithButton(
-                                              context, CompleteOfTrip());
-                                        }
+                                                    .userData!,
+                                                context: context);
                                       },
                                       child: Container(
                                         height: 40.h,

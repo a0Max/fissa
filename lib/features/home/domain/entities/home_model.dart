@@ -12,7 +12,9 @@ class HomeModel extends Equatable {
   HomeModel({this.categories, this.trips});
 
   factory HomeModel.fromJson(Map<String, dynamic> json) {
-    return _$HomeModelFromJson(json);
+    HomeModel x = _$HomeModelFromJson(json);
+    return HomeModel(
+        categories: x.categories, trips: x.trips?.reversed.toList() ?? []);
   }
 
   Map<String, dynamic> toJson() => _$HomeModelToJson(this);

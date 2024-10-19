@@ -133,8 +133,6 @@ class MapInformation extends ChangeNotifier {
     notifyListeners();
   }
 
-  // bool isAnimatingCamera = false;
-  //
   changeLocation(LatLng arg) async {
     if (checkEndPoint == true) {
       return;

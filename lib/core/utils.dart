@@ -86,6 +86,9 @@ class Utils {
       context: mainContext,
       isDismissible: true,
       isScrollControlled: true,
+      useSafeArea: true,
+      useRootNavigator: false,
+      enableDrag: false,
       backgroundColor: Colors.transparent,
       barrierColor: Colors.transparent,
       builder: (BuildContext context) {

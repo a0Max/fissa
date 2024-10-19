@@ -8,6 +8,7 @@ import 'package:quiver/strings.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
+import '../../../../core/utils.dart';
 import '../../../intro/domain/entities/get_stuff_types_model.dart';
 import '../../../intro/domain/entities/get_weight_model.dart';
 import '../../../intro/domain/entities/get_workers_model.dart';
@@ -19,6 +20,7 @@ import '../pages/first_step_details.dart';
 import '../pages/fourth_step_details.dart';
 import '../pages/second_step_details.dart';
 import '../pages/third_step_details.dart';
+import '../widgets/complete_of_trip.dart';
 
 class ManagerOfTransportGoods extends ChangeNotifier {
   final CreateTripOfTransportsGoodsUseCases createTripOfTransportsGoodsUseCases;
@@ -134,7 +136,8 @@ class ManagerOfTransportGoods extends ChangeNotifier {
   String? message;
   TripDetailsModel? tripDetails;
 
-  getTripDetails({required UserData userData}) async {
+  getTripDetails(
+      {required UserData userData, required BuildContext context}) async {
     stateOfHome = RequestState.loading;
     notifyListeners();
 
@@ -160,14 +163,7 @@ class ManagerOfTransportGoods extends ChangeNotifier {
           textColor: Colors.white,
           fontSize: 16.0.sp);
     } else if (stateOfHome == RequestState.done) {
-      Fluttertoast.showToast(
-          msg: "Carrier trip created successfully",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: AppColor.mainColor,
-          textColor: Colors.white,
-          fontSize: 16.0.sp);
+      Utils.showMainBottomSheetWithButton(context, CompleteOfTrip());
     }
   }
 
