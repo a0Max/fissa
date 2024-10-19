@@ -2,7 +2,6 @@ import '../../../../core/apis_connections/api_connection.dart';
 import '../../../../core/connection.dart';
 import '../../../intro/domain/entities/user_data_model.dart';
 import '../../../map_address/domain/entities/full_location_model.dart';
-import '../../../map_address/domain/entities/location_model.dart';
 import '../../domain/entities/trip_details_model.dart';
 
 abstract class DataSourceRemotelyOfTripOfTransportsGoods {

@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:fisaa/features/map_address/domain/entities/location_model.dart';
 import '../../../../core/error/failures.dart';
 import '../../../intro/domain/entities/user_data_model.dart';
 import '../../../map_address/domain/entities/full_location_model.dart';

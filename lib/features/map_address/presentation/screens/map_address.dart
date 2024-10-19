@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +11,6 @@ import '../../../../core/widget/button_widget.dart';
 import '../../../login/manager/auth_provider.dart';
 import '../manager/map_information.dart';
 import '../../../../core/injection/injection_container.dart' as di;
-import '../widget/item_of_search_map.dart';
 import '../widget/item_of_search_map.dart';
 import '../widget/body_of_bottom_sheet.dart';
 import '../widget/search_map_place_widget.dart';

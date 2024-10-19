@@ -6,10 +6,6 @@ import 'package:fisaa/features/login/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/validation_text_field.dart';
-import '../../../../core/widget/text_field_widget.dart';
-import '../widgets/type_of_good.dart';
-
 class ThirdStepDetails extends StatelessWidget {
   ThirdStepDetails({super.key});
 

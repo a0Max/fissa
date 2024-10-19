@@ -1,8 +1,5 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../../../core/apis_connections/api_connection.dart';
 import '../../../../core/connection.dart';
-import '../../../../core/main_map_informations.dart';
 import '../../domain/entities/home_model.dart';
 
 abstract class DataSourceRemotelyOfHome {

@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:fisaa/core/app_color.dart';
-import 'package:fisaa/core/assets_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,7 +11,6 @@ import '../../../../core/error/failures_messages.dart';
 import '../../../intro/domain/entities/get_stuff_types_model.dart';
 import '../../../intro/domain/entities/user_data_model.dart';
 import '../../../map_address/domain/entities/full_location_model.dart';
-import '../../../map_address/domain/entities/location_model.dart';
 import '../../domain/entities/trip_details_model.dart';
 import '../../domain/entities/type_of_good_model.dart';
 import '../../domain/use_cases/create_trip_of_transports_goods_use_case.dart';

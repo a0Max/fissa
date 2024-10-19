@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 import 'location_model.dart';
-import 'viewport_model.dart';
 
 class FullLocationModel extends Equatable {
   LocationModel? startLocation;

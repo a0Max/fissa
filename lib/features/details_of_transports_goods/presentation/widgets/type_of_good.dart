@@ -3,9 +3,6 @@ import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../login/manager/auth_provider.dart';
-import '../manager/manager_of_transport_goods.dart';
-
 class TypeOfGood extends StatelessWidget {
   final String title;
   final String? image;

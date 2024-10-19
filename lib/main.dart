@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/theme.dart';
-import 'features/home/presentation/screens/home_screen.dart';
 import 'features/intro/presentation/screen/intro_screen.dart';
 import 'features/login/manager/auth_provider.dart';
 import 'core/injection/injection_container.dart' as di;

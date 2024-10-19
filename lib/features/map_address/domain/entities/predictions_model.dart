@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:fisaa/features/map_address/domain/entities/location_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'geometry_model.dart';

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:fisaa/core/app_color.dart';

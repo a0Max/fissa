@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
 import 'package:fisaa/features/home/domain/entities/home_model.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/enums/request_state.dart';

@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fisaa/features/details_of_transports_goods/domain/entities/trip_details_model.dart';
 import 'package:fisaa/features/intro/domain/entities/user_data_model.dart';
-import 'package:fisaa/features/map_address/domain/entities/location_model.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';

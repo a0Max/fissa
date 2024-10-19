@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'location_model.dart';
 part 'plus_code_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)

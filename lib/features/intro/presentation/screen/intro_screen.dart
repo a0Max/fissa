@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/assets_images.dart';
 import '../../../../core/utils.dart';
 import '../../../home/presentation/screens/home_screen.dart';
-import 'welcome_screen.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});

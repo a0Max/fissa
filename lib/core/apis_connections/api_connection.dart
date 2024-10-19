@@ -139,7 +139,6 @@ class MainApiConnection {
     Map<String, String>? data,
     Map<String, String?>? headers,
   }) async {
-    String language = await _getAppLanguage();
     String? token = await _getUserToken();
     var multipartFile;
     var stream;
