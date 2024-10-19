@@ -14,6 +14,7 @@ TripDetailsModel _$TripDetailsModelFromJson(Map<String, dynamic> json) =>
       fromLat: json['from_lat'] as String?,
       fromLng: json['from_lng'] as String?,
       to: json['to'] as String?,
+      status: json['status'] as String?,
       toLat: json['to_lat'] as String?,
       toLng: json['to_lng'] as String?,
       price: json['price'] as String?,
@@ -37,5 +38,6 @@ Map<String, dynamic> _$TripDetailsModelToJson(TripDetailsModel instance) =>
       'is_cash': instance.isCash,
       'updated_at': instance.updatedAt,
       'created_at': instance.createdAt,
+      'status': instance.status,
       'id': instance.id,
     };

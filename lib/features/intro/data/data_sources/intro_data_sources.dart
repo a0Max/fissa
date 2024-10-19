@@ -1,11 +1,12 @@
 import '../../../../../core/apis_connections/api_connection.dart';
 import '../../../../../core/connection.dart';
 import '../../domain/entities/get_stuff_types_model.dart';
+import '../../domain/entities/main_app_required.dart';
 import '../../domain/entities/user_data_model.dart';
 
 abstract class DataSourceRemotelyOfIntro {
   Future<UserData> getUserDataRepository();
-  Future<List<GetStuffTypesModel>> getStuffTypesDataRepository();
+  Future<MainAppRequiredModel> getStuffTypesDataRepository();
 }
 
 class DataSourceRemotelyOfIntroImpl implements DataSourceRemotelyOfIntro {
@@ -14,14 +15,14 @@ class DataSourceRemotelyOfIntroImpl implements DataSourceRemotelyOfIntro {
   DataSourceRemotelyOfIntroImpl({required this.dio});
 
   @override
-  Future<List<GetStuffTypesModel>> getStuffTypesDataRepository() async {
+  Future<MainAppRequiredModel> getStuffTypesDataRepository() async {
     final response =
         await dio.get(url: '${Connection.baseURL}${dio.getStuffTypesEndPoint}');
     if (dio.validResponse(response)) {
-      final List<GetStuffTypesModel> l = [];
-      response.data['data']
-          .forEach((e) => l.add(GetStuffTypesModel.fromJson(e)));
-      return l;
+      // final List<GetStuffTypesModel> l = [];
+      // response.data['data']
+      //     .forEach((e) => l.add(GetStuffTypesModel.fromJson(e)));
+      return MainAppRequiredModel.fromJson(response.data['data']);
     } else {
       throw response.data['msg'];
     }

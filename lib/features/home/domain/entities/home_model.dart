@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import '../../../details_of_transports_goods/domain/entities/trip_details_model.dart';
 import 'categories_model.dart';
-import 'trips_model.dart';
 part 'home_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class HomeModel extends Equatable {
   List<CategoriesModel>? categories;
-  List<TripsModel>? trips;
+  List<TripDetailsModel>? trips;
 
   HomeModel({this.categories, this.trips});
 

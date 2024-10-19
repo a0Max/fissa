@@ -2,6 +2,7 @@ import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiver/strings.dart';
 
 class TypeOfGood extends StatelessWidget {
   final String title;
@@ -32,8 +33,8 @@ class TypeOfGood extends StatelessWidget {
                       : AppColor.lightGreyColor2)),
           child: Row(
             children: [
-              if (image != null) ...{
-                Image.asset(
+              if (isBlank(image) == false) ...{
+                Image.network(
                   image ?? '',
                   height: 20.h,
                 ),

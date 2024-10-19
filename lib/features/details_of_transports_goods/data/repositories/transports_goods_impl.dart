@@ -27,7 +27,7 @@ class TransportsGoodsRepositoryImpl
       // required String startAddress,
       required String receiverName,
       required String receiverPhone,
-      required String weight,
+      required int weight,
       required int objectType,
       required int workersNeeded}) async {
     if (await networkInfo.isConnected) {
@@ -53,9 +53,9 @@ class TransportsGoodsRepositoryImpl
         if (e is MessageException) {
           return Left(ServerFailure(message: e.message));
         }
-        if (json.decode(e.toString())['message'] != null) {
-          return Left(ServerFailure(message: e.toString()));
-        }
+        // if (json.decode(e.toString())['message'] != null) {
+        //   return Left(ServerFailure(message: e.toString()));
+        // }
 
         return Left(SendDataFailure());
       }

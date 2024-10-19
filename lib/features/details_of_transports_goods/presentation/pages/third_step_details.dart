@@ -6,6 +6,8 @@ import 'package:fisaa/features/login/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../intro/domain/entities/get_workers_model.dart';
+
 class ThirdStepDetails extends StatelessWidget {
   ThirdStepDetails({super.key});
 
@@ -34,44 +36,30 @@ class ThirdStepDetails extends StatelessWidget {
               ],
             ),
             18.ph,
-            FittedBox(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  children: [
-                    _buttonOfChooseWorkers(
-                      context: context,
-                      title: '1',
-                      keyChoose: 1,
-                      bg: state.needWorkers == 1
-                          ? AppColor.mainColor
-                          : AppColor.lightMainColor3.withOpacity(.2),
-                      textColor: state.needWorkers == 1 ? Colors.white : null,
-                      boarderColor: AppColor.lightMainColor2,
-                    ),
-                    10.pw,
-                    _buttonOfChooseWorkers(
+            GridView.count(
+              primary: false,
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              crossAxisSpacing: 10,
+              childAspectRatio: 2.5,
+              crossAxisCount: 3,
+              children: List.generate(
+                  state.listOfWorkers?.length ?? 0,
+                  (index) => _buttonOfChooseWorkers(
                         context: context,
-                        title: '2',
-                        keyChoose: 2,
-                        textColor: state.needWorkers == 2 ? Colors.white : null,
-                        bg: state.needWorkers == 2
+                        title: state.listOfWorkers?[index].count ?? '',
+                        keyChoose:
+                            state.listOfWorkers?[index] ?? GetWorkersModel(),
+                        bg: state.listOfWorkers?[index].id ==
+                                state.needWorkersObject?.id
                             ? AppColor.mainColor
                             : AppColor.lightMainColor3.withOpacity(.2),
-                        boarderColor: AppColor.lightMainColor2),
-                    10.pw,
-                    _buttonOfChooseWorkers(
-                        context: context,
-                        title: '+3',
-                        textColor: state.needWorkers == 3 ? Colors.white : null,
-                        keyChoose: 3,
-                        bg: state.needWorkers == 3
-                            ? AppColor.mainColor
-                            : AppColor.lightMainColor3.withOpacity(.2),
-                        boarderColor: AppColor.lightMainColor2),
-                  ],
-                ),
-              ),
+                        textColor: state.listOfWorkers?[index].id ==
+                                state.needWorkersObject?.id
+                            ? Colors.white
+                            : null,
+                        boarderColor: AppColor.lightMainColor2,
+                      )),
             ),
             10.ph,
             FittedBox(
@@ -79,17 +67,20 @@ class ThirdStepDetails extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [
-                    _buttonOfChooseWorkers(
-                        context: context,
-                        keyChoose: 0,
-                        textColor: state.needWorkers == 0
-                            ? Colors.white
-                            : AppColor.yellowColor,
-                        title: 'لا أريد عمّال',
-                        bg: state.needWorkers == 0
-                            ? AppColor.yellowColor
-                            : AppColor.yellowColor.withOpacity(.2),
-                        boarderColor: AppColor.yellowColor),
+                    if (state.emptyWorker != null) ...{
+                      _buttonOfChooseWorkers(
+                          width: MediaQuery.of(context).size.width,
+                          context: context,
+                          keyChoose: state.emptyWorker ?? GetWorkersModel(),
+                          textColor: state.needWorkersObject?.count == '0'
+                              ? Colors.white
+                              : AppColor.yellowColor,
+                          title: 'لا أريد عمّال',
+                          bg: state.needWorkersObject?.count == '0'
+                              ? AppColor.yellowColor
+                              : AppColor.yellowColor.withOpacity(.2),
+                          boarderColor: AppColor.yellowColor),
+                    }
                   ],
                 ),
               ),
@@ -117,32 +108,32 @@ class ThirdStepDetails extends StatelessWidget {
   Widget _buttonOfChooseWorkers({
     required BuildContext context,
     required String title,
+    double? width,
     required Color bg,
-    required int keyChoose,
+    required GetWorkersModel keyChoose,
     Color? textColor,
     required Color boarderColor,
   }) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          context
-              .read<ManagerOfTransportGoods>()
-              .updateNeedWorkers(newData: keyChoose);
-        },
-        child: Container(
-          height: 40.h,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: bg,
-              border: Border.all(color: boarderColor, width: 2),
-              borderRadius: BorderRadius.circular(15)),
-          child: Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontSize: 20.sp, color: textColor),
-          ),
+    return GestureDetector(
+      onTap: () {
+        context.read<ManagerOfTransportGoods>().updateNeedWorkers(
+              newData: keyChoose,
+            );
+      },
+      child: Container(
+        height: 40.h,
+        width: width,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: bg,
+            border: Border.all(color: boarderColor, width: 2),
+            borderRadius: BorderRadius.circular(15)),
+        child: Text(
+          title,
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.copyWith(fontSize: 20.sp, color: textColor),
         ),
       ),
     );

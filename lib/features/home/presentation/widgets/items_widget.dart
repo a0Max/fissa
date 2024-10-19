@@ -55,7 +55,7 @@ class ItemsWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(child: Image.asset(image)),
+            Expanded(child: Image.network(image)),
           ],
         ),
       ),

@@ -213,8 +213,8 @@ class FourthStepDetails extends StatelessWidget {
                                       ?.copyWith(fontSize: 15.sp),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text:
-                                          state.selectWeightOfGood?.title ?? '',
+                                      text: state.selectWeightOfGood?.weight ??
+                                          '',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium
@@ -312,8 +312,10 @@ class FourthStepDetails extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(30)),
                             child: FittedBox(
                               child: Text(
-                                (state.needWorkers ?? 0) > 0
-                                    ? '${state.needWorkers} عمّــال'
+                                int.parse(state.needWorkersObject?.count ??
+                                            '0') >
+                                        0
+                                    ? '${state.needWorkersObject?.count ?? 0} عمّــال'
                                     : 'لا أريد عمّــال',
                                 style: Theme.of(context)
                                     .textTheme

@@ -9,10 +9,11 @@ import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
 import '../../../intro/domain/entities/get_stuff_types_model.dart';
+import '../../../intro/domain/entities/get_weight_model.dart';
+import '../../../intro/domain/entities/get_workers_model.dart';
 import '../../../intro/domain/entities/user_data_model.dart';
 import '../../../map_address/domain/entities/full_location_model.dart';
 import '../../domain/entities/trip_details_model.dart';
-import '../../domain/entities/type_of_good_model.dart';
 import '../../domain/use_cases/create_trip_of_transports_goods_use_case.dart';
 import '../pages/first_step_details.dart';
 import '../pages/fourth_step_details.dart';
@@ -33,7 +34,19 @@ class ManagerOfTransportGoods extends ChangeNotifier {
 
   ManagerOfTransportGoods(
       {required this.createTripOfTransportsGoodsUseCases,
-      required this.locationData});
+      required List<GetWorkersModel> workersList,
+      required this.locationData}) {
+    _handlingWorkersCount(workersList);
+  }
+  GetWorkersModel? emptyWorker;
+  List<GetWorkersModel>? listOfWorkers;
+  _handlingWorkersCount(List<GetWorkersModel> workersList) {
+    emptyWorker = workersList.firstWhere((element) => element.count == '0');
+    workersList.removeWhere((element) => element.count == '0');
+    listOfWorkers = workersList;
+    notifyListeners();
+  }
+
   void updateIndexOfStep() {
     indexOfStep++;
     stateOfNextButton = false;
@@ -62,7 +75,7 @@ class ManagerOfTransportGoods extends ChangeNotifier {
         return;
       }
     } else if (indexOfStep == 2) {
-      if (needWorkers != null) {
+      if (needWorkersObject != null) {
         stateOfNextButton = true;
         notifyListeners();
         return;
@@ -74,27 +87,14 @@ class ManagerOfTransportGoods extends ChangeNotifier {
   }
 
   GetStuffTypesModel? selectTypeOfGood;
-  List<TypeOfGoodModel> listOfWeightOfGoods = [
-    TypeOfGoodModel(
-      goodKey: 1,
-      title: '+100 ك.ج',
-    ),
-    TypeOfGoodModel(goodKey: 2, title: '+200 ك.ج'),
-    TypeOfGoodModel(goodKey: 3, title: '+300 ك.ج'),
-    TypeOfGoodModel(goodKey: 4, title: '+400 ك.ج'),
-    TypeOfGoodModel(goodKey: 5, title: '+500 ك.ج'),
-    TypeOfGoodModel(goodKey: 6, title: '+600 ك.ج'),
-    TypeOfGoodModel(goodKey: 7, title: '+700 ك.ج'),
-  ];
-
-  TypeOfGoodModel? selectWeightOfGood;
+  GetWeightModel? selectWeightOfGood;
   updateSelectTypeOfGood({required GetStuffTypesModel typeOfGood}) {
     selectTypeOfGood = typeOfGood;
     notifyListeners();
     checkStateOfNextButton();
   }
 
-  updateSelectWeightOfGood({required TypeOfGoodModel typeOfGood}) {
+  updateSelectWeightOfGood({required GetWeightModel typeOfGood}) {
     selectWeightOfGood = typeOfGood;
     notifyListeners();
     checkStateOfNextButton();
@@ -122,9 +122,10 @@ class ManagerOfTransportGoods extends ChangeNotifier {
     checkStateOfNextButton();
   }
 
-  int? needWorkers;
-  updateNeedWorkers({required int newData}) {
-    needWorkers = newData;
+  GetWorkersModel? needWorkersObject;
+  updateNeedWorkers({required GetWorkersModel newData}) {
+    print('newData:$newData');
+    needWorkersObject = newData;
     notifyListeners();
     checkStateOfNextButton();
   }
@@ -138,9 +139,9 @@ class ManagerOfTransportGoods extends ChangeNotifier {
     notifyListeners();
 
     final failureOrDoneMessage = await createTripOfTransportsGoodsUseCases(
-        weight: selectWeightOfGood?.title ?? '',
+        weight: selectWeightOfGood?.id ?? 0,
         objectType: selectTypeOfGood?.id ?? 0,
-        workersNeeded: needWorkers ?? 0,
+        workersNeeded: needWorkersObject?.id ?? 0,
         locationData: locationData,
         userData: userData,
         // location: location,

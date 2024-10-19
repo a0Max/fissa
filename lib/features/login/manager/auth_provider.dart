@@ -6,6 +6,7 @@ import '../../../core/error/failures.dart';
 import '../../../core/error/failures_messages.dart';
 import '../../../core/utils.dart';
 import '../../intro/domain/entities/get_stuff_types_model.dart';
+import '../../intro/domain/entities/main_app_required.dart';
 import '../../intro/domain/entities/user_data_model.dart';
 import '../../intro/domain/use_cases/get_stuff_types_use_case.dart';
 import '../../intro/domain/use_cases/get_user_data_use_case.dart';
@@ -31,7 +32,7 @@ class AuthProvider extends ChangeNotifier {
   RequestState stateOfHome = RequestState.initial;
   String? message;
   UserData? userData;
-  List<GetStuffTypesModel>? stuffTypesData;
+  MainAppRequiredModel? stuffTypesData;
 
   _getUserData() async {
     print('_getHomeData');
@@ -52,13 +53,14 @@ class AuthProvider extends ChangeNotifier {
   }
 
   _eitherLoadedOrErrorFRomStuffTypesState(
-    Either<Failure, List<GetStuffTypesModel>> failureOrTrivia,
+    Either<Failure, MainAppRequiredModel> failureOrTrivia,
   ) {
     failureOrTrivia.fold(
       (failure) {
         message = _mapFailureToMessage(failure);
       },
       (data) {
+        print('?.types:${data.types?.length}');
         stuffTypesData = data;
       },
     );

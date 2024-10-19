@@ -6,6 +6,7 @@ part 'categories_model.g.dart';
 class CategoriesModel extends Equatable {
   int? id;
   String? title;
+  String? image;
   String? shortTitle;
   int? isDiscount;
   int? isActive;
@@ -17,6 +18,7 @@ class CategoriesModel extends Equatable {
       this.title,
       this.shortTitle,
       this.isDiscount,
+      this.image,
       this.isActive,
       this.discount,
       this.forceUserDiscount});

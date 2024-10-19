@@ -17,6 +17,8 @@ class TripDetailsModel extends Equatable {
   final String? isCash;
   final String? updatedAt;
   final String? createdAt;
+  final String? status;
+
   final int? id;
   TripDetailsModel(
       {this.passengerId,
@@ -25,6 +27,7 @@ class TripDetailsModel extends Equatable {
       this.fromLat,
       this.fromLng,
       this.to,
+      this.status,
       this.toLat,
       this.toLng,
       this.price,

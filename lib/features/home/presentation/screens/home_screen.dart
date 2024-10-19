@@ -7,8 +7,8 @@ import '../../../../core/enums/request_state.dart';
 import '../../../../core/injection/injection_container.dart' as di;
 import '../../../../core/app_color.dart';
 import '../../../../core/enums/selected_help.dart';
+import '../../../details_of_transports_goods/domain/entities/trip_details_model.dart';
 import '../../../login/manager/auth_provider.dart';
-import '../../domain/entities/trips_model.dart';
 import '../widgets/current_trip.dart';
 import '../widgets/items_widget.dart';
 
@@ -116,7 +116,11 @@ class HomeScreen extends StatelessWidget {
                                                             .shortTitle ??
                                                         '',
                                                     //'ســاحبة',
-                                                    image: AppImages.vehicle,
+                                                    image: state
+                                                            .homeData
+                                                            ?.categories?[index]
+                                                            .image ??
+                                                        '',
                                                     discount: state
                                                                 .homeData
                                                                 ?.categories?[
@@ -128,12 +132,12 @@ class HomeScreen extends StatelessWidget {
                                                             ?.categories?[index]
                                                             .discount)
                                                         : 0,
-                                                    keyOfOption: TypeExtension
-                                                            .mapOfSelectedHelp()[
-                                                        state
-                                                            .homeData
-                                                            ?.categories?[index]
-                                                            .id]),
+                                                    keyOfOption:
+                                                        TypeExtension.mapOfSelectedHelp()[
+                                                            state
+                                                                .homeData
+                                                                ?.categories?[index]
+                                                                .id]),
                                                 10.ph,
                                               ])),
                                   20.ph,
@@ -157,7 +161,7 @@ class HomeScreen extends StatelessWidget {
                                                 CurrentTrip(
                                                   data: state.homeData
                                                           ?.trips?[index] ??
-                                                      TripsModel(),
+                                                      TripDetailsModel(),
                                                 ),
                                                 10.ph,
                                               ])),

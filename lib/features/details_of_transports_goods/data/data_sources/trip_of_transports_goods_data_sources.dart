@@ -10,7 +10,7 @@ abstract class DataSourceRemotelyOfTripOfTransportsGoods {
       required FullLocationModel locationData,
       required String receiverName,
       required String receiverPhone,
-      required String weight,
+      required int weight,
       required int objectType,
       required int workersNeeded});
 }
@@ -27,7 +27,7 @@ class DataSourceRemotelyOfTripOfTransportsGoodsImpl
       required FullLocationModel locationData,
       required String receiverName,
       required String receiverPhone,
-      required String weight,
+      required int weight,
       required int objectType,
       required int workersNeeded}) async {
     final response = await dio.post(
@@ -36,11 +36,11 @@ class DataSourceRemotelyOfTripOfTransportsGoodsImpl
           'passenger_id': userData.id,
           'type_id': 2,
           'from': locationData.startAddress,
-          'from_lat': locationData.startLocation?.lat ?? 0,
-          'from_lng': locationData.startLocation?.lng ?? 0,
+          'from_lat': locationData.startLocation?.lat ?? 0, //30.0444, //
+          'from_lng': locationData.startLocation?.lng ?? 0, //31.2357, //
           'to': locationData.endAddress,
-          'to_lat': locationData.endLocation?.lat ?? 0,
-          'to_lng': locationData.endLocation?.lng ?? 0,
+          'to_lat': locationData.endLocation?.lat ?? 0, //29.9765, //
+          'to_lng': locationData.endLocation?.lng ?? 0, //31.1313, //
           'price': 100,
           'is_cash': 1,
           'object_type': objectType,

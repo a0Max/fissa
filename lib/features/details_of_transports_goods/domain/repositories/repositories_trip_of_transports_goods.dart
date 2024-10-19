@@ -11,7 +11,7 @@ abstract class RepositoriesTripOfTransportsGoods {
       // required String startAddress,
       required String receiverName,
       required String receiverPhone,
-      required String weight,
+      required int weight,
       required int objectType,
       required int workersNeeded});
 }

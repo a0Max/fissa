@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../intro/domain/entities/get_stuff_types_model.dart';
+import '../../../intro/domain/entities/get_weight_model.dart';
 import '../widgets/type_of_good.dart';
 
 class FirstStepDetails extends StatelessWidget {
@@ -38,21 +39,28 @@ class FirstStepDetails extends StatelessWidget {
                     spacing: 10,
                     runSpacing: 10,
                     children: List.generate(
-                        context.read<AuthProvider>().stuffTypesData?.length ??
+                        context
+                                .read<AuthProvider>()
+                                .stuffTypesData
+                                ?.types
+                                ?.length ??
                             0,
                         (index) => TypeOfGood(
                               title: context
                                       .read<AuthProvider>()
-                                      .stuffTypesData?[index]
+                                      .stuffTypesData
+                                      ?.types?[index]
                                       .name ??
                                   '',
                               image: context
                                   .read<AuthProvider>()
-                                  .stuffTypesData?[index]
+                                  .stuffTypesData
+                                  ?.types?[index]
                                   .image,
                               goodKey: context
                                       .read<AuthProvider>()
-                                      .stuffTypesData?[index]
+                                      .stuffTypesData
+                                      ?.types?[index]
                                       .id ??
                                   0,
                               onTap: () {
@@ -61,7 +69,8 @@ class FirstStepDetails extends StatelessWidget {
                                     .updateSelectTypeOfGood(
                                         typeOfGood: (context
                                                 .read<AuthProvider>()
-                                                .stuffTypesData?[index] ??
+                                                .stuffTypesData
+                                                ?.types?[index] ??
                                             GetStuffTypesModel()));
                               },
                               currentKey: state.selectTypeOfGood?.id ?? 0,
@@ -99,34 +108,38 @@ class FirstStepDetails extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         children: List.generate(
                             context
-                                .read<ManagerOfTransportGoods>()
-                                .listOfWeightOfGoods
-                                .length,
+                                    .read<AuthProvider>()
+                                    .stuffTypesData
+                                    ?.weight
+                                    ?.length ??
+                                0,
                             (index) => Row(
                                   children: [
                                     TypeOfGood(
                                       title: context
-                                              .read<ManagerOfTransportGoods>()
-                                              .listOfWeightOfGoods[index]
-                                              .title ??
+                                              .read<AuthProvider>()
+                                              .stuffTypesData
+                                              ?.weight?[index]
+                                              .weight ??
                                           '',
                                       goodKey: context
-                                              .read<ManagerOfTransportGoods>()
-                                              .listOfWeightOfGoods[index]
-                                              .goodKey ??
+                                              .read<AuthProvider>()
+                                              .stuffTypesData
+                                              ?.weight?[index]
+                                              .id ??
                                           0,
                                       onTap: () {
                                         context
                                             .read<ManagerOfTransportGoods>()
                                             .updateSelectWeightOfGood(
                                                 typeOfGood: (context
-                                                    .read<
-                                                        ManagerOfTransportGoods>()
-                                                    .listOfWeightOfGoods[index]));
+                                                        .read<AuthProvider>()
+                                                        .stuffTypesData
+                                                        ?.weight?[index] ??
+                                                    GetWeightModel()));
                                       },
                                       currentKey:
-                                          state.selectWeightOfGood?.goodKey ??
-                                              0,
+                                          state.selectWeightOfGood?.id ?? 0,
                                     ),
                                     10.pw,
                                   ],
