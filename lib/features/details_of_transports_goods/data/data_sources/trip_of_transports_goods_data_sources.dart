@@ -11,7 +11,7 @@ abstract class DataSourceRemotelyOfTripOfTransportsGoods {
       required String receiverName,
       required String receiverPhone,
       required String weight,
-      required String objectType,
+      required int objectType,
       required int workersNeeded});
 }
 
@@ -28,13 +28,13 @@ class DataSourceRemotelyOfTripOfTransportsGoodsImpl
       required String receiverName,
       required String receiverPhone,
       required String weight,
-      required String objectType,
+      required int objectType,
       required int workersNeeded}) async {
     final response = await dio.post(
         url: '${Connection.baseURL}${dio.createTripsEndPoint}',
         queryParameters: {
           'passenger_id': userData.id,
-          'type_id': 1,
+          'type_id': 2,
           'from': locationData.startAddress,
           'from_lat': locationData.startLocation?.lat ?? 0,
           'from_lng': locationData.startLocation?.lng ?? 0,

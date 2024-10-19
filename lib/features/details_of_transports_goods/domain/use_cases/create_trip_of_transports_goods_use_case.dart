@@ -17,7 +17,7 @@ class CreateTripOfTransportsGoodsUseCases {
       required String receiverName,
       required String receiverPhone,
       required String weight,
-      required String objectType,
+      required int objectType,
       required int workersNeeded}) async {
     return await repository.sendTripRequestCreate(
         weight: weight,

@@ -139,7 +139,7 @@ class ManagerOfTransportGoods extends ChangeNotifier {
 
     final failureOrDoneMessage = await createTripOfTransportsGoodsUseCases(
         weight: selectWeightOfGood?.title ?? '',
-        objectType: selectTypeOfGood?.name ?? '',
+        objectType: selectTypeOfGood?.id ?? 0,
         workersNeeded: needWorkers ?? 0,
         locationData: locationData,
         userData: userData,

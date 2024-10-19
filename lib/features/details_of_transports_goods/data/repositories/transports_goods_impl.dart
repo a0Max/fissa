@@ -28,7 +28,7 @@ class TransportsGoodsRepositoryImpl
       required String receiverName,
       required String receiverPhone,
       required String weight,
-      required String objectType,
+      required int objectType,
       required int workersNeeded}) async {
     if (await networkInfo.isConnected) {
       try {
