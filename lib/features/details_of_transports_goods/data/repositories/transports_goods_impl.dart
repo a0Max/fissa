@@ -51,14 +51,14 @@ class TransportsGoodsRepositoryImpl
         }
         return Left(LoginFailure());
       } catch (e, s) {
-        if (json.decode(e.toString())['message'] != null) {
-          return Left(
-              ServerFailure(message: json.decode(e.toString())['message']));
-        }
         if (e is MessageException) {
           return Left(ServerFailure(message: e.message));
         }
-        return Left(LoginFailure());
+        if (json.decode(e.toString())['message'] != null) {
+          return Left(ServerFailure(message: e.toString()));
+        }
+
+        return Left(SendDataFailure());
       }
     } else {
       return Left(CheckYourNetwork());

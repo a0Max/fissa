@@ -1,6 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/enums/request_state.dart';
@@ -47,7 +50,7 @@ class ManagerOfTransportGoods extends ChangeNotifier {
 
   checkStateOfNextButton() {
     if (indexOfStep == 0) {
-      if (selectTypeOfGood != 0 && selectWeightOfGood != 0) {
+      if (selectTypeOfGood != null && selectWeightOfGood != null) {
         stateOfNextButton = true;
         notifyListeners();
         return;
@@ -148,6 +151,16 @@ class ManagerOfTransportGoods extends ChangeNotifier {
         receiverPhone: textFieldPhoneOfReceiver ?? '');
     _eitherLoadedOrErrorState(failureOrDoneMessage);
     notifyListeners();
+    if (stateOfHome == RequestState.error) {
+      Fluttertoast.showToast(
+          msg: message ?? '',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: AppColor.mainColor,
+          textColor: Colors.white,
+          fontSize: 16.0.sp);
+    }
   }
 
   _eitherLoadedOrErrorState(
@@ -155,13 +168,16 @@ class ManagerOfTransportGoods extends ChangeNotifier {
   ) {
     failureOrTrivia.fold(
       (failure) {
+        stateOfHome = RequestState.error;
+
         message = _mapFailureToMessage(failure);
       },
       (data) {
+        stateOfHome = RequestState.done;
+
         tripDetails = data;
       },
     );
-    stateOfHome = RequestState.done;
 
     notifyListeners();
   }

@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../features/intro/domain/entities/user_data_model.dart';
+import '../error/exceptions.dart';
 
 class MainApiConnection {
   //Singleton
@@ -52,7 +53,7 @@ class MainApiConnection {
     int? statusCode = response.statusCode;
     bool? result;
     try {
-      result = response.data['status'];
+      result = response.data['result'];
     } catch (e) {
       result = true;
     }
@@ -76,19 +77,27 @@ class MainApiConnection {
     required String url,
     Map<String, dynamic>? queryParameters,
   }) async {
-    String language = await _getAppLanguage();
     String? token = await _getUserToken();
+    // String? token = await '49|Be3S6k5AY53xzLOTFK2tsgiLmovB1Rc0eBvUkJet51c65cde';
+    try {
+      di.Response response = await dio.get(
+        url,
+        queryParameters: queryParameters,
+        options: dioOptions(token),
+      );
 
-    di.Response response = await dio.get(
-      url,
-      queryParameters: queryParameters,
-      options: dioOptions(language, token),
-    );
-
-    if (validResponse(response)) {
-      return response;
-    } else {
-      throw response;
+      print('response:${response.data}');
+      if (validResponse(response)) {
+        return response;
+      } else {
+        throw MessageException(message: response.data['msg']);
+      }
+    } on DioException catch (dioError) {
+      print('response:${dioError.response?.data}');
+      if (dioError.response != null && dioError.response?.data != null) {
+        throw MessageException(message: dioError.response!.data['msg']);
+      }
+      throw ServerException();
     }
   }
 
@@ -98,19 +107,27 @@ class MainApiConnection {
     data,
     Map<String, String?>? headers,
   }) async {
-    String language = await _getAppLanguage();
     String? token = await _getUserToken();
 
-    final response = await dio.post(
-      url,
-      queryParameters: queryParameters,
-      data: data,
-      options: dioOptions(language, token),
-    );
-    if (validResponse(response)) {
-      return response;
-    } else {
-      throw response;
+    try {
+      final response = await dio.post(
+        url,
+        queryParameters: queryParameters,
+        data: data,
+        options: dioOptions(token),
+      );
+
+      if (validResponse(response)) {
+        return response;
+      } else {
+        throw MessageException(message: response.data['msg']);
+      }
+    } on DioException catch (dioError) {
+      print("DioException:${dioError.response}");
+      if (dioError.response != null && dioError.response?.data != null) {
+        throw MessageException(message: dioError.response!.data['msg']);
+      }
+      throw ServerException();
     }
   }
 
@@ -153,10 +170,9 @@ class MainApiConnection {
     }
   }
 
-  Options dioOptions(String language, String? token,
-      [Map<String, String?>? headers]) {
+  Options dioOptions(String? token, [Map<String, String?>? headers]) {
     return Options(
-      // contentType: 'application/json',
+      contentType: 'application/json',
       headers: {
         ...headers ?? apiHeaders,
         'Authorization': 'Bearer $token',

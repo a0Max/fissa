@@ -54,11 +54,7 @@ class DataSourceRemotelyOfTripOfTransportsGoodsImpl
           'payment_by': 'sender'
         });
     if (dio.validResponse(response)) {
-      if (response.data['result'] != false) {
-        return TripDetailsModel.fromJson(response.data['data']['trip']);
-      } else {
-        throw response.data['msg'];
-      }
+      return TripDetailsModel.fromJson(response.data['data']['trip']);
     } else {
       throw response.data['msg'];
     }
