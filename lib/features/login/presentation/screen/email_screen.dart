@@ -1,12 +1,15 @@
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/assets_images.dart';
+import '../../../../core/enums/request_state.dart';
 import '../../../../core/utils.dart';
 import '../../../../core/validation_text_field.dart';
 import '../../../../core/widget/text_field_widget.dart';
+import '../manager/auth_provider.dart';
 import 'complete_sign_up.dart';
 
 class EmailScreen extends StatelessWidget {
@@ -18,19 +21,28 @@ class EmailScreen extends StatelessWidget {
     return Scaffold(
       persistentFooterAlignment: AlignmentDirectional.bottomEnd,
       appBar: AppBar(),
-      floatingActionButton: ElevatedButton(
-        onPressed: () {
-          Utils.navigateAndRemoveUntilTo(CompleteSignUp(), context);
-          // context.read<AuthProvider>().startCountdown();
-        },
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          padding: const EdgeInsets.all(20),
-          backgroundColor: AppColor.mainColor,
-          foregroundColor: AppColor.mainColor,
-        ),
-        child: const Icon(Icons.arrow_forward, color: Colors.white),
-      ),
+      floatingActionButton:
+          Consumer<AuthProvider>(builder: (context, state, child) {
+        return ElevatedButton(
+          onPressed: () {
+            // context.read<AuthProvider>().startCountdown();
+            context
+                .read<AuthProvider>()
+                .updateUserData(email: _emailController.text, context: context);
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(20),
+            backgroundColor: AppColor.mainColor,
+            foregroundColor: AppColor.mainColor,
+          ),
+          child: state.stateOfCompleteProfile == RequestState.loading
+              ? const CupertinoActivityIndicator(
+                  color: Colors.white,
+                )
+              : const Icon(Icons.arrow_forward, color: Colors.white),
+        );
+      }),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -55,7 +67,7 @@ class EmailScreen extends StatelessWidget {
                           .textTheme
                           .bodyLarge
                           ?.copyWith(fontSize: 21.sp),
-                      textAlign: TextAlign.end,
+                      textAlign: TextAlign.start,
                     ),
                     15.ph,
                     Row(

@@ -2,7 +2,7 @@ import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:fisaa/features/details_of_transports_goods/presentation/manager/manager_of_transport_goods.dart';
-import 'package:fisaa/features/login/manager/auth_provider.dart';
+import 'package:fisaa/features/login/presentation/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -411,7 +411,7 @@ class FourthStepDetails extends StatelessWidget {
         Row(
           children: [
             Text(
-              context.read<AuthProvider>().userData?.fname ?? 'dfsfs',
+              context.read<AuthProvider>().userData?.name ?? 'dfsfs',
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge

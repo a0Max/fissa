@@ -46,6 +46,9 @@ class MainApiConnection {
   String userEndPoint = "user";
   String createTripsEndPoint = "trips/create";
   String getThePriceOfTripTripsEndPoint = "trips/trip/price";
+  String authLoginEndPoint = "auth/login";
+  String authLoginValidateOtpEndPoint = "auth/login-validate-otp";
+  String authUpdateProfileEndPoint = "auth/update-profile";
 
 ////////////////////////////////////////////////////////////////////////////
 

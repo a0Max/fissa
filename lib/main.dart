@@ -4,8 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/theme.dart';
 import 'features/intro/presentation/screen/intro_screen.dart';
-import 'features/login/manager/auth_provider.dart';
 import 'core/injection/injection_container.dart' as di;
+import 'features/login/presentation/manager/auth_provider.dart';
+import 'features/login/presentation/screen/login_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -32,8 +33,12 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<AuthProvider>(
             create: (context) => AuthProvider(
-                getUserDataUseCases: di.sl(),
-                getStuffTypesDataUseCases: di.sl()),
+              getUserDataUseCases: di.sl(),
+              getStuffTypesDataUseCases: di.sl(),
+              addRequiredDataUseCases: di.sl(),
+              checkOtpUseCases: di.sl(),
+              loginUseCases: di.sl(),
+            ),
           ),
           // di.sl<AuthProvider>(),
         ],

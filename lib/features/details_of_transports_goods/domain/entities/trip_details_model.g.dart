@@ -24,7 +24,7 @@ TripDetailsModel _$TripDetailsModelFromJson(Map<String, dynamic> json) =>
       toLat: json['to_lat'] as String?,
       toLng: json['to_lng'] as String?,
       price: json['price'],
-      isCash: (json['is_cash']),
+      isCash: json['is_cash'],
       updatedAt: json['updated_at'] as String?,
       createdAt: json['created_at'] as String?,
       id: (json['id'] as num?)?.toInt(),

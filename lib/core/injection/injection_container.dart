@@ -1,4 +1,4 @@
-import 'package:fisaa/features/login/manager/auth_provider.dart';
+import 'package:fisaa/features/login/presentation/manager/auth_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../features/details_of_transports_goods/data/data_sources/trip_of_transports_goods_data_sources.dart';
@@ -16,6 +16,12 @@ import '../../features/intro/data/repositories/intro_repository_impl.dart';
 import '../../features/intro/domain/repositories/repositories_intro.dart';
 import '../../features/intro/domain/use_cases/get_stuff_types_use_case.dart';
 import '../../features/intro/domain/use_cases/get_user_data_use_case.dart';
+import '../../features/login/data/data_sources/login_update_data_sources.dart';
+import '../../features/login/data/repositories/login_update_repository_impl.dart';
+import '../../features/login/domain/repositories/repositories_login_update.dart';
+import '../../features/login/domain/use_cases/add_required_data_use_cases.dart';
+import '../../features/login/domain/use_cases/check_otp_use_cases.dart';
+import '../../features/login/domain/use_cases/login_use_cases.dart';
 import '../../features/map_address/data/data_sources/search_about_location_information.dart';
 import '../../features/map_address/data/repositories/map_repository_impl.dart';
 import '../../features/map_address/domain/repositories/repositories_map.dart';

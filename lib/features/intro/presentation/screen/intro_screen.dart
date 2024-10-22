@@ -1,3 +1,4 @@
+import 'package:fisaa/features/login/presentation/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/assets_images.dart';
@@ -17,12 +18,17 @@ class _IntroScreen extends State<IntroScreen> {
   @override
   void initState() {
     super.initState();
-    goToWelcomeScreen();
+    _goToHomeScreen();
   }
 
-  void goToWelcomeScreen() async {
-    await Future.delayed(const Duration(seconds: 2));
-    Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
+  void _goToHomeScreen() async {
+    await context
+        .read<AuthProvider>()
+        .isThereTokenAvailableHere(context: context);
+    //   Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
+    // }, whenUserDataIsNotAvailable: () {
+    //   Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
+    // });
   }
 
   @override

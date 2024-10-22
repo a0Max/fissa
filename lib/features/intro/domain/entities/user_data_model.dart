@@ -6,8 +6,7 @@ part 'user_data_model.g.dart';
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class UserData extends Equatable {
   final int? id;
-  final String? fname;
-  final String? lname;
+  final String? name;
   final String? email;
   final String? phone;
   final String? countryCode;
@@ -25,8 +24,7 @@ class UserData extends Equatable {
 
   UserData(
       {this.id,
-      this.fname,
-      this.lname,
+      this.name,
       this.email,
       this.phone,
       this.countryCode,
@@ -55,15 +53,14 @@ class UserData extends Equatable {
 
   static Future<String?> get getToken async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2JhaGFnZHJnZmdmLmNvbS9maXNhYS9wdWJsaWMvYXBpL2xvZ2luIiwiaWF0IjoxNzI5MTAzNzc3LCJleHAiOjQ4Mzg1MTAzNzc3LCJuYmYiOjE3MjkxMDM3NzcsImp0aSI6IlpBV0JGVlk5cjNUY015RVoiLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.xGreDrJB3oIt_MOS7Gj42C9ki5oi6Ey6RvexA-hX_0U";
+    // return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2JhaGFnZHJnZmdmLmNvbS9maXNhYS9wdWJsaWMvYXBpL2xvZ2luIiwiaWF0IjoxNzI5MTAzNzc3LCJleHAiOjQ4Mzg1MTAzNzc3LCJuYmYiOjE3MjkxMDM3NzcsImp0aSI6IlpBV0JGVlk5cjNUY015RVoiLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.xGreDrJB3oIt_MOS7Gj42C9ki5oi6Ey6RvexA-hX_0U";
     return prefs.getString('userToken');
   }
 
   @override
   List<Object?> get props => [
         id,
-        fname,
-        lname,
+        name,
         email,
         phone,
         countryCode,

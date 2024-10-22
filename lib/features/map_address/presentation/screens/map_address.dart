@@ -8,7 +8,7 @@ import '../../../../core/enums/state_of_search.dart';
 import '../../../../core/main_map_informations.dart';
 import '../../../../core/utils.dart';
 import '../../../../core/widget/button_widget.dart';
-import '../../../login/manager/auth_provider.dart';
+import '../../../login/presentation/manager/auth_provider.dart';
 import '../manager/map_information.dart';
 import '../../../../core/injection/injection_container.dart' as di;
 import '../widget/item_of_search_map.dart';

@@ -8,7 +8,7 @@ import '../../../../core/injection/injection_container.dart' as di;
 import '../../../../core/app_color.dart';
 import '../../../../core/enums/selected_help.dart';
 import '../../../details_of_transports_goods/domain/entities/trip_details_model.dart';
-import '../../../login/manager/auth_provider.dart';
+import '../../../login/presentation/manager/auth_provider.dart';
 import '../widgets/current_trip.dart';
 import '../widgets/items_widget.dart';
 

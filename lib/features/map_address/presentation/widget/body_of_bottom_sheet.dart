@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../login/manager/auth_provider.dart';
+import '../../../login/presentation/manager/auth_provider.dart';
 import '../manager/map_information.dart';
 
 class BodyOfBottomSheet extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
 import 'package:fisaa/core/vars.dart';
-import 'package:fisaa/features/login/manager/auth_provider.dart';
+import 'package:fisaa/features/login/presentation/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

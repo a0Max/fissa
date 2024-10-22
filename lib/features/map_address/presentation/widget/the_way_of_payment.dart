@@ -1,9 +1,9 @@
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
 import 'package:fisaa/core/vars.dart';
-import 'package:fisaa/features/login/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/widget/button_widget.dart';
 import '../manager/map_information.dart';

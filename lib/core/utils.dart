@@ -1,6 +1,6 @@
 import 'package:fisaa/core/vars.dart';
 import 'package:fisaa/core/widget/button_widget.dart';
-import 'package:fisaa/features/login/manager/auth_provider.dart';
+import 'package:fisaa/features/login/presentation/manager/auth_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../features/map_address/presentation/manager/map_information.dart';

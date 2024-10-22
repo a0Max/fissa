@@ -1,11 +1,13 @@
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/vars.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 import '../../../../core/assets_images.dart';
+import '../../../../core/enums/request_state.dart';
 import '../../../../core/utils.dart';
-import '../../manager/auth_provider.dart';
+import '../manager/auth_provider.dart';
 import 'name_screen.dart';
 
 class OtpScreen extends StatelessWidget {
@@ -17,18 +19,26 @@ class OtpScreen extends StatelessWidget {
     return Scaffold(
       persistentFooterAlignment: AlignmentDirectional.bottomEnd,
       appBar: AppBar(),
-      floatingActionButton: ElevatedButton(
-        onPressed: () {
-          Utils.navigateAndRemoveUntilTo(NameScreen(), context);
-        },
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          padding: const EdgeInsets.all(20),
-          backgroundColor: AppColor.mainColor,
-          foregroundColor: AppColor.mainColor,
-        ),
-        child: const Icon(Icons.arrow_forward, color: Colors.white),
-      ),
+      floatingActionButton:
+          Consumer<AuthProvider>(builder: (context, state, child) {
+        return ElevatedButton(
+          onPressed: () async {
+            if (state.stateOfOtp == RequestState.loading) return;
+            context.read<AuthProvider>().doneOtp(_controller.text, context);
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(20),
+            backgroundColor: AppColor.mainColor,
+            foregroundColor: AppColor.mainColor,
+          ),
+          child: state.stateOfOtp == RequestState.loading
+              ? CupertinoActivityIndicator(
+                  color: Colors.white,
+                )
+              : const Icon(Icons.arrow_forward, color: Colors.white),
+        );
+      }),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -74,20 +84,21 @@ class OtpScreen extends StatelessWidget {
                                 AppColor.greyColor.withOpacity(.1),
                             hasTextBorderColor: AppColor.mainColor,
                             pinTextStyle: Theme.of(context).textTheme.bodySmall,
-                            maxLength: 6,
+                            maxLength: 5,
                             hasError: false,
                             pinBoxColor: AppColor.greyColor.withOpacity(.1),
                             pinBoxRadius: 13,
                             pinBoxBorderWidth: 1,
                             onTextChanged: (text) {
-                              // _otp = text;
                               context
                                   .read<AuthProvider>()
                                   .updateCurrentOtp(char: text);
                             },
-                            onDone: (text) {
+                            onDone: (text) async {
                               // checkOTP();
-                              context.read<AuthProvider>().doneOtp(context);
+                              await context
+                                  .read<AuthProvider>()
+                                  .doneOtp(text, context);
                             },
                             pinBoxWidth:
                                 (MediaQuery.of(context).size.width - 200) / 4,
@@ -120,7 +131,9 @@ class OtpScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: state.reSendCode
                           ? () {
-                              context.read<AuthProvider>().startCountdown();
+                              context
+                                  .read<AuthProvider>()
+                                  .resentOtp(context: context);
                             }
                           : null,
                       child: Text(

@@ -4,13 +4,20 @@ var sl = GetIt.instance;
 
 Future<void> init() async {
   // bloc
-  sl.registerFactory(() =>
-      AuthProvider(getUserDataUseCases: sl(), getStuffTypesDataUseCases: sl()));
+  // sl.registerFactory(() => AuthProvider(
+  //     getUserDataUseCases: sl(),
+  //     getStuffTypesDataUseCases: sl(),
+  //     addRequiredDataUseCases: sl(),
+  //     checkOtpUseCases: sl(),
+  //     loginUseCases: sl()));
   sl.registerFactory(() => MapInformation(mapInformationUseCases: sl()));
   sl.registerFactory(() => HomeProvider(getHomeDataUseCases: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => MapInformationUseCases(sl()));
+  sl.registerLazySingleton(() => AddRequiredDataUseCases(sl()));
+  sl.registerLazySingleton(() => CheckOtpUseCases(sl()));
+  sl.registerLazySingleton(() => LoginUseCases(sl()));
   sl.registerLazySingleton(() => GetHomeDataUseCases(sl()));
   sl.registerLazySingleton(() => GetUserDataUseCases(sl()));
   sl.registerLazySingleton(() => GetStuffTypesDataUseCases(sl()));
@@ -20,6 +27,8 @@ Future<void> init() async {
   //Repository
   sl.registerLazySingleton<IntroRepository>(
       () => IntroRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<LoginUpdateRepository>(() =>
+      LoginUpdateRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<RepositoriesTripOfTransportsGoods>(() =>
       TransportsGoodsRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<MapRepository>(
@@ -30,6 +39,8 @@ Future<void> init() async {
   //Datasources
   sl.registerLazySingleton<DataSourceRemotelyOfIntro>(
       () => DataSourceRemotelyOfIntroImpl(dio: sl()));
+  sl.registerLazySingleton<DataSourceRemotelyOfLoginUpdateData>(
+      () => DataSourceRemotelyOfLoginUpdateImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfTripOfTransportsGoods>(
       () => DataSourceRemotelyOfTripOfTransportsGoodsImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfLocations>(

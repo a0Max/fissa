@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../home/presentation/screens/home_screen.dart';
-import '../../../login/manager/auth_provider.dart';
+import '../../../login/presentation/manager/auth_provider.dart';
 import '../../../map_address/domain/entities/full_location_model.dart';
 import '../manager/manager_of_transport_goods.dart';
 import '../widgets/complete_of_trip.dart';
