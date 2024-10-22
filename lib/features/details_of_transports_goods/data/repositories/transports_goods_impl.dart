@@ -54,10 +54,46 @@ class TransportsGoodsRepositoryImpl
         if (e is MessageException) {
           return Left(ServerFailure(message: e.message));
         }
-        // if (json.decode(e.toString())['message'] != null) {
-        //   return Left(ServerFailure(message: e.toString()));
-        // }
+        return Left(SendDataFailure());
+      }
+    } else {
+      return Left(CheckYourNetwork());
+    }
+  }
 
+  @override
+  Future<Either<Failure, String>> getThePriceOrTrip(
+      {required UserData userData,
+      required FullLocationModel locationData,
+      required String receiverName,
+      required String receiverPhone,
+      required int weight,
+      required int objectType,
+      required int workersNeeded}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final res = await remoteDataSource.getThePriceOrTrip(
+            userData: userData,
+            locationData: locationData,
+            // location: location,
+            receiverName: receiverName,
+            receiverPhone: receiverPhone,
+            // endAddress: endAddress,
+            weight: weight,
+            objectType: objectType,
+            workersNeeded: workersNeeded);
+        return Right(res);
+      } on DioException catch (e, s) {
+        print('error:0$e');
+        if (e is MessageException) {
+          return Left(ServerFailure(message: "${e.message}"));
+        }
+        return Left(LoginFailure());
+      } catch (e, s) {
+        print('error:$e');
+        if (e is MessageException) {
+          return Left(ServerFailure(message: e.message));
+        }
         return Left(SendDataFailure());
       }
     } else {

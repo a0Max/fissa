@@ -25,6 +25,7 @@ class DetailsOfTransportsGoods extends StatelessWidget {
         create: (context) => ManagerOfTransportGoods(
             locationData: locationData,
             createTripOfTransportsGoodsUseCases: di.sl(),
+            getPriceTripOfTransportsGoodsUseCases: di.sl(),
             workersList:
                 context.read<AuthProvider>().stuffTypesData?.workers ?? []),
         child: Scaffold(

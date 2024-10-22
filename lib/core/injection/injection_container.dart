@@ -5,6 +5,7 @@ import '../../features/details_of_transports_goods/data/data_sources/trip_of_tra
 import '../../features/details_of_transports_goods/data/repositories/transports_goods_impl.dart';
 import '../../features/details_of_transports_goods/domain/repositories/repositories_trip_of_transports_goods.dart';
 import '../../features/details_of_transports_goods/domain/use_cases/create_trip_of_transports_goods_use_case.dart';
+import '../../features/details_of_transports_goods/domain/use_cases/get_price_trip_of_transports_goods_use_case.dart';
 import '../../features/home/data/data_sources/home_data_sources.dart';
 import '../../features/home/data/repositories/home_repository_impl.dart';
 import '../../features/home/domain/repositories/repositories_home.dart';

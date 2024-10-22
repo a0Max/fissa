@@ -16,6 +16,7 @@ import '../../../intro/domain/entities/user_data_model.dart';
 import '../../../map_address/domain/entities/full_location_model.dart';
 import '../../domain/entities/trip_details_model.dart';
 import '../../domain/use_cases/create_trip_of_transports_goods_use_case.dart';
+import '../../domain/use_cases/get_price_trip_of_transports_goods_use_case.dart';
 import '../pages/first_step_details.dart';
 import '../pages/fourth_step_details.dart';
 import '../pages/second_step_details.dart';
@@ -24,6 +25,8 @@ import '../widgets/complete_of_trip.dart';
 
 class ManagerOfTransportGoods extends ChangeNotifier {
   final CreateTripOfTransportsGoodsUseCases createTripOfTransportsGoodsUseCases;
+  final GetPriceTripOfTransportsGoodsUseCases
+      getPriceTripOfTransportsGoodsUseCases;
   final FullLocationModel locationData;
   int indexOfStep = 0;
   List<Widget> widgetsOfSteps = [
@@ -37,6 +40,7 @@ class ManagerOfTransportGoods extends ChangeNotifier {
   ManagerOfTransportGoods(
       {required this.createTripOfTransportsGoodsUseCases,
       required List<GetWorkersModel> workersList,
+      required this.getPriceTripOfTransportsGoodsUseCases,
       required this.locationData}) {
     _handlingWorkersCount(workersList);
   }

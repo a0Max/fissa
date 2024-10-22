@@ -15,6 +15,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetUserDataUseCases(sl()));
   sl.registerLazySingleton(() => GetStuffTypesDataUseCases(sl()));
   sl.registerLazySingleton(() => CreateTripOfTransportsGoodsUseCases(sl()));
+  sl.registerLazySingleton(() => GetPriceTripOfTransportsGoodsUseCases(sl()));
 
   //Repository
   sl.registerLazySingleton<IntroRepository>(

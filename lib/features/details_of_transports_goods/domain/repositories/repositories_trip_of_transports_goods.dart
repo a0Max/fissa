@@ -14,4 +14,13 @@ abstract class RepositoriesTripOfTransportsGoods {
       required int weight,
       required int objectType,
       required int workersNeeded});
+  Future<Either<Failure, String>> getThePriceOrTrip(
+      {required UserData userData,
+      required FullLocationModel locationData,
+      // required String startAddress,
+      required String receiverName,
+      required String receiverPhone,
+      required int weight,
+      required int objectType,
+      required int workersNeeded});
 }

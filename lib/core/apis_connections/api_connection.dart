@@ -45,6 +45,7 @@ class MainApiConnection {
   String getStuffTypesEndPoint = "get-stuff-types";
   String userEndPoint = "user";
   String createTripsEndPoint = "trips/create";
+  String getThePriceOfTripTripsEndPoint = "trips/trip/price";
 
 ////////////////////////////////////////////////////////////////////////////
 
