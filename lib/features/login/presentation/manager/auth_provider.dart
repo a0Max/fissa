@@ -273,9 +273,9 @@ class AuthProvider extends ChangeNotifier {
           fontSize: 16.0.sp);
     } else if (stateOfOtp == RequestState.done) {
       if (tempUserData?.name == null) {
-        userData = tempUserData;
         Utils.navigateAndRemoveUntilTo(NameScreen(), context);
       } else {
+        userData = tempUserData;
         Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
       }
     }

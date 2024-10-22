@@ -49,7 +49,6 @@ class DataSourceRemotelyOfTripOfTransportsGoodsImpl
           'to': locationData.endAddress,
           'to_lat': locationData.endLocation?.lat ?? 0, //29.9765, //
           'to_lng': locationData.endLocation?.lng ?? 0, //31.1313, //
-          'price': 100,
           'is_cash': 1,
           'object_type': objectType,
           'weight': weight,

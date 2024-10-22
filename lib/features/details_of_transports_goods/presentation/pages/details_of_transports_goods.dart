@@ -173,13 +173,15 @@ class DetailsOfTransportsGoods extends StatelessWidget {
                           children: [
                             Expanded(
                               flex: 2,
-                              child: (state.stateOfHome == RequestState.loading)
+                              child: (state.stateOfCreateTrip ==
+                                      RequestState.loading)
                                   ? CupertinoActivityIndicator()
                                   : GestureDetector(
                                       onTap: () {
                                         context
                                             .read<ManagerOfTransportGoods>()
-                                            .getTripDetails(context: context);
+                                            .createTripDetails(
+                                                context: context);
                                       },
                                       child: Container(
                                         height: 40.h,

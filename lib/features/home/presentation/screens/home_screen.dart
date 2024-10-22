@@ -80,99 +80,104 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   10.ph,
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                      height: (MediaQuery.of(context).size.height -
-                          (MediaQuery.of(context).size.height / 3)),
-                      child: SingleChildScrollView(
-                        child: Consumer<HomeProvider>(
-                            builder: (context, state, child) {
-                          if (state.stateOfHome == RequestState.loading) {
-                            return CupertinoActivityIndicator();
-                          } else if (state.stateOfHome == RequestState.done) {
-                            return Column(
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ...List.generate(
-                                      state.homeData?.categories?.length ?? 0,
-                                      (index) => Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                ItemsWidget(
-                                                    title: state
-                                                            .homeData
-                                                            ?.categories?[index]
-                                                            .title ??
-                                                        '',
-                                                    //'سحب مركبـــة',
-                                                    subTitle: state
-                                                            .homeData
-                                                            ?.categories?[index]
-                                                            .shortTitle ??
-                                                        '',
-                                                    //'ســاحبة',
-                                                    image: state
-                                                            .homeData
-                                                            ?.categories?[index]
-                                                            .image ??
-                                                        '',
-                                                    discount: state
+                  RefreshIndicator(
+                      onRefresh: () async {
+                        await di.sl<HomeProvider>().getHomeData();
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          height: (MediaQuery.of(context).size.height -
+                              (MediaQuery.of(context).size.height / 3)),
+                          child: SingleChildScrollView(
+                            child: Consumer<HomeProvider>(
+                                builder: (context, state, child) {
+                              if (state.stateOfHome == RequestState.loading) {
+                                return CupertinoActivityIndicator();
+                              } else if (state.stateOfHome ==
+                                  RequestState.done) {
+                                return Column(
+                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ...List.generate(
+                                          state.homeData?.categories?.length ??
+                                              0,
+                                          (index) => Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    ItemsWidget(
+                                                        title: state
                                                                 .homeData
                                                                 ?.categories?[
                                                                     index]
-                                                                .isDiscount ==
-                                                            1
-                                                        ? (state
+                                                                .title ??
+                                                            '',
+                                                        //'سحب مركبـــة',
+                                                        subTitle: state
+                                                                .homeData
+                                                                ?.categories?[
+                                                                    index]
+                                                                .shortTitle ??
+                                                            '',
+                                                        //'ســاحبة',
+                                                        image: state
+                                                                .homeData
+                                                                ?.categories?[
+                                                                    index]
+                                                                .image ??
+                                                            '',
+                                                        discount: state.homeData?.categories?[index].isDiscount == 1
+                                                            ? (state
+                                                                .homeData
+                                                                ?.categories?[
+                                                                    index]
+                                                                .discount)
+                                                            : 0,
+                                                        keyOfOption: TypeExtension.mapOfSelectedHelp()[state
                                                             .homeData
                                                             ?.categories?[index]
-                                                            .discount)
-                                                        : 0,
-                                                    keyOfOption:
-                                                        TypeExtension.mapOfSelectedHelp()[
-                                                            state
-                                                                .homeData
-                                                                ?.categories?[index]
-                                                                .id]),
-                                                10.ph,
-                                              ])),
-                                  20.ph,
-                                  Text(
-                                    'رحلاتي الحالية',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                            color: AppColor.lightPurpleColor),
-                                  ),
-                                  10.ph,
-                                  ...List.generate(
-                                      state.homeData?.trips?.length ?? 0,
-                                      (index) => Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                CurrentTrip(
-                                                  data: state.homeData
-                                                          ?.trips?[index] ??
-                                                      TripDetailsModel(),
-                                                ),
-                                                10.ph,
-                                              ])),
-                                ]);
-                          } else {
-                            return SizedBox(
-                              child: Text('${state.stateOfHome}'),
-                            );
-                          }
-                        }),
-                      ))
+                                                            .id]),
+                                                    10.ph,
+                                                  ])),
+                                      20.ph,
+                                      Text(
+                                        'رحلاتي الحالية',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                                color:
+                                                    AppColor.lightPurpleColor),
+                                      ),
+                                      10.ph,
+                                      ...List.generate(
+                                          state.homeData?.trips?.length ?? 0,
+                                          (index) => Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    CurrentTrip(
+                                                      data: state.homeData
+                                                              ?.trips?[index] ??
+                                                          TripDetailsModel(),
+                                                    ),
+                                                    10.ph,
+                                                  ])),
+                                    ]);
+                              } else {
+                                return SizedBox(
+                                  child: Text('${state.stateOfHome}'),
+                                );
+                              }
+                            }),
+                          )))
                 ],
               ),
             ),

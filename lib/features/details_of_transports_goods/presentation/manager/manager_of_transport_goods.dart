@@ -151,13 +151,14 @@ class ManagerOfTransportGoods extends ChangeNotifier {
     checkStateOfNextButton();
   }
 
-  RequestState stateOfHome = RequestState.initial;
+  RequestState stateOfCreateTrip = RequestState.initial;
   RequestState stateOfPrice = RequestState.initial;
   String? message;
   String? priceOfTripe;
   TripDetailsModel? tripDetails;
-  getTripDetails({required BuildContext context}) async {
-    stateOfHome = RequestState.loading;
+  createTripDetails({required BuildContext context}) async {
+    print('createTripDetails:');
+    stateOfCreateTrip = RequestState.loading;
     notifyListeners();
 
     final failureOrDoneMessage = await createTripOfTransportsGoodsUseCases(
@@ -172,7 +173,8 @@ class ManagerOfTransportGoods extends ChangeNotifier {
         receiverPhone: textFieldPhoneOfReceiver ?? '');
     _eitherLoadedOrErrorState(failureOrDoneMessage);
     notifyListeners();
-    if (stateOfHome == RequestState.error) {
+    print('stateOfCreateTrip:$stateOfCreateTrip');
+    if (stateOfCreateTrip == RequestState.error) {
       Fluttertoast.showToast(
           msg: message ?? '',
           toastLength: Toast.LENGTH_SHORT,
@@ -181,7 +183,7 @@ class ManagerOfTransportGoods extends ChangeNotifier {
           backgroundColor: AppColor.mainColor,
           textColor: Colors.white,
           fontSize: 16.0.sp);
-    } else if (stateOfHome == RequestState.done) {
+    } else if (stateOfCreateTrip == RequestState.done) {
       Utils.showMainBottomSheetWithButton(context, CompleteOfTrip());
     }
   }
@@ -209,12 +211,12 @@ class ManagerOfTransportGoods extends ChangeNotifier {
   ) {
     failureOrTrivia.fold(
       (failure) {
-        stateOfPrice = RequestState.error;
+        stateOfCreateTrip = RequestState.error;
 
         message = _mapFailureToMessage(failure);
       },
       (data) {
-        stateOfPrice = RequestState.done;
+        stateOfCreateTrip = RequestState.done;
 
         tripDetails = data;
       },
@@ -228,12 +230,12 @@ class ManagerOfTransportGoods extends ChangeNotifier {
   ) {
     failureOrTrivia.fold(
       (failure) {
-        stateOfHome = RequestState.error;
+        stateOfPrice = RequestState.error;
 
         message = _mapFailureToMessage(failure);
       },
       (data) {
-        stateOfHome = RequestState.done;
+        stateOfPrice = RequestState.done;
 
         priceOfTripe = data;
       },

@@ -12,13 +12,13 @@ class HomeProvider extends ChangeNotifier {
   HomeProvider({required this.getHomeDataUseCases}) {
     print('HomeProvider');
     log('HomeProvider');
-    _getHomeData();
+    getHomeData();
   }
   RequestState stateOfHome = RequestState.initial;
   String? message;
   HomeModel? homeData;
 
-  _getHomeData() async {
+  getHomeData() async {
     stateOfHome = RequestState.loading;
     notifyListeners();
 
