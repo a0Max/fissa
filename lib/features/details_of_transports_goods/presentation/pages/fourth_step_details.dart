@@ -47,7 +47,9 @@ class FourthStepDetails extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            context
+                                .read<ManagerOfTransportGoods>()
+                                .backToFirstScreenOfEdit();
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(

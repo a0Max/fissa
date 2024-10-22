@@ -82,6 +82,7 @@ class TransportsGoodsRepositoryImpl
             weight: weight,
             objectType: objectType,
             workersNeeded: workersNeeded);
+        print('res:$res');
         return Right(res);
       } on DioException catch (e, s) {
         print('error:0$e');

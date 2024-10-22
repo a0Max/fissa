@@ -24,6 +24,7 @@ class DetailsOfTransportsGoods extends StatelessWidget {
     return ChangeNotifierProvider<ManagerOfTransportGoods>(
         create: (context) => ManagerOfTransportGoods(
             locationData: locationData,
+            userData: context.read<AuthProvider>().userData!,
             createTripOfTransportsGoodsUseCases: di.sl(),
             getPriceTripOfTransportsGoodsUseCases: di.sl(),
             workersList:
@@ -33,7 +34,7 @@ class DetailsOfTransportsGoods extends StatelessWidget {
             centerTitle: true,
             leading: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
                 },
                 icon: const Icon(
                   Icons.arrow_back_ios_outlined,
@@ -116,41 +117,46 @@ class DetailsOfTransportsGoods extends StatelessWidget {
                             20.w.pw,
                             Expanded(
                               flex: 2,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context
-                                      .read<ManagerOfTransportGoods>()
-                                      .updateIndexOfStep();
-                                },
-                                child: Container(
-                                  height: 40.h,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: state.stateOfNextButton
-                                          ? AppColor.mainColor
-                                          : AppColor.greyColor,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'إستمرار',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge
-                                            ?.copyWith(fontSize: 20.sp),
+                              child: (state.stateOfPrice ==
+                                      RequestState.loading)
+                                  ? CupertinoActivityIndicator()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        context
+                                            .read<ManagerOfTransportGoods>()
+                                            .updateIndexOfStep();
+                                      },
+                                      child: Container(
+                                        height: 40.h,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color: state.stateOfNextButton
+                                                ? AppColor.mainColor
+                                                : AppColor.greyColor,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'إستمرار',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(fontSize: 20.sp),
+                                            ),
+                                            10.pw,
+                                            const Icon(
+                                              Icons.arrow_forward,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      10.pw,
-                                      const Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                    ),
                             ),
                           ],
                         ),
@@ -173,11 +179,7 @@ class DetailsOfTransportsGoods extends StatelessWidget {
                                       onTap: () {
                                         context
                                             .read<ManagerOfTransportGoods>()
-                                            .getTripDetails(
-                                                userData: context
-                                                    .read<AuthProvider>()
-                                                    .userData!,
-                                                context: context);
+                                            .getTripDetails(context: context);
                                       },
                                       child: Container(
                                         height: 40.h,
@@ -213,7 +215,7 @@ class DetailsOfTransportsGoods extends StatelessWidget {
                                             ?.copyWith(fontSize: 20.sp),
                                       ),
                                       Text(
-                                        '120 دل',
+                                        '${state.priceOfTripe}  دل',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge

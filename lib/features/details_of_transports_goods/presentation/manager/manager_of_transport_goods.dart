@@ -36,11 +36,13 @@ class ManagerOfTransportGoods extends ChangeNotifier {
     FourthStepDetails(),
   ];
   bool stateOfNextButton = false;
+  UserData userData;
 
   ManagerOfTransportGoods(
       {required this.createTripOfTransportsGoodsUseCases,
       required List<GetWorkersModel> workersList,
       required this.getPriceTripOfTransportsGoodsUseCases,
+      required this.userData,
       required this.locationData}) {
     _handlingWorkersCount(workersList);
   }
@@ -53,9 +55,22 @@ class ManagerOfTransportGoods extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateIndexOfStep() {
+  backToFirstScreenOfEdit() {
+    indexOfStep = 0;
+    stateOfNextButton = false;
+    print("indexOfStep:$indexOfStep");
+
+    notifyListeners();
+  }
+
+  Future<void> updateIndexOfStep() async {
+    if (indexOfStep == 2) {
+      await getPriceOfTripDetails(userData: userData);
+    }
     indexOfStep++;
     stateOfNextButton = false;
+    print("indexOfStep:$indexOfStep");
+
     notifyListeners();
   }
 
@@ -137,11 +152,11 @@ class ManagerOfTransportGoods extends ChangeNotifier {
   }
 
   RequestState stateOfHome = RequestState.initial;
+  RequestState stateOfPrice = RequestState.initial;
   String? message;
+  String? priceOfTripe;
   TripDetailsModel? tripDetails;
-
-  getTripDetails(
-      {required UserData userData, required BuildContext context}) async {
+  getTripDetails({required BuildContext context}) async {
     stateOfHome = RequestState.loading;
     notifyListeners();
 
@@ -171,8 +186,45 @@ class ManagerOfTransportGoods extends ChangeNotifier {
     }
   }
 
+  getPriceOfTripDetails({required UserData userData}) async {
+    stateOfPrice = RequestState.loading;
+    notifyListeners();
+
+    final failureOrDoneMessage = await getPriceTripOfTransportsGoodsUseCases(
+        weight: selectWeightOfGood?.id ?? 0,
+        objectType: selectTypeOfGood?.id ?? 0,
+        workersNeeded: needWorkersObject?.id ?? 0,
+        locationData: locationData,
+        userData: userData,
+        // location: location,
+        // startAddress: startAddress,
+        receiverName: textFieldNameOfReceiver ?? '',
+        receiverPhone: textFieldPhoneOfReceiver ?? '');
+    _eitherPriceLoadedOrErrorState(failureOrDoneMessage);
+    notifyListeners();
+  }
+
   _eitherLoadedOrErrorState(
     Either<Failure, TripDetailsModel> failureOrTrivia,
+  ) {
+    failureOrTrivia.fold(
+      (failure) {
+        stateOfPrice = RequestState.error;
+
+        message = _mapFailureToMessage(failure);
+      },
+      (data) {
+        stateOfPrice = RequestState.done;
+
+        tripDetails = data;
+      },
+    );
+
+    notifyListeners();
+  }
+
+  _eitherPriceLoadedOrErrorState(
+    Either<Failure, String> failureOrTrivia,
   ) {
     failureOrTrivia.fold(
       (failure) {
@@ -183,7 +235,7 @@ class ManagerOfTransportGoods extends ChangeNotifier {
       (data) {
         stateOfHome = RequestState.done;
 
-        tripDetails = data;
+        priceOfTripe = data;
       },
     );
 
