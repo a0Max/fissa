@@ -22,10 +22,13 @@ import '../../features/login/domain/repositories/repositories_login_update.dart'
 import '../../features/login/domain/use_cases/add_required_data_use_cases.dart';
 import '../../features/login/domain/use_cases/check_otp_use_cases.dart';
 import '../../features/login/domain/use_cases/login_use_cases.dart';
+import '../../features/map_address/data/data_sources/local_search_data_source.dart';
 import '../../features/map_address/data/data_sources/search_about_location_information.dart';
 import '../../features/map_address/data/repositories/map_repository_impl.dart';
 import '../../features/map_address/domain/repositories/repositories_map.dart';
+import '../../features/map_address/domain/use_cases/get_local_search_use_cases.dart';
 import '../../features/map_address/domain/use_cases/map_information_use_cases.dart';
+import '../../features/map_address/domain/use_cases/save_local_search_use_cases.dart';
 import '../../features/map_address/presentation/manager/map_information.dart';
 import '../apis_connections/api_connection.dart';
 import '../network/network_info.dart';

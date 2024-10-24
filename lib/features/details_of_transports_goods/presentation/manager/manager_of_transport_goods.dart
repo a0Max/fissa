@@ -48,8 +48,9 @@ class ManagerOfTransportGoods extends ChangeNotifier {
   }
   GetWorkersModel? emptyWorker;
   List<GetWorkersModel>? listOfWorkers;
-  _handlingWorkersCount(List<GetWorkersModel> workersList) {
-    emptyWorker = workersList.firstWhere((element) => element.count == '0');
+  _handlingWorkersCount(List<GetWorkersModel> workersList0) {
+    List<GetWorkersModel> workersList = List.from(workersList0);
+    emptyWorker = workersList.where((element) => element.count == '0').first;
     workersList.removeWhere((element) => element.count == '0');
     listOfWorkers = workersList;
     notifyListeners();

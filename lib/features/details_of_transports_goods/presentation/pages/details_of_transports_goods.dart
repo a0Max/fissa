@@ -50,192 +50,205 @@ class DetailsOfTransportsGoods extends StatelessWidget {
           ),
           body:
               Consumer<ManagerOfTransportGoods>(builder: (context, state, __) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0x1E000000),
-                            blurRadius: 26,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          )
-                        ],
-                      ),
-                      child: Column(
+            return SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height - 100,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Column(
                         children: [
-                          10.ph,
-                          StepLineOfTransportsGoods(
-                            currentStep: (state.indexOfStep + 1),
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x1E000000),
+                                  blurRadius: 26,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                10.ph,
+                                StepLineOfTransportsGoods(
+                                  currentStep: (state.indexOfStep + 1),
+                                ),
+                                15.ph,
+                              ],
+                            ),
                           ),
-                          15.ph,
+                          20.ph,
+                          Container(
+                              color: Colors.white,
+                              child: state.widgetsOfSteps[state.indexOfStep])
                         ],
                       ),
-                    ),
-                    20.ph,
-                    Container(
-                        color: Colors.white,
-                        child: state.widgetsOfSteps[state.indexOfStep])
-                  ],
-                ),
-                if (state.indexOfStep != 3) ...{
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context
-                                      .read<ManagerOfTransportGoods>()
-                                      .updateIndexOfStepToDownGrade();
-                                },
-                                child: Container(
-                                  height: 40.h,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: AppColor.lightMainColor3,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Text(
-                                    'السابق',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(fontSize: 20.sp),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            20.w.pw,
-                            Expanded(
-                              flex: 2,
-                              child: (state.stateOfPrice ==
-                                      RequestState.loading)
-                                  ? CupertinoActivityIndicator()
-                                  : GestureDetector(
+                      Spacer(),
+                      if (state.indexOfStep != 3) ...{
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: GestureDetector(
                                       onTap: () {
                                         context
                                             .read<ManagerOfTransportGoods>()
-                                            .updateIndexOfStep();
+                                            .updateIndexOfStepToDownGrade();
                                       },
                                       child: Container(
                                         height: 40.h,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                            color: state.stateOfNextButton
-                                                ? AppColor.mainColor
-                                                : AppColor.greyColor,
+                                            color: AppColor.lightMainColor3,
                                             borderRadius:
                                                 BorderRadius.circular(15)),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                        child: Text(
+                                          'السابق',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(fontSize: 20.sp),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  20.w.pw,
+                                  Expanded(
+                                    flex: 2,
+                                    child: (state.stateOfPrice ==
+                                            RequestState.loading)
+                                        ? CupertinoActivityIndicator()
+                                        : GestureDetector(
+                                            onTap: () {
+                                              context
+                                                  .read<
+                                                      ManagerOfTransportGoods>()
+                                                  .updateIndexOfStep();
+                                            },
+                                            child: Container(
+                                              height: 40.h,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                  color: state.stateOfNextButton
+                                                      ? AppColor.mainColor
+                                                      : AppColor.greyColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'إستمرار',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge
+                                                        ?.copyWith(
+                                                            fontSize: 20.sp),
+                                                  ),
+                                                  10.pw,
+                                                  const Icon(
+                                                    Icons.arrow_forward,
+                                                    color: Colors.white,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                  ),
+                                ],
+                              ),
+                              40.ph,
+                            ],
+                          ),
+                        )
+                      } else ...{
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: (state.stateOfCreateTrip ==
+                                            RequestState.loading)
+                                        ? CupertinoActivityIndicator()
+                                        : GestureDetector(
+                                            onTap: () {
+                                              context
+                                                  .read<
+                                                      ManagerOfTransportGoods>()
+                                                  .createTripDetails(
+                                                      context: context);
+                                            },
+                                            child: Container(
+                                              height: 40.h,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                  color: AppColor.mainColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Text(
+                                                'اطلب الأن',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelLarge
+                                                    ?.copyWith(fontSize: 20.sp),
+                                              ),
+                                            ),
+                                          ),
+                                  ),
+                                  20.w.pw,
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      height: 40.h,
+                                      alignment: Alignment.center,
+                                      child: FittedBox(
+                                        child: Column(
                                           children: [
                                             Text(
-                                              'إستمرار',
+                                              'عند الإستلام',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .labelLarge
+                                                  .labelMedium
                                                   ?.copyWith(fontSize: 20.sp),
                                             ),
-                                            10.pw,
-                                            const Icon(
-                                              Icons.arrow_forward,
-                                              color: Colors.white,
+                                            Text(
+                                              '${state.priceOfTripe}  دل',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(fontSize: 29.sp),
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
-                            ),
-                          ],
-                        ),
-                        40.ph,
-                      ],
-                    ),
-                  )
-                } else ...{
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: (state.stateOfCreateTrip ==
-                                      RequestState.loading)
-                                  ? CupertinoActivityIndicator()
-                                  : GestureDetector(
-                                      onTap: () {
-                                        context
-                                            .read<ManagerOfTransportGoods>()
-                                            .createTripDetails(
-                                                context: context);
-                                      },
-                                      child: Container(
-                                        height: 40.h,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color: AppColor.mainColor,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        child: Text(
-                                          'اطلب الأن',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge
-                                              ?.copyWith(fontSize: 20.sp),
-                                        ),
-                                      ),
-                                    ),
-                            ),
-                            20.w.pw,
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                height: 40.h,
-                                alignment: Alignment.center,
-                                child: FittedBox(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'عند الإستلام',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium
-                                            ?.copyWith(fontSize: 20.sp),
-                                      ),
-                                      Text(
-                                        '${state.priceOfTripe}  دل',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(fontSize: 29.sp),
-                                      ),
-                                    ],
                                   ),
-                                ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        40.ph,
-                      ],
-                    ),
-                  )
-                }
-              ],
+                              40.ph,
+                            ],
+                          ),
+                        )
+                      }
+                    ],
+                  ),
+                ),
+              ),
             );
           }),
         ));

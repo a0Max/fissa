@@ -19,12 +19,14 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.text,
     required this.onTap,
     required this.suffixIconOnTap,
+    required this.onSubmitted,
   }) : super(key: key);
 
   final Key? key;
   final String placeholder;
   final String? text;
   final void Function(String text) onSearch;
+  final void Function(String text) onSubmitted;
   final IconData icon;
   final bool hasClearButton;
   final IconData clearIcon;
@@ -82,7 +84,11 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget>
         controller: widget.text != null
             ? TextEditingController(text: widget.text)
             : _textEditingController,
-        onSubmitted: (_) => _selectPlace(),
+        onSubmitted: (_) {
+          widget.onSubmitted(_textEditingController.text);
+
+          _selectPlace();
+        },
         onTap: () => widget.onTap(),
         onTapOutside: (_) => widget.onTapOutside(),
         onEditingComplete: _selectPlace,

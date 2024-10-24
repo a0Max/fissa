@@ -78,59 +78,6 @@ class AuthProvider extends ChangeNotifier {
     _eitherLoadedOrErrorState(failureOrDoneMessage);
   }
 
-  loginRequest(
-      {required String phone,
-      required BuildContext context,
-      bool? noAction}) async {
-    print('loginRequest');
-    stateOfLogin = RequestState.loading;
-    notifyListeners();
-
-    final failureOrDoneMessage = await loginUseCases(phone: phone);
-    _eitherLoadedOrErrorLoginState(failureOrDoneMessage);
-    print('stateOfHome:$stateOfHome');
-    if (noAction == true) return;
-    if (stateOfLogin == RequestState.error) {
-      Fluttertoast.showToast(
-          msg: message ?? '',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: AppColor.mainColor,
-          textColor: Colors.white,
-          fontSize: 16.0.sp);
-    } else if (stateOfLogin == RequestState.done) {
-      Utils.navigateAndRemoveUntilTo(OtpScreen(), context);
-      startCountdown();
-    }
-  }
-
-  updateUserData({
-    required String email,
-    required BuildContext context,
-  }) async {
-    print('loginRequest');
-    stateOfCompleteProfile = RequestState.loading;
-    notifyListeners();
-
-    final failureOrDoneMessage =
-        await addRequiredDataUseCases(email: email, name: tempName ?? '');
-    _eitherLoadedOrErrorCompleteState(failureOrDoneMessage);
-    print('stateOfHome:$stateOfHome');
-    if (stateOfCompleteProfile == RequestState.error) {
-      Fluttertoast.showToast(
-          msg: message ?? '',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: AppColor.mainColor,
-          textColor: Colors.white,
-          fontSize: 16.0.sp);
-    } else if (stateOfCompleteProfile == RequestState.done) {
-      Utils.navigateAndRemoveUntilTo(CompleteSignUp(), context);
-    }
-  }
-
   _getStuffTypesData() async {
     print('_getHomeData');
     stateOfHome = RequestState.loading;
@@ -138,86 +85,6 @@ class AuthProvider extends ChangeNotifier {
 
     final failureOrDoneMessage = await getStuffTypesDataUseCases();
     _eitherLoadedOrErrorFRomStuffTypesState(failureOrDoneMessage);
-  }
-
-  _eitherLoadedOrErrorLoginState(
-    Either<Failure, UserDataWithOtpModel> failureOrTrivia,
-  ) {
-    failureOrTrivia.fold(
-      (failure) {
-        message = _mapFailureToMessage(failure);
-        print('messageL:$message');
-        stateOfLogin = RequestState.error;
-      },
-      (data) {
-        tempUserData = data.usr;
-        otp = data.otp;
-        stateOfLogin = RequestState.done;
-      },
-    );
-    notifyListeners();
-  }
-
-  _eitherLoadedOrErrorCompleteState(
-    Either<Failure, UserDataWithOtpModel> failureOrTrivia,
-  ) {
-    failureOrTrivia.fold(
-      (failure) {
-        message = _mapFailureToMessage(failure);
-        print('messageL:$message');
-        stateOfCompleteProfile = RequestState.error;
-      },
-      (data) {
-        userData = data.usr;
-        stateOfCompleteProfile = RequestState.done;
-      },
-    );
-    notifyListeners();
-  }
-
-  _eitherLoadedOrErrorOtpState(
-    Either<Failure, UserDataWithOtpModel> failureOrTrivia,
-  ) {
-    failureOrTrivia.fold(
-      (failure) {
-        message = _mapFailureToMessage(failure);
-        print('messageL:$message');
-        stateOfOtp = RequestState.error;
-      },
-      (data) {
-        stateOfOtp = RequestState.done;
-      },
-    );
-    notifyListeners();
-  }
-
-  _eitherLoadedOrErrorFRomStuffTypesState(
-    Either<Failure, MainAppRequiredModel> failureOrTrivia,
-  ) {
-    failureOrTrivia.fold(
-      (failure) {
-        message = _mapFailureToMessage(failure);
-      },
-      (data) {
-        print('?.types:${data.types?.length}');
-        stuffTypesData = data;
-      },
-    );
-    notifyListeners();
-  }
-
-  _eitherLoadedOrErrorState(
-    Either<Failure, UserData> failureOrTrivia,
-  ) {
-    failureOrTrivia.fold(
-      (failure) {
-        message = _mapFailureToMessage(failure);
-      },
-      (data) {
-        userData = data;
-      },
-    );
-    notifyListeners();
   }
 
   resentOtp({required BuildContext context}) async {
@@ -284,6 +151,139 @@ class AuthProvider extends ChangeNotifier {
   String currentOtp = '';
   updateCurrentOtp({required String char}) {
     currentOtp = char;
+    notifyListeners();
+  }
+
+  loginRequest(
+      {required String phone,
+      required BuildContext context,
+      bool? noAction}) async {
+    print('loginRequest');
+    stateOfLogin = RequestState.loading;
+    notifyListeners();
+
+    final failureOrDoneMessage = await loginUseCases(phone: phone);
+    _eitherLoadedOrErrorLoginState(failureOrDoneMessage);
+    print('stateOfHome:$stateOfHome');
+    if (noAction == true) return;
+    if (stateOfLogin == RequestState.error) {
+      Fluttertoast.showToast(
+          msg: message ?? '',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: AppColor.mainColor,
+          textColor: Colors.white,
+          fontSize: 16.0.sp);
+    } else if (stateOfLogin == RequestState.done) {
+      Utils.navigateAndRemoveUntilTo(OtpScreen(), context);
+      startCountdown();
+    }
+  }
+
+  _eitherLoadedOrErrorLoginState(
+    Either<Failure, UserDataWithOtpModel> failureOrTrivia,
+  ) {
+    failureOrTrivia.fold(
+      (failure) {
+        message = _mapFailureToMessage(failure);
+        print('messageL:$message');
+        stateOfLogin = RequestState.error;
+      },
+      (data) {
+        tempUserData = data.usr;
+        otp = data.otp;
+        stateOfLogin = RequestState.done;
+      },
+    );
+    notifyListeners();
+  }
+
+  updateUserData({
+    required String email,
+    required BuildContext context,
+  }) async {
+    print('loginRequest');
+    stateOfCompleteProfile = RequestState.loading;
+    notifyListeners();
+
+    final failureOrDoneMessage =
+        await addRequiredDataUseCases(email: email, name: tempName ?? '');
+    _eitherLoadedOrErrorCompleteState(failureOrDoneMessage);
+    print('stateOfHome:$stateOfHome');
+    if (stateOfCompleteProfile == RequestState.error) {
+      Fluttertoast.showToast(
+          msg: message ?? '',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: AppColor.mainColor,
+          textColor: Colors.white,
+          fontSize: 16.0.sp);
+    } else if (stateOfCompleteProfile == RequestState.done) {
+      Utils.navigateAndRemoveUntilTo(CompleteSignUp(), context);
+    }
+  }
+
+  _eitherLoadedOrErrorCompleteState(
+    Either<Failure, UserDataWithOtpModel> failureOrTrivia,
+  ) {
+    failureOrTrivia.fold(
+      (failure) {
+        message = _mapFailureToMessage(failure);
+        print('messageL:$message');
+        stateOfCompleteProfile = RequestState.error;
+      },
+      (data) {
+        userData = data.usr;
+        stateOfCompleteProfile = RequestState.done;
+      },
+    );
+    notifyListeners();
+  }
+
+  _eitherLoadedOrErrorOtpState(
+    Either<Failure, UserDataWithOtpModel> failureOrTrivia,
+  ) {
+    failureOrTrivia.fold(
+      (failure) {
+        message = _mapFailureToMessage(failure);
+        print('messageL:$message');
+        stateOfOtp = RequestState.error;
+      },
+      (data) {
+        stateOfOtp = RequestState.done;
+      },
+    );
+    notifyListeners();
+  }
+
+  _eitherLoadedOrErrorFRomStuffTypesState(
+    Either<Failure, MainAppRequiredModel> failureOrTrivia,
+  ) {
+    failureOrTrivia.fold(
+      (failure) {
+        message = _mapFailureToMessage(failure);
+      },
+      (data) {
+        print('?.types:${data.types?.length}');
+        stuffTypesData = data;
+      },
+    );
+    notifyListeners();
+  }
+
+  _eitherLoadedOrErrorState(
+    Either<Failure, UserData> failureOrTrivia,
+  ) {
+    failureOrTrivia.fold(
+      (failure) {
+        message = _mapFailureToMessage(failure);
+      },
+      (data) {
+        userData = data;
+      },
+    );
     notifyListeners();
   }
 }

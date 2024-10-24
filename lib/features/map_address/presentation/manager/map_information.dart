@@ -18,7 +18,9 @@ import '../../../../core/error/failures_messages.dart';
 import '../../../../core/main_map_informations.dart';
 import '../../domain/entities/location_model.dart';
 import '../../domain/entities/predictions_model.dart';
+import '../../domain/use_cases/get_local_search_use_cases.dart';
 import '../../domain/use_cases/map_information_use_cases.dart';
+import '../../domain/use_cases/save_local_search_use_cases.dart';
 import '../widget/check_the_address.dart';
 import '../widget/loading_bottom_sheet.dart';
 import '../widget/make_sure_about_the_end_point.dart';
@@ -26,11 +28,16 @@ import '../widget/the_way_of_payment.dart';
 
 class MapInformation extends ChangeNotifier {
   final MapInformationUseCases mapInformationUseCases;
+  final GetLocalSearchUseCases getLocalSearchUseCases;
+  final SaveLocalSearchUseCases saveLocalSearchUseCases;
   StateOfTextField stateOfTextField = StateOfTextField.initial;
   List<PredictionsModel> locations = [];
   String? message;
 
-  MapInformation({required this.mapInformationUseCases}) {
+  MapInformation(
+      {required this.getLocalSearchUseCases,
+      required this.saveLocalSearchUseCases,
+      required this.mapInformationUseCases}) {
     getUserLocation();
   }
   GoogleMapController? gmapController;
@@ -209,6 +216,21 @@ class MapInformation extends ChangeNotifier {
       default:
         return 'Unexpected error';
     }
+  }
+
+  StateOfSearchTextField? startSearchTextField;
+  List<String> historyOfSearch = [];
+  Future<void> searchText({required StateOfSearchTextField action}) async {
+    startSearchTextField = action;
+    if (action == StateOfSearchTextField.click) {
+      historyOfSearch = await getLocalSearchUseCases();
+    }
+    notifyListeners();
+  }
+
+  Future<void> saveSearchText({required String text}) async {
+    print('saveSearchText');
+    await saveLocalSearchUseCases(text: text);
   }
 
   StateOfSearch? startShowAddress;

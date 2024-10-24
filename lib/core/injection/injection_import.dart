@@ -10,7 +10,10 @@ Future<void> init() async {
   //     addRequiredDataUseCases: sl(),
   //     checkOtpUseCases: sl(),
   //     loginUseCases: sl()));
-  sl.registerFactory(() => MapInformation(mapInformationUseCases: sl()));
+  sl.registerFactory(() => MapInformation(
+      mapInformationUseCases: sl(),
+      getLocalSearchUseCases: sl(),
+      saveLocalSearchUseCases: sl()));
   sl.registerFactory(() => HomeProvider(getHomeDataUseCases: sl()));
 
   //UseCase
@@ -23,6 +26,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetStuffTypesDataUseCases(sl()));
   sl.registerLazySingleton(() => CreateTripOfTransportsGoodsUseCases(sl()));
   sl.registerLazySingleton(() => GetPriceTripOfTransportsGoodsUseCases(sl()));
+  sl.registerLazySingleton(() => GetLocalSearchUseCases(sl()));
+  sl.registerLazySingleton(() => SaveLocalSearchUseCases(sl()));
 
   //Repository
   sl.registerLazySingleton<IntroRepository>(
@@ -31,14 +36,16 @@ Future<void> init() async {
       LoginUpdateRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<RepositoriesTripOfTransportsGoods>(() =>
       TransportsGoodsRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
-  sl.registerLazySingleton<MapRepository>(
-      () => LessonRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<MapRepository>(() => MapRepositoryImpl(
+      remoteDataSource: sl(), networkInfo: sl(), localDataSource: sl()));
   sl.registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
 
   //Datasources
   sl.registerLazySingleton<DataSourceRemotelyOfIntro>(
       () => DataSourceRemotelyOfIntroImpl(dio: sl()));
+  sl.registerLazySingleton<DataSourceRemotelyOfSearchLocal>(
+      () => DataSourceRemotelyOfSearchLocalImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfLoginUpdateData>(
       () => DataSourceRemotelyOfLoginUpdateImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfTripOfTransportsGoods>(
