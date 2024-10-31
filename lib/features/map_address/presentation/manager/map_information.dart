@@ -21,10 +21,10 @@ import '../../domain/entities/predictions_model.dart';
 import '../../domain/use_cases/get_local_search_use_cases.dart';
 import '../../domain/use_cases/map_information_use_cases.dart';
 import '../../domain/use_cases/save_local_search_use_cases.dart';
-import '../widget/check_the_address.dart';
-import '../widget/loading_bottom_sheet.dart';
+import '../../../order_puller/presentation/widgets/check_the_address.dart';
+import '../../../order_puller/presentation/widgets/waiting_accept_from_driver.dart';
 import '../widget/make_sure_about_the_end_point.dart';
-import '../widget/the_way_of_payment.dart';
+import '../../../order_puller/presentation/widgets/the_way_of_payment.dart';
 
 class MapInformation extends ChangeNotifier {
   final MapInformationUseCases mapInformationUseCases;
@@ -312,89 +312,11 @@ class MapInformation extends ChangeNotifier {
 
   Set<Polyline> polylines = {};
 
-  drawTheDirection() async {
-    markers.clear();
-
-    // isAnimatingCamera = true;
-    // notifyListeners();
-    Polyline polyline = Polyline(
-      polylineId: PolylineId("line1"),
-      visible: true,
-      points: [
-        LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
-        LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0)
-      ],
-      color: AppColor.yellowColor,
-      width: 5,
-    );
-    polylines.add(polyline);
-
-    kGooglePlex = LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0);
-    // gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
-    markers.add(Marker(
-        markerId: MarkerId(
-            LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0)
-                .toString()),
-        position: LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
-        icon: await _mainMarker(image: AppImages.markerFixCar)));
-    markers.add(Marker(
-        markerId: MarkerId(
-            LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0).toString()),
-        position: LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0),
-        icon: await _mainMarker(image: AppImages.endMarker)
-        // infoWindow: InfoWindow(title: 'Point 1'),
-        ));
-    LatLngBounds bounds = LatLngBounds(
-      southwest: LatLng(
-        (startLocation?.lat ?? 0) < (endLocation?.lat ?? 0)
-            ? (startLocation?.lat ?? 0)
-            : (endLocation?.lat ?? 0),
-        (startLocation?.lng ?? 0) < (endLocation?.lng ?? 0)
-            ? (startLocation?.lng ?? 0)
-            : (endLocation?.lng ?? 0),
-      ),
-      northeast: LatLng(
-        (startLocation?.lat ?? 0) > (endLocation?.lat ?? 0)
-            ? (startLocation?.lat ?? 0)
-            : (endLocation?.lat ?? 0),
-        (startLocation?.lng ?? 0) > (endLocation?.lng ?? 0)
-            ? (startLocation?.lng ?? 0)
-            : (endLocation?.lng ?? 0),
-      ),
-    );
-
-    CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 140);
-    gmapController?.animateCamera(cameraUpdate);
-    notifyListeners();
-  }
-
-  int selectedWayOfPayment = 0;
-  submitWayOfPayment(int newWay) {
-    selectedWayOfPayment = newWay;
-    notifyListeners();
-    print('selectedWayOfPayment:$selectedWayOfPayment');
-  }
-
   Widget currentWidget = MakeSureAboutTheEndPoint();
   int indexOfCurrentWidget = 0;
   late SelectedHelp typeOfHelp;
   submitTypeOfHelp({required SelectedHelp newTypeOfHelp}) {
     typeOfHelp = newTypeOfHelp;
-    notifyListeners();
-  }
-
-  updateTheCurrentWidget() {
-    indexOfCurrentWidget = indexOfCurrentWidget + 1;
-    notifyListeners();
-    if (typeOfHelp == SelectedHelp.transportOfGoods) {
-      updateTheIndexAndCurrentWidgetOfTransportOfGoods(
-          index: indexOfCurrentWidget);
-    } else if (typeOfHelp == SelectedHelp.vehicleTowing) {
-      updateTheIndexAndCurrentWidgetOfVehicleTowing(
-          index: indexOfCurrentWidget);
-    }
-    print('indexOfCurrentWidget:$indexOfCurrentWidget');
-    print('currentWidget:${currentWidget.runtimeType}');
     notifyListeners();
   }
 
@@ -415,8 +337,6 @@ class MapInformation extends ChangeNotifier {
         currentWidget = CheckTheAddress();
       case 2:
         currentWidget = TheWayOfPayment();
-      case 3:
-        currentWidget = LoadingBottomSheet();
     }
     notifyListeners();
   }

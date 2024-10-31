@@ -9,7 +9,6 @@ part of 'trip_details_model.dart';
 TripDetailsModel _$TripDetailsModelFromJson(Map<String, dynamic> json) =>
     TripDetailsModel(
       passengerId: (json['passenger_id'] as num?)?.toInt(),
-      typeId: json['type_id'] as String?,
       stuffTypeImage: json['stuff_type_image'] as String?,
       weightName: json['weight_name'] as String?,
       workerName: json['worker_name'] as String?,
@@ -39,7 +38,6 @@ TripDetailsModel _$TripDetailsModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$TripDetailsModelToJson(TripDetailsModel instance) =>
     <String, dynamic>{
       'passenger_id': instance.passengerId,
-      'type_id': instance.typeId,
       'from': instance.from,
       'stuff_type_name': instance.stuffTypeName,
       'weight_name': instance.weightName,

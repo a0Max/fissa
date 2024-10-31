@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/assets_images.dart';
 import '../../../../core/widget/button_widget.dart';
 
-class LoadingBottomSheet extends StatelessWidget {
-  const LoadingBottomSheet({super.key});
+class WaitingAcceptFromDriver extends StatelessWidget {
+  const WaitingAcceptFromDriver({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class LoadingBottomSheet extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
-                ?.copyWith(fontSize: 30.sp),
+                ?.copyWith(fontSize: 20.sp),
           ),
           5.ph,
           Text(
@@ -28,11 +28,14 @@ class LoadingBottomSheet extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .labelMedium
-                ?.copyWith(fontSize: 15.sp),
+                ?.copyWith(fontSize: 12.sp),
           ),
           10.ph,
-          Image.asset(
-            AppImages.loading,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Image.asset(
+              AppImages.loading,
+            ),
           ),
           10.ph,
           ButtonWidget(

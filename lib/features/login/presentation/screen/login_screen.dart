@@ -96,6 +96,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            // height: 50.h,
+                            child: TextFieldWidget(
+                                hintText: 'رقم الهاتف',
+                                controler: _phoneController,
+                                validatorTextField: (val) =>
+                                    ValidationTextField.phoneNumberInput(val),
+                                labelText: 'رقم الهاتف',
+                                onChanged: (e) {},
+                                keyboardType: TextInputType.number,
+                                fontSize: 14.sp,
+                                borderSideColor:
+                                    AppColor.greyColor.withOpacity(.3),
+                                fillColor: AppColor.greyColor.withOpacity(.05)),
+                          ),
+                        ),
+                        10.pw,
                         Container(
                           padding: EdgeInsets.all(5.h),
                           decoration: BoxDecoration(
@@ -120,25 +139,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-                        10.pw,
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            // height: 50.h,
-                            child: TextFieldWidget(
-                                hintText: 'رقم الهاتف',
-                                controler: _phoneController,
-                                validatorTextField: (val) =>
-                                    ValidationTextField.phoneNumberInput(val),
-                                labelText: 'رقم الهاتف',
-                                onChanged: (e) {},
-                                keyboardType: TextInputType.number,
-                                fontSize: 14.sp,
-                                borderSideColor:
-                                    AppColor.greyColor.withOpacity(.3),
-                                fillColor: AppColor.greyColor.withOpacity(.05)),
-                          ),
-                        )
                       ],
                     ),
                   ),

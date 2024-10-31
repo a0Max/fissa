@@ -6,7 +6,6 @@ part 'trip_details_model.g.dart';
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class TripDetailsModel extends Equatable {
   final int? passengerId;
-  final String? typeId;
   final String? from;
   final String? stuffTypeName;
   final String? weightName;
@@ -30,11 +29,10 @@ class TripDetailsModel extends Equatable {
   final String? updatedAt;
   final String? createdAt;
   final String? status;
-
   final int? id;
+
   TripDetailsModel(
       {this.passengerId,
-      this.typeId,
       this.stuffTypeImage,
       this.weightName,
       this.workerName,
@@ -69,7 +67,6 @@ class TripDetailsModel extends Equatable {
   @override
   List<Object?> get props => [
         passengerId,
-        typeId,
         stuffTypeImage,
         weightName,
         workerName,

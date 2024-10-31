@@ -56,15 +56,19 @@ class AuthProvider extends ChangeNotifier {
   MainAppRequiredModel? stuffTypesData;
 
   isThereTokenAvailableHere({required BuildContext context}) async {
-    bool isTokenAvailable = (await UserData.getToken) != null;
-    print('isTokenAvailable:${isTokenAvailable}');
-    if (isTokenAvailable) {
-      await getUserData();
-    }
-    if (userData != null) {
-      Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
-    } else {
-      print('whenUserDataIsNotAvailable');
+    try {
+      bool isTokenAvailable = (await UserData.getToken) != null;
+      print('isTokenAvailable:${isTokenAvailable}');
+      if (isTokenAvailable) {
+        await getUserData();
+      }
+      if (userData != null) {
+        Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
+      } else {
+        print('whenUserDataIsNotAvailable');
+        Utils.navigateAndRemoveUntilTo(LoginScreen(), context);
+      }
+    } catch (e) {
       Utils.navigateAndRemoveUntilTo(LoginScreen(), context);
     }
   }

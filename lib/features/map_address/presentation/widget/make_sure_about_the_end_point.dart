@@ -8,7 +8,12 @@ import '../../../../core/enums/selected_help.dart';
 import '../../../../core/utils.dart';
 import '../../../../core/widget/button_widget.dart';
 import '../../../details_of_transports_goods/presentation/pages/details_of_transports_goods.dart';
+import '../../../login/presentation/manager/auth_provider.dart';
+import '../../../order_puller/presentation/manager/map_of_puller_provider.dart';
+import '../../../order_puller/presentation/pages/map_of_puller.dart';
+import '../../../order_puller/presentation/widgets/check_the_address.dart';
 import '../../domain/entities/full_location_model.dart';
+import '../../../../core/injection/injection_container.dart' as di;
 
 class MakeSureAboutTheEndPoint extends StatelessWidget {
   const MakeSureAboutTheEndPoint({super.key});
@@ -51,8 +56,26 @@ class MakeSureAboutTheEndPoint extends StatelessWidget {
                   ),
                   context);
             } else {
-              context.read<MapInformation>().drawTheDirection();
-              context.read<MapInformation>().updateTheCurrentWidget();
+              MapInformation dataFromProvider = context.read<MapInformation>();
+              Utils.navigateTo(
+                  ChangeNotifierProvider<MapOfPullerProvider>(
+                      create: (context) => MapOfPullerProvider(
+                            createTripOfPullerUseCases: di.sl(),
+                            getPriceTripOfPullerUseCases: di.sl(),
+                            locationService: di.sl(),
+                          )..onStartGetDataOfTrip(
+                              // context: context,
+                              tempUserData:
+                                  context.read<AuthProvider>().userData!,
+                              tempLocationData: FullLocationModel(
+                                  startAddress: dataFromProvider.startAddress,
+                                  startLocation: dataFromProvider.startLocation,
+                                  endAddress: dataFromProvider.endAddress,
+                                  endLocation: dataFromProvider.endLocation)),
+                      child: MapOfPuller()),
+                  context);
+              // context.read<MapInformation>().drawTheDirection();
+              // context.read<MapInformation>().updateTheCurrentWidget();
             }
           },
         ),

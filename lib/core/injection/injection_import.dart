@@ -15,9 +15,15 @@ Future<void> init() async {
       getLocalSearchUseCases: sl(),
       saveLocalSearchUseCases: sl()));
   sl.registerFactory(() => HomeProvider(getHomeDataUseCases: sl()));
+  // sl.registerFactory(() => MapOfPullerProvider(
+  //     createTripOfPullerUseCases: sl(),
+  //     getPriceTripOfPullerUseCases: sl(),
+  //     locationService: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => MapInformationUseCases(sl()));
+  sl.registerLazySingleton(() => CreateTripOfPullerUseCases(sl()));
+  sl.registerLazySingleton(() => GetPriceTripOfPullerUseCases(sl()));
   sl.registerLazySingleton(() => AddRequiredDataUseCases(sl()));
   sl.registerLazySingleton(() => CheckOtpUseCases(sl()));
   sl.registerLazySingleton(() => LoginUseCases(sl()));
@@ -32,6 +38,8 @@ Future<void> init() async {
   //Repository
   sl.registerLazySingleton<IntroRepository>(
       () => IntroRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<RepositoriesTripOfPuller>(
+      () => PullerRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<LoginUpdateRepository>(() =>
       LoginUpdateRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<RepositoriesTripOfTransportsGoods>(() =>
@@ -44,6 +52,8 @@ Future<void> init() async {
   //Datasources
   sl.registerLazySingleton<DataSourceRemotelyOfIntro>(
       () => DataSourceRemotelyOfIntroImpl(dio: sl()));
+  sl.registerLazySingleton<DataSourceRemotelyOfTripOfPuller>(
+      () => DataSourceRemotelyOfTripOfPullerImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfSearchLocal>(
       () => DataSourceRemotelyOfSearchLocalImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfLoginUpdateData>(
@@ -57,6 +67,7 @@ Future<void> init() async {
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton<LocationService>(() => LocationServiceImpl());
   sl.registerLazySingleton(() => InternetConnectionChecker());
 
   sl.registerLazySingleton(() => MainApiConnection());
