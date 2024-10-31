@@ -3,8 +3,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/main_map_informations.dart';
 import '../../../../core/utils.dart';
+import '../../../current_puller_tripe/presentation/manager/current_trip_provider.dart';
+import '../../../current_puller_tripe/presentation/pages/current_tripe.dart';
 import '../../../login/presentation/manager/auth_provider.dart';
-import '../../../map_address/domain/entities/full_location_model.dart';
+import '../../../../core/injection/injection_container.dart' as di;
 import '../manager/map_of_puller_provider.dart';
 import '../widgets/body_of_bottom_sheet_for_puller.dart';
 
@@ -14,21 +16,6 @@ class MapOfPuller extends StatefulWidget {
 }
 
 class _MapOfPullerState extends State<MapOfPuller> {
-  // final FullLocationModel tempLocationData;
-  // @override
-  // void initState() {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     context.read<MapOfPullerProvider>().showBottomSheet(context);
-  //     final mapInformation = context.read<MapOfPullerProvider>();
-  //     Utils.showCustomBottomSheetWithButton(
-  //       context,
-  //       ChangeNotifierProvider<MapOfPullerProvider>.value(
-  //           value: mapInformation, child: BodyOfBottomSheetOfPuller()),
-  //     );
-  //   });
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +32,22 @@ class _MapOfPullerState extends State<MapOfPuller> {
           ],
         ),
         child: Consumer<MapOfPullerProvider>(builder: (context, state, child) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (state.fullTripDetailsWithDriver != null) {
+              print(
+                  "myProvider.fullTripDetailsWithDriver:${state.fullTripDetailsWithDriver?.tripDetails?.price}");
+              print(
+                  "myProvider.fullTripDetailsWithDriver:${state.fullTripDetailsWithDriver?.driverId?.name}");
+              Utils.navigateAndRemoveUntilTo(
+                  ChangeNotifierProvider<CurrentTripProvider>(
+                      create: (_) => CurrentTripProvider(
+                          cancelTripOfPullerUseCases: di.sl())
+                        ..saveTripData(
+                            tempDataOfTrip: state.fullTripDetailsWithDriver!),
+                      child: CurrentTripeScreen()),
+                  context);
+            }
+          });
           return Stack(
             children: [
               GoogleMap(

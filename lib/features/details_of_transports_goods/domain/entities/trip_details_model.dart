@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -24,8 +26,8 @@ class TripDetailsModel extends Equatable {
   final String? to;
   final String? toLat;
   final String? toLng;
-  var price;
-  var isCash;
+  dynamic price;
+  dynamic isCash;
   final String? updatedAt;
   final String? createdAt;
   final String? status;
@@ -59,6 +61,7 @@ class TripDetailsModel extends Equatable {
       this.senderPhone});
 
   factory TripDetailsModel.fromJson(Map<String, dynamic> json) {
+    log('TripDetailsModel:$json');
     return _$TripDetailsModelFromJson(json);
   }
 

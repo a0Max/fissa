@@ -73,4 +73,29 @@ class PullerRepositoryImpl implements RepositoriesTripOfPuller {
       return Left(CheckYourNetwork());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> cancelTrip({required int tripId}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final res = await remoteDataSource.cancelTrip(tripId: tripId);
+        print('res:$res');
+        return Right(true);
+      } on DioException catch (e, s) {
+        print('error:0$e');
+        if (e is MessageException) {
+          return Left(ServerFailure(message: "${e.message}"));
+        }
+        return Left(LoginFailure());
+      } catch (e, s) {
+        print('error:$e');
+        if (e is MessageException) {
+          return Left(ServerFailure(message: e.message));
+        }
+        return Left(SendDataFailure());
+      }
+    } else {
+      return Left(CheckYourNetwork());
+    }
+  }
 }

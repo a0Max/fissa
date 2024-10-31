@@ -49,6 +49,9 @@ class MainApiConnection {
   String authLoginEndPoint = "auth/login";
   String authLoginValidateOtpEndPoint = "auth/login-validate-otp";
   String authUpdateProfileEndPoint = "auth/update-profile";
+  String cancelTheTripsEndPoint({required int tripId}) {
+    return "trips/$tripId/cancel-current";
+  }
 
 ////////////////////////////////////////////////////////////////////////////
 

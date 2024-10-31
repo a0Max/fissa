@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -38,6 +40,8 @@ class DriverModel extends Equatable {
       this.image});
 
   factory DriverModel.fromJson(Map<String, dynamic> json) {
+    log('DriverModel:$json');
+
     return _$DriverModelFromJson(json);
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -15,6 +17,8 @@ class DriverReviewModel extends Equatable {
   DriverReviewModel({this.totalRating, this.ratingCount, this.averageRating});
 
   factory DriverReviewModel.fromJson(Map<String, dynamic> json) {
+    log('DriverReviewModel:$json');
+
     return _$DriverReviewModelFromJson(json);
   }
 

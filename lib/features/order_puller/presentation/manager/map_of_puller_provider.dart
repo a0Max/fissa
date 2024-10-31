@@ -15,12 +15,14 @@ import '../../../../core/error/failures_messages.dart';
 import '../../../../core/map_service.dart';
 import '../../../../core/utils.dart';
 import '../../../details_of_transports_goods/domain/entities/trip_details_model.dart';
+import '../../../home/presentation/screens/home_screen.dart';
 import '../../../intro/domain/entities/user_data_model.dart';
 import '../../../login/presentation/manager/auth_provider.dart';
 import '../../../map_address/domain/entities/full_location_model.dart';
 import '../../../map_address/domain/entities/location_model.dart';
 import '../../../map_address/presentation/widget/body_of_bottom_sheet.dart';
 import '../../domain/entities/data_of_trip_puller_model.dart';
+import '../../domain/use_cases/cancel_trip_of_puller_use_case.dart';
 import '../../domain/use_cases/create_trip_of_puller_use_case.dart';
 import '../../domain/use_cases/get_price_trip_of_puller_use_case.dart';
 import '../widgets/body_of_bottom_sheet_for_puller.dart';
@@ -31,13 +33,45 @@ import '../widgets/waiting_accept_from_driver.dart';
 class MapOfPullerProvider extends ChangeNotifier {
   final CreateTripOfPullerUseCases createTripOfPullerUseCases;
   final GetPriceTripOfPullerUseCases getPriceTripOfPullerUseCases;
+  final CancelTripOfPullerUseCases cancelTripOfPullerUseCases;
   final LocationService locationService;
 
   Widget? currentWidget = CheckTheAddress();
   MapOfPullerProvider(
       {required this.createTripOfPullerUseCases,
       required this.locationService,
+      required this.cancelTripOfPullerUseCases,
       required this.getPriceTripOfPullerUseCases});
+
+  _eitherCancelLoadedOrErrorState(
+    Either<Failure, bool> failureOrTrivia,
+  ) {
+    failureOrTrivia.fold(
+      (failure) {
+        stateOfCancel = RequestState.error;
+
+        message = _mapFailureToMessage(failure);
+      },
+      (data) {
+        stateOfCancel = RequestState.done;
+      },
+    );
+
+    notifyListeners();
+  }
+
+  cancelTheCurrentTrip(BuildContext context) async {
+    stateOfCancel = RequestState.loading;
+    notifyListeners();
+
+    final failureOrDoneMessage =
+        await cancelTripOfPullerUseCases(tripId: tripDetails?.id ?? 0);
+    _eitherCancelLoadedOrErrorState(failureOrDoneMessage);
+    notifyListeners();
+    if (stateOfCancel == RequestState.done) {
+      Utils.navigateAndRemoveUntilTo(HomeScreen(), context);
+    }
+  }
 
   List<Widget> listOfWidget = [
     CheckTheAddress(),
@@ -62,6 +96,7 @@ class MapOfPullerProvider extends ChangeNotifier {
 
   RequestState stateOfCreateTrip = RequestState.initial;
   RequestState stateOfPrice = RequestState.initial;
+  RequestState stateOfCancel = RequestState.initial;
   String? priceOfTripe;
   TripDetailsModel? tripDetails;
   String? message;
@@ -257,9 +292,12 @@ class MapOfPullerProvider extends ChangeNotifier {
   void onEvent(PusherEvent event) {
     try {
       print('event:${event.channelName} - ${event.eventName} - ${event.data}');
+      log('${event.data}');
       if (event.eventName == "App\\Events\\TripAccepted") {
         fullTripDetailsWithDriver =
-            DataOfTripePullerModel.fromJson(json.decode(event.data));
+            DataOfTripePullerModel.fromJson(json.decode(event.data.toString()));
+        print(
+            'fullTripDetailsWithDriver:${fullTripDetailsWithDriver?.tripDetails?.price}');
         closeTheSocketOfWaitingAccept();
         notifyListeners();
       }

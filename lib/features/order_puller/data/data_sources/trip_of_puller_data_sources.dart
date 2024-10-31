@@ -9,6 +9,8 @@ abstract class DataSourceRemotelyOfTripOfPuller {
     required UserData userData,
     required FullLocationModel locationData,
   });
+  Future<bool> cancelTrip({required int tripId});
+
   Future<String> getThePriceOrTrip(
       {required UserData userData, required FullLocationModel locationData});
 }
@@ -66,6 +68,18 @@ class DataSourceRemotelyOfTripOfPullerImpl
         });
     if (dio.validResponse(response)) {
       return response.data['total_price'].toString();
+    } else {
+      throw response.data['msg'];
+    }
+  }
+
+  @override
+  Future<bool> cancelTrip({required int tripId}) async {
+    final response = await dio.post(
+      url: '${Connection.baseURL}${dio.cancelTheTripsEndPoint(tripId: tripId)}',
+    );
+    if (dio.validResponse(response)) {
+      return true;
     } else {
       throw response.data['msg'];
     }

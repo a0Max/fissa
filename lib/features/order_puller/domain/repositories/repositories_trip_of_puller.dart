@@ -13,4 +13,5 @@ abstract class RepositoriesTripOfPuller {
     required UserData userData,
     required FullLocationModel locationData,
   });
+  Future<Either<Failure, bool>> cancelTrip({required int tripId});
 }

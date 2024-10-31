@@ -33,6 +33,7 @@ import '../../features/map_address/presentation/manager/map_information.dart';
 import '../../features/order_puller/data/data_sources/trip_of_puller_data_sources.dart';
 import '../../features/order_puller/data/repositories/puller_impl.dart';
 import '../../features/order_puller/domain/repositories/repositories_trip_of_puller.dart';
+import '../../features/order_puller/domain/use_cases/cancel_trip_of_puller_use_case.dart';
 import '../../features/order_puller/domain/use_cases/create_trip_of_puller_use_case.dart';
 import '../../features/order_puller/domain/use_cases/get_price_trip_of_puller_use_case.dart';
 import '../../features/order_puller/presentation/manager/map_of_puller_provider.dart';

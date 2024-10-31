@@ -62,6 +62,7 @@ class MakeSureAboutTheEndPoint extends StatelessWidget {
                       create: (context) => MapOfPullerProvider(
                             createTripOfPullerUseCases: di.sl(),
                             getPriceTripOfPullerUseCases: di.sl(),
+                            cancelTripOfPullerUseCases: di.sl(),
                             locationService: di.sl(),
                           )..onStartGetDataOfTrip(
                               // context: context,

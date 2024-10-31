@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/theme.dart';
+import 'features/current_puller_tripe/presentation/pages/current_tripe.dart';
 import 'features/intro/presentation/screen/intro_screen.dart';
 import 'core/injection/injection_container.dart' as di;
 import 'features/login/presentation/manager/auth_provider.dart';
