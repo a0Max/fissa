@@ -53,6 +53,10 @@ class MainApiConnection {
     return "trips/$tripId/cancel-current";
   }
 
+  String rateTheTripsEndPoint({required int tripId}) {
+    return "trips/$tripId/complete";
+  }
+
 ////////////////////////////////////////////////////////////////////////////
 
   // Validating Request.

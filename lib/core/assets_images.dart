@@ -26,6 +26,7 @@ abstract class AppImages {
   static const String boxThirdStep = "${mainPathOfImages}box_third_step.png";
   static const String vehicle = "${mainPathOfImages}vehicle.png";
   static const String aIcon = "${mainPathOfImages}a_icon.png";
+  static const String endOfTrip = "${mainPathOfImages}end_of_trip.png";
   static const String phoneIcon = "${mainPathOfImages}phone_icon.png";
   static const String personIcon = "${mainPathOfImages}person_icon.png";
   static const String needWorkers = "${mainPathOfImages}need_workers.png";

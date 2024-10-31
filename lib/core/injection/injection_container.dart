@@ -37,6 +37,11 @@ import '../../features/order_puller/domain/use_cases/cancel_trip_of_puller_use_c
 import '../../features/order_puller/domain/use_cases/create_trip_of_puller_use_case.dart';
 import '../../features/order_puller/domain/use_cases/get_price_trip_of_puller_use_case.dart';
 import '../../features/order_puller/presentation/manager/map_of_puller_provider.dart';
+import '../../features/rate_driver/data/data_sources/rate_trip_data_sources.dart';
+import '../../features/rate_driver/data/repositories/rate_impl.dart';
+import '../../features/rate_driver/domain/repositories/repositories_rate_trip.dart';
+import '../../features/rate_driver/domain/use_cases/rate_trip_use_case.dart';
+import '../../features/rate_driver/presentation/manager/rate_driver_provider.dart';
 import '../apis_connections/api_connection.dart';
 import '../map_service.dart';
 import '../network/network_info.dart';
