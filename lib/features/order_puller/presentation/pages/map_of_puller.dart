@@ -71,6 +71,7 @@ class _MapOfPullerState extends State<MapOfPuller> {
                 onMapCreated: (GoogleMapController controller) {
                   state.controller.complete(controller);
                   state.gmapController = controller;
+                  state.drawTheDirection();
                 },
               ),
               Positioned(

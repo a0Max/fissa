@@ -172,22 +172,19 @@ class MapOfPullerProvider extends ChangeNotifier {
     );
     polylines.add(polyline);
 
-    kGooglePlex = LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0);
-    // gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
     markers.add(Marker(
-        markerId: MarkerId(
-            LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0)
-                .toString()),
-        position: LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
-        icon:
-            await locationService.getTheMarker(image: AppImages.markerFixCar)));
+      markerId: MarkerId(
+          LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0).toString()),
+      position: LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
+      icon: await locationService.getTheMarker(image: AppImages.markerFixCar),
+    ));
     markers.add(Marker(
-        markerId: MarkerId(
-            LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0).toString()),
-        position: LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0),
-        icon: await locationService.getTheMarker(image: AppImages.endMarker)
-        // infoWindow: InfoWindow(title: 'Point 1'),
-        ));
+      markerId: MarkerId(
+          LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0).toString()),
+      position: LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0),
+      icon: await locationService.getTheMarker(image: AppImages.endMarker),
+    ));
+
     LatLngBounds bounds = LatLngBounds(
       southwest: LatLng(
         (startLocation?.lat ?? 0) < (endLocation?.lat ?? 0)
@@ -207,8 +204,12 @@ class MapOfPullerProvider extends ChangeNotifier {
       ),
     );
 
-    CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 140);
-    gmapController?.animateCamera(cameraUpdate);
+    if (gmapController != null) {
+      Future.delayed(Duration(milliseconds: 500), () {
+        CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 100);
+        gmapController?.animateCamera(cameraUpdate);
+      });
+    }
     notifyListeners();
   }
 
