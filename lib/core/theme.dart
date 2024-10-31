@@ -46,6 +46,11 @@ class AppTheme {
             fontSize: 18.sp,
             fontWeight: FontWeight.w500,
           ),
+          titleSmall: TextStyle(
+            color: AppColor.blueColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 23.sp,
+          ),
           labelSmall: TextStyle(
             color: AppColor.yellowColor,
             fontFamily: "IBMPlexSans",

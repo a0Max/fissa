@@ -8,6 +8,7 @@ class CategoriesModel extends Equatable {
   String? title;
   String? image;
   String? shortTitle;
+  String? tripType;
   int? isDiscount;
   int? isActive;
   int? discount;
@@ -17,6 +18,7 @@ class CategoriesModel extends Equatable {
       {this.id,
       this.title,
       this.shortTitle,
+      this.tripType,
       this.isDiscount,
       this.image,
       this.isActive,
@@ -34,6 +36,7 @@ class CategoriesModel extends Equatable {
   List<Object?> get props => [
         id,
         title,
+        tripType,
         shortTitle,
         isDiscount,
         isActive,

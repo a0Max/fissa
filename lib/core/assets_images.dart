@@ -13,6 +13,10 @@ abstract class AppImages {
   static const String iconUser = "${mainPathOfImages}user.png";
   static const String marker = "${mainPathOfImages}marker.png";
   static const String markerFixCar = "${mainPathOfImages}marker_fix_car.png";
+  static const String activeTripe = "${mainPathOfImages}active_tripe.png";
+  static const String imageDriver = "${mainPathOfImages}image_driver.png";
+  static const String price = "${mainPathOfImages}price.png";
+  static const String carPlate = "${mainPathOfImages}car_plate.png";
   static const String endMarker = "${mainPathOfImages}end_marker.png";
   static const String pathOfTransportGoods =
       "${mainPathOfImages}path_of_transport_goods.png";
