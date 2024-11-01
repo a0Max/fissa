@@ -54,19 +54,10 @@ class _MapOfPullerState extends State<MapOfPuller> {
                 myLocationEnabled: true,
                 myLocationButtonEnabled: false,
                 zoomControlsEnabled: true,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    state.kGooglePlex?.latitude.toDouble() ??
-                        MainMapInformation.latitude,
-                    state.kGooglePlex?.longitude.toDouble() ??
-                        MainMapInformation.longitude,
-                  ),
-                  zoom: 14.0,
-                ),
-                polylines: state.polylines, // Add the polylines to the map
-
+                polylines: state.polylines,
+                initialCameraPosition:
+                    CameraPosition(target: state.origin, zoom: 7),
                 markers: state.markers,
-
                 onMapCreated: (GoogleMapController controller) {
                   state.controller.complete(controller);
                   state.gmapController = controller;

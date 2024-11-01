@@ -24,6 +24,8 @@ class LocationServiceImpl implements LocationService {
   @override
   Future<BitmapDescriptor> getTheMarker({required String image}) async {
     return await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 3.5), image);
+        ImageConfiguration(devicePixelRatio: 2.5, size: Size(1005, 1005)),
+        image,
+        mipmaps: false);
   }
 }

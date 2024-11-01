@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,6 +17,7 @@ import '../../../../core/assets_images.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
+import '../../../../core/main_map_informations.dart';
 import '../../../../core/map_service.dart';
 import '../../../../core/utils.dart';
 import '../../../home/presentation/screens/home_screen.dart';
@@ -26,6 +29,9 @@ class CurrentTripProvider extends ChangeNotifier {
   late DataOfTripePullerModel dataOfTrip;
   final CancelTripOfPullerUseCases cancelTripOfPullerUseCases;
   final LocationService locationService;
+  late PolylinePoints polylinePoints;
+  List<LatLng> polylineCoordinates = [];
+  Set<Polyline> polylines = {};
 
   CurrentTripProvider(
       {required this.locationService,
@@ -47,64 +53,107 @@ class CurrentTripProvider extends ChangeNotifier {
   LatLng? kGooglePlex;
 
   makeMarkerOfPassengerLocation() async {
-    markers.add(
-      Marker(
-        icon: await locationService.getTheMarker(image: AppImages.marker),
-        markerId: MarkerId(LatLng(
-                double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
-                double.parse(dataOfTrip.tripDetails?.fromLng ?? '0'))
-            .toString()),
-        position: LatLng(double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
-            double.parse(dataOfTrip.tripDetails?.fromLng ?? '0')),
-      ),
-    );
-    markers.add(
-      Marker(
-        icon: await locationService.getTheMarker(image: AppImages.pullerCar),
-        markerId: MarkerId(LatLng(
-                double.parse(dataOfTrip.tripDetails?.toLat ?? '0'),
-                double.parse(dataOfTrip.tripDetails?.toLng ?? '0'))
-            .toString()),
-        position: LatLng(double.parse(dataOfTrip.tripDetails?.toLat ?? '0'),
-            double.parse(dataOfTrip.tripDetails?.toLng ?? '0')),
-      ),
-    );
-    kGooglePlex = LatLng(double.parse(dataOfTrip.tripDetails?.toLat ?? '0'),
+    origin = LatLng(double.parse(dataOfTrip.tripDetails?.toLat ?? '0'),
         double.parse(dataOfTrip.tripDetails?.toLng ?? '0'));
-    Future.delayed(Duration(milliseconds: 500), () {
-      gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
-    });
+    destination = LatLng(double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
+        double.parse(dataOfTrip.tripDetails?.fromLng ?? '0'));
+    log('origin:${origin.toString()}');
+    log('destination:$destination');
+    polylinePoints = PolylinePoints();
+    polylines.clear();
+    notifyListeners();
+    _getRoutePolyline();
+  }
+
+  late LatLng origin;
+  late LatLng destination;
+
+  Future<void> _getRoutePolyline() async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleApiKey: MainMapInformation.mapKey,
+      request: PolylineRequest(
+        origin: PointLatLng(origin.latitude, origin.longitude),
+        destination: PointLatLng(destination.latitude, destination.longitude),
+        mode: TravelMode.driving,
+      ),
+    );
+
+    if (result.points.isNotEmpty) {
+      polylineCoordinates = result.points
+          .map((point) => LatLng(point.latitude, point.longitude))
+          .toList();
+
+      polylines.add(
+        Polyline(
+          polylineId: PolylineId('route'),
+          color: AppColor.yellowColor,
+          width: 4,
+          points: polylineCoordinates,
+        ),
+      );
+      notifyListeners();
+      _setMovingMarker(origin, destination);
+    }
+  }
+
+  double _calculateBearing(LatLng start, LatLng end) {
+    final double startLat = start.latitude * math.pi / 180;
+    final double startLng = start.longitude * math.pi / 180;
+    final double endLat = end.latitude * math.pi / 180;
+    final double endLng = end.longitude * math.pi / 180;
+
+    final double dLng = endLng - startLng;
+
+    final double y = math.sin(dLng) * math.cos(endLat);
+    final double x = math.cos(startLat) * math.sin(endLat) -
+        math.sin(startLat) * math.cos(endLat) * math.cos(dLng);
+
+    final double bearing = math.atan2(y, x);
+    return (bearing * 180 / math.pi + 360) % 360; // Convert to degrees
+  }
+
+  Future<void> _setMovingMarker(LatLng position, LatLng destination) async {
+    final double rotation = _calculateBearing(position, destination);
+    BitmapDescriptor driverIcon =
+        await locationService.getTheMarker(image: AppImages.pullerCar);
+
+    BitmapDescriptor startMarkIcon =
+        await locationService.getTheMarker(image: AppImages.markerFixCar);
+    // markers.clear();
+    Marker driver = Marker(
+      markerId: MarkerId('moving_marker'),
+      position: position,
+      icon: driverIcon,
+      // rotation: rotation, // Rotate based on the bearing
+      anchor: Offset(0.5, 0.5), // Center the icon
+    );
+    Marker tripOwner = Marker(
+      markerId: MarkerId('trip_owner'),
+      position: destination,
+      icon: startMarkIcon,
+      // rotation: rotation, // Rotate based on the bearing
+      anchor: Offset(0.5, 0.5), // Center the icon
+    );
+    markers.add(driver);
+    markers.add(tripOwner);
+
+    kGooglePlex = position;
+    gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
     notifyListeners();
   }
 
   updateTheCarLocation() async {
-    markers.clear();
-    markers.add(
-      Marker(
-        icon: await locationService.getTheMarker(image: AppImages.marker),
-        markerId: MarkerId(LatLng(
-                double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
-                double.parse(dataOfTrip.tripDetails?.fromLng ?? '0'))
-            .toString()),
-        position: LatLng(double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
-            double.parse(dataOfTrip.tripDetails?.fromLng ?? '0')),
-      ),
-    );
-    markers.add(
-      Marker(
-        icon: await locationService.getTheMarker(image: AppImages.pullerCar),
-        markerId: MarkerId(LatLng(double.parse(currentTripData?.lat ?? '0'),
-                double.parse(currentTripData?.lng ?? '0'))
-            .toString()),
-        position: LatLng(double.parse(currentTripData?.lat ?? '0'),
-            double.parse(currentTripData?.lng ?? '0')),
-      ),
-    );
-
-    kGooglePlex = LatLng(double.parse(currentTripData?.lat ?? '0'),
+    origin = LatLng(double.parse(currentTripData?.lat ?? '0'),
         double.parse(currentTripData?.lng ?? '0'));
+    notifyListeners();
+
+    kGooglePlex = origin;
+    polylines.clear();
+
     gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
     notifyListeners();
+
+    _getRoutePolyline();
   }
 
   PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();

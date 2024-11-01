@@ -2,9 +2,11 @@ import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:fisaa/features/login/presentation/manager/auth_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/enums/request_state.dart';
 import '../../../../core/widget/button_widget.dart';
 import '../../../map_address/presentation/manager/map_information.dart';
 import '../manager/map_of_puller_provider.dart';
@@ -103,14 +105,19 @@ class CheckTheAddress extends StatelessWidget {
                             .bodyMedium
                             ?.copyWith(fontSize: 16.sp),
                       ),
-                      Text(
-                        "${context.watch<MapOfPullerProvider>().priceOfTripe ?? ''} دل",
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontSize: 18.sp),
-                      ),
+                      if (context.watch<MapOfPullerProvider>().stateOfPrice ==
+                          RequestState.loading) ...{
+                        CupertinoActivityIndicator()
+                      } else ...{
+                        Text(
+                          "${context.watch<MapOfPullerProvider>().priceOfTripe ?? ''} دل",
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontSize: 18.sp),
+                        ),
+                      }
                     ],
                   ),
                 ],

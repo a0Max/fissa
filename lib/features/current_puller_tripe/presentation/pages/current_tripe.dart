@@ -22,24 +22,32 @@ class CurrentTripeScreen extends StatelessWidget {
         return Stack(
           children: [
             GoogleMap(
-              markers: state.markers,
               mapType: MapType.normal,
               myLocationEnabled: false,
               myLocationButtonEnabled: false,
               zoomControlsEnabled: false,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(
-                  state.kGooglePlex?.latitude.toDouble() ??
-                      MainMapInformation.latitude,
-                  state.kGooglePlex?.longitude.toDouble() ??
-                      MainMapInformation.longitude,
-                ),
-                zoom: 14.0,
-              ),
+              polylines: state.polylines,
+
+              initialCameraPosition:
+                  CameraPosition(target: state.origin, zoom: 7),
+              markers: state.markers,
               onMapCreated: (GoogleMapController controller) {
                 state.controller.complete(controller);
                 state.gmapController = controller;
               },
+              // initialCameraPosition: CameraPosition(
+              //   target: LatLng(
+              //     state.kGooglePlex?.latitude.toDouble() ??
+              //         MainMapInformation.latitude,
+              //     state.kGooglePlex?.longitude.toDouble() ??
+              //         MainMapInformation.longitude,
+              //   ),
+              //   zoom: 14.0,
+              // ),
+              // onMapCreated: (GoogleMapController controller) {
+              //   state.controller.complete(controller);
+              //   state.gmapController = controller;
+              // },
             ),
             Positioned(
               top: 0,
@@ -228,25 +236,11 @@ class CurrentTripeScreen extends StatelessWidget {
                                           ],
                                         ),
                                         Stack(
+                                          alignment: Alignment.bottomRight,
                                           children: [
-                                            CachedNetworkImage(
-                                              imageUrl: context
-                                                      .read<AuthProvider>()
-                                                      .stuffTypesData
-                                                      ?.types
-                                                      ?.first
-                                                      .image ??
-                                                  '',
-                                              height: 50.h,
-                                              progressIndicatorBuilder:
-                                                  (x, b, c) {
-                                                return const CupertinoActivityIndicator();
-                                              },
-                                              imageBuilder: (x, y) {
-                                                return CircleAvatar(
-                                                    child: Image.asset(
-                                                        AppImages.imageDriver));
-                                              },
+                                            Image.asset(
+                                              AppImages.pullerCarUi,
+                                              width: 120.w,
                                             ),
                                             Container(
                                               padding: const EdgeInsets.all(5),
@@ -255,7 +249,13 @@ class CurrentTripeScreen extends StatelessWidget {
                                                       image: AssetImage(
                                                           AppImages.carPlate))),
                                               child: Text(
-                                                '5-34566',
+                                                state
+                                                        .dataOfTrip
+                                                        .driverId
+                                                        ?.carRequests
+                                                        ?.first
+                                                        .plateNum ??
+                                                    '',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .labelLarge

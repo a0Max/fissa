@@ -61,7 +61,6 @@ class TripDetailsModel extends Equatable {
       this.senderPhone});
 
   factory TripDetailsModel.fromJson(Map<String, dynamic> json) {
-    log('TripDetailsModel:$json');
     return _$TripDetailsModelFromJson(json);
   }
 

@@ -10,6 +10,7 @@ abstract class AppImages {
   static const String imageTracksIntro = "${mainPathOfImages}tracks_intro.png";
   static const String loading = "${mainPathOfImages}loading.png";
   static const String imageLibyaFlag = "${mainPathOfImages}libya_flag.png";
+  static const String pullerCarUi = "${mainPathOfImages}puller_car_ui.png";
   static const String iconUser = "${mainPathOfImages}user.png";
   static const String marker = "${mainPathOfImages}marker.png";
   static const String markerFixCar = "${mainPathOfImages}marker_fix_car.png";

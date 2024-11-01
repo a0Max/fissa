@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
@@ -12,6 +14,7 @@ import '../../../../core/assets_images.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
+import '../../../../core/main_map_informations.dart';
 import '../../../../core/map_service.dart';
 import '../../../../core/utils.dart';
 import '../../../details_of_transports_goods/domain/entities/trip_details_model.dart';
@@ -91,7 +94,7 @@ class MapOfPullerProvider extends ChangeNotifier {
 
   LocationModel? startLocation;
   LocationModel? endLocation;
-  Set<Polyline> polylines = {};
+  // Set<Polyline> polylines = {};
   LatLng? kGooglePlex;
 
   RequestState stateOfCreateTrip = RequestState.initial;
@@ -159,25 +162,60 @@ class MapOfPullerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  drawTheDirection() async {
-    Polyline polyline = Polyline(
-      polylineId: PolylineId("line1"),
-      visible: true,
-      points: [
-        LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
-        LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0)
-      ],
-      color: AppColor.yellowColor,
-      width: 5,
-    );
-    polylines.add(polyline);
+  // Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
+  late LatLng origin;
+  late LatLng destination;
 
-    markers.add(Marker(
-      markerId: MarkerId(
-          LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0).toString()),
-      position: LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0),
-      icon: await locationService.getTheMarker(image: AppImages.markerFixCar),
-    ));
+  final Set<Polyline> polylines = {};
+  late PolylinePoints polylinePoints;
+  drawTheDirection() async {
+    polylinePoints = PolylinePoints();
+    await _getRoutePolyline();
+    notifyListeners();
+  }
+
+  Future<void> _getRoutePolyline() async {
+    origin = LatLng(startLocation?.lat ?? 0, startLocation?.lng ?? 0);
+    destination = LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0);
+    notifyListeners();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleApiKey: MainMapInformation.mapKey,
+      request: PolylineRequest(
+        origin: PointLatLng(origin.latitude, origin.longitude),
+        destination: PointLatLng(destination.latitude, destination.longitude),
+        mode: TravelMode.driving,
+      ),
+    );
+    BitmapDescriptor endMarkIcon =
+        await locationService.getTheMarker(image: AppImages.endMarker);
+    BitmapDescriptor startMarkIcon =
+        await locationService.getTheMarker(image: AppImages.markerFixCar);
+    if (result.points.isNotEmpty) {
+      polylineCoordinates = result.points
+          .map((point) => LatLng(point.latitude, point.longitude))
+          .toList();
+
+      polylines.add(
+        Polyline(
+          polylineId: PolylineId('route'),
+          color: AppColor.yellowColor,
+          width: 4,
+          points: polylineCoordinates,
+        ),
+      );
+      markers.add(Marker(
+        markerId: MarkerId('origin'),
+        position: origin,
+        icon: startMarkIcon,
+      ));
+      markers.add(Marker(
+        markerId: MarkerId('destination'),
+        position: destination,
+        icon: endMarkIcon,
+      ));
+    }
     markers.add(Marker(
       markerId: MarkerId(
           LatLng(endLocation?.lat ?? 0, endLocation?.lng ?? 0).toString()),

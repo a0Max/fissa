@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../details_of_transports_goods/domain/entities/trip_details_model.dart';
+import 'car_model.dart';
 
 part 'driver_model.g.dart';
 
@@ -23,11 +24,13 @@ class DriverModel extends Equatable {
   int? isAvailable;
   String? otp;
   String? image;
+  List<CarModel>? carRequests;
 
   DriverModel(
       {this.id,
       this.name,
       this.phone,
+      this.carRequests,
       this.countryCode,
       this.isDriver,
       this.isActive,
@@ -40,8 +43,6 @@ class DriverModel extends Equatable {
       this.image});
 
   factory DriverModel.fromJson(Map<String, dynamic> json) {
-    log('DriverModel:$json');
-
     return _$DriverModelFromJson(json);
   }
 
@@ -51,6 +52,7 @@ class DriverModel extends Equatable {
   List<Object?> get props => [
         id,
         name,
+        carRequests,
         phone,
         countryCode,
         isActive,
