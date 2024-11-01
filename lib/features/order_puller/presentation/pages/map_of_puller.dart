@@ -40,8 +40,7 @@ class _MapOfPullerState extends State<MapOfPuller> {
                   "myProvider.fullTripDetailsWithDriver:${state.fullTripDetailsWithDriver?.driverId?.name}");
               Utils.navigateAndRemoveUntilTo(
                   ChangeNotifierProvider<CurrentTripProvider>(
-                      create: (_) => CurrentTripProvider(
-                          cancelTripOfPullerUseCases: di.sl())
+                      create: (_) => di.sl<CurrentTripProvider>()
                         ..saveTripData(
                             tempDataOfTrip: state.fullTripDetailsWithDriver!),
                       child: CurrentTripeScreen()),

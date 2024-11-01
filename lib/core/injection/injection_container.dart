@@ -1,6 +1,7 @@
 import 'package:fisaa/features/login/presentation/manager/auth_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import '../../features/current_puller_tripe/presentation/manager/current_trip_provider.dart';
 import '../../features/details_of_transports_goods/data/data_sources/trip_of_transports_goods_data_sources.dart';
 import '../../features/details_of_transports_goods/data/repositories/transports_goods_impl.dart';
 import '../../features/details_of_transports_goods/domain/repositories/repositories_trip_of_transports_goods.dart';

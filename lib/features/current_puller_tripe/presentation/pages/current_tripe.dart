@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/app_color.dart';
+import '../../../../core/enums/state_of_ride.dart';
+import '../../../../core/main_map_informations.dart';
 import '../manager/current_trip_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,17 +21,26 @@ class CurrentTripeScreen extends StatelessWidget {
       body: Consumer<CurrentTripProvider>(builder: (context, state, child) {
         return Stack(
           children: [
-            // Google Map
-            const GoogleMap(
-              initialCameraPosition: CameraPosition(
-                target:
-                    LatLng(32.8872, 13.1913), // Replace with actual coordinates
-                zoom: 14,
-              ),
+            GoogleMap(
+              markers: state.markers,
+              mapType: MapType.normal,
+              myLocationEnabled: false,
+              myLocationButtonEnabled: false,
               zoomControlsEnabled: false,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                  state.kGooglePlex?.latitude.toDouble() ??
+                      MainMapInformation.latitude,
+                  state.kGooglePlex?.longitude.toDouble() ??
+                      MainMapInformation.longitude,
+                ),
+                zoom: 14.0,
+              ),
+              onMapCreated: (GoogleMapController controller) {
+                state.controller.complete(controller);
+                state.gmapController = controller;
+              },
             ),
-
-            // Top Info Banner
             Positioned(
               top: 0,
               child: Column(
@@ -46,7 +57,14 @@ class CurrentTripeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         MediaQuery.of(context).padding.top.ph,
-                        _theDriverOnTheWay(context),
+                        if (state.currentTripData == null) ...{
+                          _theDriverOnTheWay(context)
+                        } else ...{
+                          state.currentTripData?.getTheStateOfTrip() ==
+                                  StateOfRide.way
+                              ? _theDriverOnTheWay(context)
+                              : _youAreOnTheTrip(context),
+                        }
                       ],
                     ),
                   ),
@@ -80,7 +98,6 @@ class CurrentTripeScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             DraggableScrollableSheet(
               initialChildSize: 0.35,
               minChildSize: 0.25,
@@ -257,7 +274,14 @@ class CurrentTripeScreen extends StatelessWidget {
                                 color: AppColor.lightGreyColor3,
                               ),
                               10.ph,
-                              _theCallingOnTheWay(context),
+                              if (state.currentTripData == null) ...{
+                                _theCallingOnTheWay(context)
+                              } else ...{
+                                state.currentTripData?.getTheStateOfTrip() ==
+                                        StateOfRide.way
+                                    ? _theCallingOnTheWay(context)
+                                    : _theCallingOnTheTrip(context),
+                              }
                             ],
                           ),
                         ),
@@ -411,20 +435,22 @@ class CurrentTripeScreen extends StatelessWidget {
               Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 18.sp),
         ),
         10.pw,
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-          decoration: BoxDecoration(
-            color: AppColor.blueColor,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            '25 دقيقة',
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge
-                ?.copyWith(fontSize: 15.sp),
-          ),
-        ),
+        Consumer<CurrentTripProvider>(builder: (context, state, child) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            decoration: BoxDecoration(
+              color: AppColor.blueColor,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              '${state.currentTripData?.etaMinutes ?? 0} دقيقة',
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge
+                  ?.copyWith(fontSize: 15.sp),
+            ),
+          );
+        }),
       ],
     );
   }
@@ -451,10 +477,11 @@ class CurrentTripeScreen extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              // print(Uri.parse(
-              //     "tel://${state.dataOfTrip?.tripDetails?.price}"));
-              launchUrl(Uri.parse(
-                  "tel://${state.dataOfTrip?.driverId?.countryCode}${state.dataOfTrip?.driverId?.phone}"));
+              context
+                  .read<CurrentTripProvider>()
+                  .makeMarkerOfPassengerLocation();
+              // launchUrl(Uri.parse(
+              //     "tel://${state.dataOfTrip?.driverId?.countryCode}${state.dataOfTrip?.driverId?.phone}"));
             },
             child: Column(
               children: [

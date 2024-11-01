@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
@@ -5,22 +7,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 import '../../../../core/app_color.dart';
+import '../../../../core/assets_images.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
+import '../../../../core/map_service.dart';
 import '../../../../core/utils.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../order_puller/domain/entities/data_of_trip_puller_model.dart';
 import '../../../order_puller/domain/use_cases/cancel_trip_of_puller_use_case.dart';
+import '../../domain/entities/current_trip_model.dart';
 
 class CurrentTripProvider extends ChangeNotifier {
   late DataOfTripePullerModel dataOfTrip;
   final CancelTripOfPullerUseCases cancelTripOfPullerUseCases;
+  final LocationService locationService;
 
-  CurrentTripProvider({required this.cancelTripOfPullerUseCases});
+  CurrentTripProvider(
+      {required this.locationService,
+      required this.cancelTripOfPullerUseCases});
   saveTripData({required DataOfTripePullerModel tempDataOfTrip}) {
     dataOfTrip = tempDataOfTrip;
     print(
@@ -28,7 +37,74 @@ class CurrentTripProvider extends ChangeNotifier {
     print(
         "myProvider.fullTripDetailsWithDriver:${tempDataOfTrip.driverId?.name}");
     notifyListeners();
+    makeMarkerOfPassengerLocation();
     connectTheSocketToCheckIfTheTripAccept();
+  }
+
+  final Set<Marker> markers = <Marker>{};
+  GoogleMapController? gmapController;
+  Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+  LatLng? kGooglePlex;
+
+  makeMarkerOfPassengerLocation() async {
+    markers.add(
+      Marker(
+        icon: await locationService.getTheMarker(image: AppImages.marker),
+        markerId: MarkerId(LatLng(
+                double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
+                double.parse(dataOfTrip.tripDetails?.fromLng ?? '0'))
+            .toString()),
+        position: LatLng(double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
+            double.parse(dataOfTrip.tripDetails?.fromLng ?? '0')),
+      ),
+    );
+    markers.add(
+      Marker(
+        icon: await locationService.getTheMarker(image: AppImages.pullerCar),
+        markerId: MarkerId(LatLng(
+                double.parse(dataOfTrip.tripDetails?.toLat ?? '0'),
+                double.parse(dataOfTrip.tripDetails?.toLng ?? '0'))
+            .toString()),
+        position: LatLng(double.parse(dataOfTrip.tripDetails?.toLat ?? '0'),
+            double.parse(dataOfTrip.tripDetails?.toLng ?? '0')),
+      ),
+    );
+    kGooglePlex = LatLng(double.parse(dataOfTrip.tripDetails?.toLat ?? '0'),
+        double.parse(dataOfTrip.tripDetails?.toLng ?? '0'));
+    Future.delayed(Duration(milliseconds: 500), () {
+      gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
+    });
+    notifyListeners();
+  }
+
+  updateTheCarLocation() async {
+    markers.clear();
+    markers.add(
+      Marker(
+        icon: await locationService.getTheMarker(image: AppImages.marker),
+        markerId: MarkerId(LatLng(
+                double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
+                double.parse(dataOfTrip.tripDetails?.fromLng ?? '0'))
+            .toString()),
+        position: LatLng(double.parse(dataOfTrip.tripDetails?.fromLat ?? '0'),
+            double.parse(dataOfTrip.tripDetails?.fromLng ?? '0')),
+      ),
+    );
+    markers.add(
+      Marker(
+        icon: await locationService.getTheMarker(image: AppImages.pullerCar),
+        markerId: MarkerId(LatLng(double.parse(currentTripData?.lat ?? '0'),
+                double.parse(currentTripData?.lng ?? '0'))
+            .toString()),
+        position: LatLng(double.parse(currentTripData?.lat ?? '0'),
+            double.parse(currentTripData?.lng ?? '0')),
+      ),
+    );
+
+    kGooglePlex = LatLng(double.parse(currentTripData?.lat ?? '0'),
+        double.parse(currentTripData?.lng ?? '0'));
+    gmapController?.animateCamera(CameraUpdate.newLatLng(kGooglePlex!));
+    notifyListeners();
   }
 
   PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
@@ -44,7 +120,7 @@ class CurrentTripProvider extends ChangeNotifier {
         cluster: 'eu');
     await pusher.subscribe(
         channelName:
-            'private-trip.passenger.${dataOfTrip.tripDetails?.passengerId ?? 0}');
+            'trip.passenger.${dataOfTrip.tripDetails?.passengerId ?? 0}');
     await pusher.connect();
   }
 
@@ -62,6 +138,7 @@ class CurrentTripProvider extends ChangeNotifier {
     log("Me: $me");
   }
 
+  CurrentTripModel? currentTripData;
   DataOfTripePullerModel? newTripDetailsWithDriver;
   void onDecryptionFailure(String event, String reason) {
     log("onDecryptionFailure: $event reason: $reason");
@@ -74,6 +151,13 @@ class CurrentTripProvider extends ChangeNotifier {
   void onEvent(PusherEvent event) {
     try {
       print('event:${event.channelName} - ${event.eventName} - ${event.data}');
+      if (event.eventName == "App\\Events\\DriverTripLocationUpdate") {
+        currentTripData =
+            CurrentTripModel.fromJson(json.decode(event.data.toString()));
+
+        notifyListeners();
+        updateTheCarLocation();
+      }
     } catch (e) {
       log("Failed to parse event data: $e");
     }

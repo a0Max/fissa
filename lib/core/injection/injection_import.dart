@@ -16,6 +16,8 @@ Future<void> init() async {
       saveLocalSearchUseCases: sl()));
   sl.registerFactory(() => HomeProvider(getHomeDataUseCases: sl()));
   sl.registerFactory(() => RateDriverProvider(rateTripUseCases: sl()));
+  sl.registerFactory(() => CurrentTripProvider(
+      locationService: sl(), cancelTripOfPullerUseCases: sl()));
   // sl.registerFactory(() => MapOfPullerProvider(
   //     createTripOfPullerUseCases: sl(),
   //     getPriceTripOfPullerUseCases: sl(),
