@@ -15,6 +15,7 @@ import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import '../../../../core/app_color.dart';
 import '../../../../core/assets_images.dart';
 import '../../../../core/enums/request_state.dart';
+import '../../../../core/enums/state_of_ride.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/failures_messages.dart';
 import '../../../../core/main_map_informations.dart';
@@ -23,6 +24,7 @@ import '../../../../core/utils.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../order_puller/domain/entities/data_of_trip_puller_model.dart';
 import '../../../order_puller/domain/use_cases/cancel_trip_of_puller_use_case.dart';
+import '../../../rate_driver/presentation/pages/rate_diver.dart';
 import '../../domain/entities/current_trip_model.dart';
 
 class CurrentTripProvider extends ChangeNotifier {
@@ -32,7 +34,7 @@ class CurrentTripProvider extends ChangeNotifier {
   late PolylinePoints polylinePoints;
   List<LatLng> polylineCoordinates = [];
   Set<Polyline> polylines = {};
-
+  BuildContext? context;
   CurrentTripProvider(
       {required this.locationService,
       required this.cancelTripOfPullerUseCases});
@@ -45,6 +47,11 @@ class CurrentTripProvider extends ChangeNotifier {
     notifyListeners();
     makeMarkerOfPassengerLocation();
     connectTheSocketToCheckIfTheTripAccept();
+  }
+
+  saveContext(BuildContext tempContext) {
+    context = tempContext;
+    notifyListeners();
   }
 
   final Set<Marker> markers = <Marker>{};
@@ -119,7 +126,7 @@ class CurrentTripProvider extends ChangeNotifier {
 
     BitmapDescriptor startMarkIcon =
         await locationService.getTheMarker(image: AppImages.markerFixCar);
-    // markers.clear();
+    markers.clear();
     Marker driver = Marker(
       markerId: MarkerId('moving_marker'),
       position: position,
@@ -143,8 +150,8 @@ class CurrentTripProvider extends ChangeNotifier {
   }
 
   updateTheCarLocation() async {
-    origin = LatLng(double.parse(currentTripData?.lat ?? '0'),
-        double.parse(currentTripData?.lng ?? '0'));
+    origin = LatLng(double.parse((currentTripData?.lat ?? '0').toString()),
+        double.parse((currentTripData?.lng ?? '0').toString()));
     notifyListeners();
 
     kGooglePlex = origin;
@@ -199,13 +206,25 @@ class CurrentTripProvider extends ChangeNotifier {
 
   void onEvent(PusherEvent event) {
     try {
-      print('event:${event.channelName} - ${event.eventName} - ${event.data}');
+      print(
+          '${(event.eventName == "App\\Events\\DriverTripLocationUpdate")}--event:${event.channelName} - ${event.eventName} - ${event.data}');
       if (event.eventName == "App\\Events\\DriverTripLocationUpdate") {
+        print('currentTripData');
         currentTripData =
             CurrentTripModel.fromJson(json.decode(event.data.toString()));
-
-        notifyListeners();
-        updateTheCarLocation();
+        print(
+            '(currentTripData?.getTheStateOfTrip() == StateOfRide.way):${(currentTripData?.getTheStateOfTrip() == StateOfRide.way)}');
+        if (currentTripData?.getTheStateOfTrip() == StateOfRide.completed) {
+          Utils.navigateAndRemoveUntilTo(
+              RateDiverScreen(
+                idOfTrip: dataOfTrip.tripDetails?.id ?? 0,
+              ),
+              context!);
+        }
+        if (currentTripData?.getTheStateOfTrip() == StateOfRide.way) {
+          notifyListeners();
+          updateTheCarLocation();
+        }
       }
     } catch (e) {
       log("Failed to parse event data: $e");

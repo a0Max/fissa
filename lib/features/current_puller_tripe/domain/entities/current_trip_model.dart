@@ -11,8 +11,8 @@ part 'current_trip_model.g.dart';
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class CurrentTripModel extends Equatable {
   int? tripId;
-  String? lat;
-  String? lng;
+  dynamic? lat;
+  dynamic? lng;
   int? etaMinutes;
   String? status;
 

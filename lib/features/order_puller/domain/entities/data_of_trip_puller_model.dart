@@ -13,8 +13,10 @@ class DataOfTripePullerModel extends Equatable {
   TripDetailsModel? tripDetails;
   DriverReviewModel? driverReviews;
   DriverModel? driverId;
+  num? etaMinutes;
 
-  DataOfTripePullerModel({this.tripDetails, this.driverReviews, this.driverId});
+  DataOfTripePullerModel(
+      {this.tripDetails, this.driverReviews, this.driverId, this.etaMinutes});
 
   factory DataOfTripePullerModel.fromJson(Map<String, dynamic> json) {
     return _$DataOfTripePullerModelFromJson(json);
@@ -24,5 +26,5 @@ class DataOfTripePullerModel extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [tripDetails, driverId, driverReviews];
+  List<Object?> get props => [tripDetails, driverId, driverReviews, etaMinutes];
 }

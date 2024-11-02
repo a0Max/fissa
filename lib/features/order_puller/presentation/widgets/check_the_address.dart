@@ -56,71 +56,73 @@ class CheckTheAddress extends StatelessWidget {
                 child: Divider(
                   color: AppColor.lightGreyColor2,
                 )),
-            Container(
-              height: 70.h,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(AppImages.requestStartEndLocation),
-                      10.pw,
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              mapInformation.locationData?.startAddress ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(fontSize: 16.sp),
-                            ),
-                            Text(
-                              mapInformation.locationData?.endAddress ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(fontSize: 16.sp),
-                            ),
-                          ],
+            FittedBox(
+              child: Container(
+                height: 70.h,
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(AppImages.requestStartEndLocation),
+                        10.pw,
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                mapInformation.locationData?.startAddress ?? '',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(fontSize: 16.sp),
+                              ),
+                              Text(
+                                mapInformation.locationData?.endAddress ?? '',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(fontSize: 16.sp),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "التكلفة",
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontSize: 16.sp),
-                      ),
-                      if (context.watch<MapOfPullerProvider>().stateOfPrice ==
-                          RequestState.loading) ...{
-                        CupertinoActivityIndicator()
-                      } else ...{
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
                         Text(
-                          "${context.watch<MapOfPullerProvider>().priceOfTripe ?? ''} دل",
+                          "التكلفة",
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context)
                               .textTheme
-                              .bodyLarge
-                              ?.copyWith(fontSize: 18.sp),
+                              .bodyMedium
+                              ?.copyWith(fontSize: 16.sp),
                         ),
-                      }
-                    ],
-                  ),
-                ],
+                        if (context.watch<MapOfPullerProvider>().stateOfPrice ==
+                            RequestState.loading) ...{
+                          CupertinoActivityIndicator()
+                        } else ...{
+                          Text(
+                            "${context.watch<MapOfPullerProvider>().priceOfTripe ?? ''} دل",
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(fontSize: 18.sp),
+                          ),
+                        }
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             10.ph,

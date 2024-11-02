@@ -34,6 +34,7 @@ class CurrentTripeScreen extends StatelessWidget {
               onMapCreated: (GoogleMapController controller) {
                 state.controller.complete(controller);
                 state.gmapController = controller;
+                context.read<CurrentTripProvider>().saveContext(context);
               },
               // initialCameraPosition: CameraPosition(
               //   target: LatLng(
@@ -443,7 +444,7 @@ class CurrentTripeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              '${state.currentTripData?.etaMinutes ?? 0} دقيقة',
+              '${state.currentTripData?.etaMinutes ?? state.dataOfTrip.etaMinutes ?? 0} دقيقة',
               style: Theme.of(context)
                   .textTheme
                   .labelLarge
