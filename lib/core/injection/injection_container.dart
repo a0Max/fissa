@@ -23,6 +23,7 @@ import '../../features/login/domain/repositories/repositories_login_update.dart'
 import '../../features/login/domain/use_cases/add_required_data_use_cases.dart';
 import '../../features/login/domain/use_cases/check_otp_use_cases.dart';
 import '../../features/login/domain/use_cases/login_use_cases.dart';
+import '../../features/login/domain/use_cases/update_profile_use_cases.dart';
 import '../../features/map_address/data/data_sources/local_search_data_source.dart';
 import '../../features/map_address/data/data_sources/search_about_location_information.dart';
 import '../../features/map_address/data/repositories/map_repository_impl.dart';

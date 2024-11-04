@@ -80,7 +80,7 @@ class EmailScreen extends StatelessWidget {
                               hintText: 'البريد الالكترونى',
                               controler: _emailController,
                               validatorTextField: (val) =>
-                                  ValidationTextField.phoneNumberInput(val),
+                                  ValidationTextField.emailInput(val),
                               labelText: 'البريد الالكترونى',
                               onChanged: (e) {},
                               keyboardType: TextInputType.text,

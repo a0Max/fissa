@@ -19,6 +19,15 @@ abstract class AppImages {
   static const String price = "${mainPathOfImages}price.png";
   static const String carPlate = "${mainPathOfImages}car_plate.png";
   static const String endMarker = "${mainPathOfImages}end_marker.png";
+  static const String calendar = "${mainPathOfImages}calendar.png";
+  static const String editImage = "${mainPathOfImages}edit_image.png";
+  static const String aboutPhone = "${mainPathOfImages}about_phone.png";
+  static const String notification = "${mainPathOfImages}notification.png";
+  static const String shield = "${mainPathOfImages}shield.png";
+  static const String user2 = "${mainPathOfImages}user2.png";
+  static const String home = "${mainPathOfImages}home.png";
+  static const String logout = "${mainPathOfImages}logout.png";
+  static const String userProfile = "${mainPathOfImages}user_profile.png";
   static const String pathOfTransportGoods =
       "${mainPathOfImages}path_of_transport_goods.png";
   static const String iconMail = "${mainPathOfImages}mail.png";

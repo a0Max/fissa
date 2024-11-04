@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:fisaa/features/home/presentation/screens/home_screen.dart';
 import 'package:fisaa/features/login/presentation/screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../core/app_color.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
@@ -18,6 +20,7 @@ import '../../domain/entities/user_data_with_otp_model.dart';
 import '../../domain/use_cases/add_required_data_use_cases.dart';
 import '../../domain/use_cases/check_otp_use_cases.dart';
 import '../../domain/use_cases/login_use_cases.dart';
+import '../../domain/use_cases/update_profile_use_cases.dart';
 import '../screen/complete_sign_up.dart';
 import '../screen/name_screen.dart';
 import '../screen/otp_screen.dart';
@@ -34,10 +37,12 @@ class AuthProvider extends ChangeNotifier {
   final AddRequiredDataUseCases addRequiredDataUseCases;
   final CheckOtpUseCases checkOtpUseCases;
   final LoginUseCases loginUseCases;
+  final UpdateUserDataUseCases updateUserDataUseCases;
 
   AuthProvider(
       {required this.getUserDataUseCases,
       required this.addRequiredDataUseCases,
+      required this.updateUserDataUseCases,
       required this.checkOtpUseCases,
       required this.loginUseCases,
       required this.getStuffTypesDataUseCases}) {
@@ -289,6 +294,66 @@ class AuthProvider extends ChangeNotifier {
       },
     );
     notifyListeners();
+  }
+
+  bool activeNotification = false;
+  updateNotificationActive() {
+    print('updateNotificationActive:$activeNotification');
+    activeNotification = !activeNotification;
+    print('updateNotificationActive:$activeNotification');
+    notifyListeners();
+  }
+
+  File? selectedImage;
+  void setImage(XFile image) {
+    selectedImage = File(image.path);
+    notifyListeners();
+  }
+
+  RequestState stateOfUpdateProfile = RequestState.initial;
+
+  _eitherLoadedOrErrorUpdateState(
+    Either<Failure, UserData> failureOrTrivia,
+  ) {
+    failureOrTrivia.fold(
+      (failure) {
+        message = _mapFailureToMessage(failure);
+        print('messageL:$message');
+        stateOfUpdateProfile = RequestState.error;
+      },
+      (data) {
+        userData = data;
+        stateOfUpdateProfile = RequestState.done;
+      },
+    );
+    notifyListeners();
+  }
+
+  updateUserFromProfileData({
+    required String email,
+    required String name,
+    required BuildContext context,
+  }) async {
+    print('loginRequest');
+    stateOfUpdateProfile = RequestState.loading;
+    notifyListeners();
+
+    final failureOrDoneMessage = await updateUserDataUseCases(
+        email: email, name: name, image: selectedImage);
+    _eitherLoadedOrErrorUpdateState(failureOrDoneMessage);
+    print('stateOfHome:$stateOfHome');
+    if (stateOfUpdateProfile == RequestState.error) {
+      Fluttertoast.showToast(
+          msg: message ?? '',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: AppColor.mainColor,
+          textColor: Colors.white,
+          fontSize: 16.0.sp);
+    } else if (stateOfUpdateProfile == RequestState.done) {
+      Navigator.of(context).pop();
+    }
   }
 }
 

@@ -25,6 +25,7 @@ Future<void> init() async {
 
   //UseCase
   sl.registerLazySingleton(() => CancelTripOfPullerUseCases(sl()));
+  sl.registerLazySingleton(() => UpdateUserDataUseCases(sl()));
   sl.registerLazySingleton(() => MapInformationUseCases(sl()));
   sl.registerLazySingleton(() => CreateTripOfPullerUseCases(sl()));
   sl.registerLazySingleton(() => GetPriceTripOfPullerUseCases(sl()));

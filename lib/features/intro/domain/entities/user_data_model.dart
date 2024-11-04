@@ -21,11 +21,15 @@ class UserData extends Equatable {
   final String? createdAt;
   final String? updatedAt;
   final int? isAvailable;
+  final String? otp;
+  final String? image;
 
   UserData(
       {this.id,
       this.name,
       this.email,
+      this.otp,
+      this.image,
       this.phone,
       this.countryCode,
       this.isDriver,
@@ -42,6 +46,10 @@ class UserData extends Equatable {
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return _$UserDataFromJson(json);
+  }
+  @override
+  String toString() {
+    return 'name:$name - email:$email - phone:$phone';
   }
 
   Map<String, dynamic> toJson() => _$UserDataToJson(this);
@@ -60,6 +68,8 @@ class UserData extends Equatable {
   @override
   List<Object?> get props => [
         id,
+        otp,
+        image,
         name,
         email,
         phone,

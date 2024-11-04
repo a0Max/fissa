@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
               getUserDataUseCases: di.sl(),
               getStuffTypesDataUseCases: di.sl(),
               addRequiredDataUseCases: di.sl(),
+              updateUserDataUseCases: di.sl(),
               checkOtpUseCases: di.sl(),
               loginUseCases: di.sl(),
             ),

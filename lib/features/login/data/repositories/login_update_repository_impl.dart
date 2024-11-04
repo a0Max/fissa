@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fisaa/features/home/domain/entities/home_model.dart';
+import 'package:fisaa/features/intro/domain/entities/user_data_model.dart';
 import 'package:fisaa/features/login/domain/entities/user_data_with_otp_model.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
@@ -89,6 +92,32 @@ class LoginUpdateRepositoryImpl implements LoginUpdateRepository {
         if (e is MessageException) {
           print('error:${e.message}');
 
+          return Left(ServerFailure(message: e.message));
+        }
+        return Left(SendDataFailure());
+      }
+    } else {
+      return Left(CheckYourNetwork());
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserData>> updateUserDataRepository(
+      {required String name, required String email, File? image}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final res = await remoteDataSource.updateUserDataRepository(
+            name: name, email: email, image: image);
+        print('res:$res');
+        return Right(res);
+      } on DioException catch (e, s) {
+        print('error:0$e');
+        if (e is MessageException) {
+          return Left(ServerFailure(message: "${e.message}"));
+        }
+        return Left(LoginFailure());
+      } catch (e, s) {
+        if (e is MessageException) {
           return Left(ServerFailure(message: e.message));
         }
         return Left(SendDataFailure());

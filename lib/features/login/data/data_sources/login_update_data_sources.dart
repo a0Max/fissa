@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:fisaa/features/intro/domain/entities/user_data_model.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/apis_connections/api_connection.dart';
 import '../../../../core/connection.dart';
@@ -10,6 +13,8 @@ abstract class DataSourceRemotelyOfLoginUpdateData {
       {required String name, required String? email});
   Future<UserDataWithOtpModel> checkOtpRepository(
       {required String phone, required String otp});
+  Future<UserData> updateUserDataRepository(
+      {required String name, required String email, File? image});
 }
 
 class DataSourceRemotelyOfLoginUpdateImpl
@@ -52,6 +57,22 @@ class DataSourceRemotelyOfLoginUpdateImpl
         queryParameters: {'phone': phone, 'country_code': "+218"});
     if (dio.validResponse(response)) {
       return UserDataWithOtpModel.fromJson(response.data['data']);
+    } else {
+      throw response.data['msg'];
+    }
+  }
+
+  @override
+  Future<UserData> updateUserDataRepository(
+      {required String name, required String email, File? image}) async {
+    final response = await dio.post(
+        url: '${Connection.baseURL}${dio.authUpdateProfileEndPoint}',
+        queryParameters: {
+          'name': name,
+          if (isBlank(email) == false) 'email': email
+        });
+    if (dio.validResponse(response)) {
+      return UserData.fromJson(response.data['data']['usr']);
     } else {
       throw response.data['msg'];
     }
