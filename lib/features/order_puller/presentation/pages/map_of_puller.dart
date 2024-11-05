@@ -84,23 +84,6 @@ class _MapOfPullerState extends State<MapOfPuller> {
                   child: state.currentWidget ?? SizedBox(),
                 ),
               ),
-              // Expanded(
-              //     flex: 3,
-              //     child: FittedBox(
-              //         child: Container(
-              //             width: MediaQuery.of(context).size.width * 1.2,
-              //             height:
-              //                 (MediaQuery.of(context).size.height / (5 + 3)) *
-              //                     3.5,
-              //             decoration: const BoxDecoration(
-              //               color: Colors.white,
-              //               borderRadius: BorderRadius.only(
-              //                 topLeft: Radius.circular(16),
-              //                 topRight: Radius.circular(16),
-              //               ),
-              //             ),
-              //             // color: Colors.white,
-              //             child: state.currentWidget ?? SizedBox())))
             ],
           );
         }),

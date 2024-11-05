@@ -11,6 +11,8 @@ import '../../../../core/enums/selected_help.dart';
 import '../../../details_of_transports_goods/domain/entities/trip_details_model.dart';
 import '../../../login/presentation/manager/auth_provider.dart';
 import '../../../profile/presentation/pages/profile_user_screen.dart';
+import '../../../trip_history/presentation/manager/trip_history_provider.dart';
+import '../../../trip_history/presentation/pages/trip_history_screen.dart';
 import '../widgets/current_trip.dart';
 import '../widgets/items_widget.dart';
 import 'screen1_home.dart';
@@ -22,7 +24,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
-  List<Widget> listOfWidgets = [ProfileUserScreen(), Screen1Home(), SizedBox()];
+  List<Widget> listOfWidgets = [
+    ChangeNotifierProvider<TripHistoryProvider>(
+        create: (_) => di.sl<TripHistoryProvider>()..getHistoryTrips(),
+        child: TripHistoryScreen()),
+    ProfileUserScreen(),
+    Screen1Home()
+  ];
   _updateIndex(int index) {
     setState(() {
       selectedIndex = index;

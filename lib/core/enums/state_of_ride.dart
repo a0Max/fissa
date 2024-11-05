@@ -1,14 +1,34 @@
+import 'package:flutter/cupertino.dart';
+
+import '../../features/trip_history/presentation/widgets/cancel_widget.dart';
+import '../../features/trip_history/presentation/widgets/done_widget.dart';
+
 enum StateOfRide { searching, way, arrived, completed, cancel }
 
 extension TypeExtensionOfStateOfRide on StateOfRide {
   static Map _mapOfSelectedHelp() {
     return {
-      'searching': StateOfRide.searching,
-      'way': StateOfRide.way,
-      'arrived': StateOfRide.arrived,
-      'completed': StateOfRide.completed,
-      'cancel': StateOfRide.cancel
+      StateOfRide.searching.text(): StateOfRide.searching,
+      StateOfRide.way.text(): StateOfRide.way,
+      StateOfRide.arrived.text(): StateOfRide.arrived,
+      StateOfRide.completed.text(): StateOfRide.completed,
+      StateOfRide.searching.text(): StateOfRide.cancel
     };
+  }
+
+  String text() {
+    switch (this) {
+      case StateOfRide.searching:
+        return 'searching';
+      case StateOfRide.way:
+        return 'way';
+      case StateOfRide.arrived:
+        return 'arrived';
+      case StateOfRide.completed:
+        return 'completed';
+      case StateOfRide.cancel:
+        return 'cancel';
+    }
   }
 
   static Map _mapOfStepSelectedHelp() {
@@ -27,5 +47,20 @@ extension TypeExtensionOfStateOfRide on StateOfRide {
 
   static int getStepOfState({required String textDataBase}) {
     return _mapOfStepSelectedHelp()[_mapOfSelectedHelp()[textDataBase]];
+  }
+
+  static Widget widgetUi({required String type}) {
+    if (type == StateOfRide.searching.text()) {
+      return SizedBox();
+    } else if (type == StateOfRide.way.text()) {
+      return SizedBox();
+    } else if (type == StateOfRide.arrived.text()) {
+      return SizedBox();
+    } else if (type == StateOfRide.completed.text()) {
+      return DoneWidget();
+    } else if (type == StateOfRide.cancel.text()) {
+      return CancelWidget();
+    }
+    return SizedBox();
   }
 }

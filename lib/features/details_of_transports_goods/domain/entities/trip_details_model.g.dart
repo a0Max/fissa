@@ -11,6 +11,12 @@ TripDetailsModel _$TripDetailsModelFromJson(Map<String, dynamic> json) =>
       passengerId: (json['passenger_id'] as num?)?.toInt(),
       stuffTypeImage: json['stuff_type_image'] as String?,
       weightName: json['weight_name'] as String?,
+      driver: json['driver'] == null
+          ? null
+          : DriverModel.fromJson(json['driver'] as Map<String, dynamic>),
+      passenger: json['passenger'] == null
+          ? null
+          : UserData.fromJson(json['passenger'] as Map<String, dynamic>),
       workerName: json['worker_name'] as String?,
       typeName: json['type_name'] as String?,
       stuffTypeName: json['stuff_type_name'] as String?,
@@ -33,7 +39,7 @@ TripDetailsModel _$TripDetailsModelFromJson(Map<String, dynamic> json) =>
       receiverPhone: json['receiver_phone'] as String?,
       senderName: json['sender_name'] as String?,
       senderPhone: json['sender_phone'] as String?,
-    );
+    )..typeId = json['type_id'];
 
 Map<String, dynamic> _$TripDetailsModelToJson(TripDetailsModel instance) =>
     <String, dynamic>{
@@ -57,9 +63,12 @@ Map<String, dynamic> _$TripDetailsModelToJson(TripDetailsModel instance) =>
       'to_lat': instance.toLat,
       'to_lng': instance.toLng,
       'price': instance.price,
+      'type_id': instance.typeId,
       'is_cash': instance.isCash,
       'updated_at': instance.updatedAt,
       'created_at': instance.createdAt,
       'status': instance.status,
       'id': instance.id,
+      'driver': instance.driver?.toJson(),
+      'passenger': instance.passenger?.toJson(),
     };

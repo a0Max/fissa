@@ -18,6 +18,7 @@ abstract class AppImages {
   static const String imageDriver = "${mainPathOfImages}image_driver.png";
   static const String price = "${mainPathOfImages}price.png";
   static const String carPlate = "${mainPathOfImages}car_plate.png";
+  static const String carGoods = "${mainPathOfImages}car_goods.png";
   static const String endMarker = "${mainPathOfImages}end_marker.png";
   static const String calendar = "${mainPathOfImages}calendar.png";
   static const String editImage = "${mainPathOfImages}edit_image.png";

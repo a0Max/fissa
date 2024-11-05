@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../intro/domain/entities/user_data_model.dart';
+import '../../../order_puller/domain/entities/driver_model.dart';
+
 part 'trip_details_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
@@ -27,16 +30,21 @@ class TripDetailsModel extends Equatable {
   final String? toLat;
   final String? toLng;
   dynamic price;
+  dynamic typeId;
   dynamic isCash;
   final String? updatedAt;
   final String? createdAt;
   final String? status;
   final int? id;
+  final DriverModel? driver;
+  final UserData? passenger;
 
   TripDetailsModel(
       {this.passengerId,
       this.stuffTypeImage,
       this.weightName,
+      this.driver,
+      this.passenger,
       this.workerName,
       this.typeName,
       this.stuffTypeName,
@@ -66,17 +74,29 @@ class TripDetailsModel extends Equatable {
 
   Map<String, dynamic> toJson() => _$TripDetailsModelToJson(this);
 
+  String getTheDateFormat() {
+    try {
+      if (createdAt == null) return '';
+      DateTime date = DateTime.parse(createdAt!);
+      return '${date.day}/${date.month}/${date.year}';
+    } catch (e) {
+      return '';
+    }
+  }
+
   @override
   List<Object?> get props => [
         passengerId,
         stuffTypeImage,
         weightName,
         workerName,
+        passenger,
         typeName,
         stuffTypeName,
         from,
         fromLat,
         fromLng,
+        driver,
         to,
         weight,
         status,

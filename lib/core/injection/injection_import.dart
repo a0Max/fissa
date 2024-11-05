@@ -15,6 +15,7 @@ Future<void> init() async {
       getLocalSearchUseCases: sl(),
       saveLocalSearchUseCases: sl()));
   sl.registerFactory(() => HomeProvider(getHomeDataUseCases: sl()));
+  sl.registerFactory(() => TripHistoryProvider(tripHistoryUseCases: sl()));
   sl.registerFactory(() => RateDriverProvider(rateTripUseCases: sl()));
   sl.registerFactory(() => CurrentTripProvider(
       locationService: sl(), cancelTripOfPullerUseCases: sl()));
@@ -40,6 +41,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetLocalSearchUseCases(sl()));
   sl.registerLazySingleton(() => SaveLocalSearchUseCases(sl()));
   sl.registerLazySingleton(() => RateTripUseCases(sl()));
+  sl.registerLazySingleton(() => TripHistoryUseCases(sl()));
 
   //Repository
   sl.registerLazySingleton<IntroRepository>(
@@ -56,6 +58,8 @@ Future<void> init() async {
       remoteDataSource: sl(), networkInfo: sl(), localDataSource: sl()));
   sl.registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<RepositoriesTripHistory>(() =>
+      TripHistoryRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
 
   //Datasources
   sl.registerLazySingleton<DataSourceRemotelyOfIntro>(
@@ -74,6 +78,8 @@ Future<void> init() async {
       () => DataSourceRemotelyOfHomeImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfRateTrip>(
       () => DataSourceRemotelyOfRateTripImpl(dio: sl()));
+  sl.registerLazySingleton<DataSourceRemotelyOfTripHistory>(
+      () => DataSourceRemotelyOfTripHistoryImpl(dio: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
