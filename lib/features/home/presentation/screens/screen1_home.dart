@@ -157,7 +157,7 @@ class Screen1Home extends StatelessWidget {
                                       ),
                                       10.ph,
                                       ...List.generate(
-                                          state.homeData?.trips?.length ?? 0,
+                                          state.homeData?.tripDets?.length ?? 0,
                                           (index) => Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
@@ -166,7 +166,8 @@ class Screen1Home extends StatelessWidget {
                                                   children: [
                                                     CurrentTrip(
                                                       data: state.homeData
-                                                              ?.trips?[index] ??
+                                                                  ?.tripDets?[
+                                                              index] ??
                                                           TripDetailsModel(),
                                                     ),
                                                     10.ph,

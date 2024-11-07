@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../features/trip_history/presentation/widgets/cancel_widget.dart';
+import '../../features/trip_history/presentation/widgets/default_widget.dart';
 import '../../features/trip_history/presentation/widgets/done_widget.dart';
 
 enum StateOfRide { searching, way, arrived, completed, cancel }
@@ -12,7 +13,7 @@ extension TypeExtensionOfStateOfRide on StateOfRide {
       StateOfRide.way.text(): StateOfRide.way,
       StateOfRide.arrived.text(): StateOfRide.arrived,
       StateOfRide.completed.text(): StateOfRide.completed,
-      StateOfRide.searching.text(): StateOfRide.cancel
+      StateOfRide.cancel.text(): StateOfRide.cancel
     };
   }
 
@@ -51,16 +52,24 @@ extension TypeExtensionOfStateOfRide on StateOfRide {
 
   static Widget widgetUi({required String type}) {
     if (type == StateOfRide.searching.text()) {
-      return SizedBox();
+      return DefaultWidget(
+        state: StateOfRide.searching.text(),
+      );
     } else if (type == StateOfRide.way.text()) {
-      return SizedBox();
+      return DefaultWidget(
+        state: StateOfRide.way.text(),
+      );
     } else if (type == StateOfRide.arrived.text()) {
-      return SizedBox();
+      return DefaultWidget(
+        state: StateOfRide.arrived.text(),
+      );
     } else if (type == StateOfRide.completed.text()) {
       return DoneWidget();
     } else if (type == StateOfRide.cancel.text()) {
       return CancelWidget();
     }
-    return SizedBox();
+    return DefaultWidget(
+      state: type,
+    );
   }
 }

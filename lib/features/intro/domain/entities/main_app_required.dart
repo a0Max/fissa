@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:fisaa/features/intro/domain/entities/support_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../home/domain/entities/categories_model.dart';
@@ -13,8 +14,9 @@ class MainAppRequiredModel extends Equatable {
   final List<GetWorkersModel>? workers;
   final List<GetWeightModel>? weight;
   final List<CategoriesModel>? categories;
+  final SupportModel? support;
   MainAppRequiredModel(
-      {this.types, this.workers, this.weight, this.categories});
+      {this.types, this.workers, this.weight, this.categories, this.support});
 
   factory MainAppRequiredModel.fromJson(Map<String, dynamic> json) {
     print('json00:$json');
@@ -24,5 +26,5 @@ class MainAppRequiredModel extends Equatable {
   Map<String, dynamic> toJson() => _$MainAppRequiredModelToJson(this);
 
   @override
-  List<Object?> get props => [types, workers, weight, categories];
+  List<Object?> get props => [types, workers, weight, categories, support];
 }

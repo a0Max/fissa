@@ -126,4 +126,28 @@ class LoginUpdateRepositoryImpl implements LoginUpdateRepository {
       return Left(CheckYourNetwork());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> logOutRepository() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final res = await remoteDataSource.logOutRepository();
+        print('res:$res');
+        return Right(res);
+      } on DioException catch (e, s) {
+        print('error:0$e');
+        if (e is MessageException) {
+          return Left(ServerFailure(message: "${e.message}"));
+        }
+        return Left(LoginFailure());
+      } catch (e, s) {
+        if (e is MessageException) {
+          return Left(ServerFailure(message: e.message));
+        }
+        return Left(SendDataFailure());
+      }
+    } else {
+      return Left(CheckYourNetwork());
+    }
+  }
 }

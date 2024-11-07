@@ -50,6 +50,7 @@ class MainApiConnection {
   String authLoginValidateOtpEndPoint = "auth/login-validate-otp";
   String authUpdateProfileEndPoint = "auth/update-profile";
   String tripHistoryEndPoint = "trip-history";
+  String logoutEndPoint = "auth/logout";
   String cancelTheTripsEndPoint({required int tripId}) {
     return "trips/$tripId/cancel-current";
   }
@@ -121,26 +122,26 @@ class MainApiConnection {
   }) async {
     String? token = await _getUserToken();
 
-    try {
-      final response = await dio.post(
-        url,
-        queryParameters: queryParameters,
-        data: data,
-        options: dioOptions(token),
-      );
+    // try {
+    final response = await dio.post(
+      url,
+      queryParameters: queryParameters,
+      data: data,
+      options: dioOptions(token),
+    );
 
-      if (validResponse(response)) {
-        return response;
-      } else {
-        throw MessageException(message: response.data['msg']);
-      }
-    } on DioException catch (dioError) {
-      print("DioException:${dioError.response}");
-      if (dioError.response != null && dioError.response?.data != null) {
-        throw MessageException(message: dioError.response!.data['msg']);
-      }
-      throw ServerException();
+    if (validResponse(response)) {
+      return response;
+    } else {
+      throw MessageException(message: response.data['msg']);
     }
+    // } on DioException catch (dioError) {
+    //   print("DioException:${dioError.response}");
+    //   if (dioError.response != null && dioError.response?.data != null) {
+    //     throw MessageException(message: dioError.response!.data['msg']);
+    //   }
+    //   throw ServerException();
+    // }
   }
 
   // TODO DIO uploadImage

@@ -21,7 +21,7 @@ class UserData extends Equatable {
   final String? createdAt;
   final String? updatedAt;
   final int? isAvailable;
-  final String? otp;
+  final dynamic otp;
   final String? image;
 
   UserData(
@@ -63,6 +63,11 @@ class UserData extends Equatable {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2JhaGFnZHJnZmdmLmNvbS9maXNhYS9wdWJsaWMvYXBpL2xvZ2luIiwiaWF0IjoxNzI5MTAzNzc3LCJleHAiOjQ4Mzg1MTAzNzc3LCJuYmYiOjE3MjkxMDM3NzcsImp0aSI6IlpBV0JGVlk5cjNUY015RVoiLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.xGreDrJB3oIt_MOS7Gj42C9ki5oi6Ey6RvexA-hX_0U";
     return prefs.getString('userToken');
+  }
+
+  static Future<void> get removeToken async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('userToken');
   }
 
   @override

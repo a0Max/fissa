@@ -478,11 +478,8 @@ class CurrentTripeScreen extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              context
-                  .read<CurrentTripProvider>()
-                  .makeMarkerOfPassengerLocation();
-              // launchUrl(Uri.parse(
-              //     "tel://${state.dataOfTrip?.driverId?.countryCode}${state.dataOfTrip?.driverId?.phone}"));
+              launchUrl(Uri.parse(
+                  "tel://${state.dataOfTrip.driverId?.countryCode}${state.dataOfTrip.driverId?.phone}"));
             },
             child: Column(
               children: [

@@ -10,13 +10,23 @@ TripDetailsModel _$TripDetailsModelFromJson(Map<String, dynamic> json) =>
     TripDetailsModel(
       passengerId: (json['passenger_id'] as num?)?.toInt(),
       stuffTypeImage: json['stuff_type_image'] as String?,
+      review: json['review'] == null
+          ? null
+          : DriverReviewModel.fromJson(json['review'] as Map<String, dynamic>),
       weightName: json['weight_name'] as String?,
+      worker: json['worker'] == null
+          ? null
+          : GetWorkersModel.fromJson(json['worker'] as Map<String, dynamic>),
       driver: json['driver'] == null
           ? null
           : DriverModel.fromJson(json['driver'] as Map<String, dynamic>),
       passenger: json['passenger'] == null
           ? null
           : UserData.fromJson(json['passenger'] as Map<String, dynamic>),
+      stuffType: json['stuff_type'] == null
+          ? null
+          : GetStuffTypesModel.fromJson(
+              json['stuff_type'] as Map<String, dynamic>),
       workerName: json['worker_name'] as String?,
       typeName: json['type_name'] as String?,
       stuffTypeName: json['stuff_type_name'] as String?,
@@ -24,7 +34,9 @@ TripDetailsModel _$TripDetailsModelFromJson(Map<String, dynamic> json) =>
       fromLat: json['from_lat'] as String?,
       fromLng: json['from_lng'] as String?,
       to: json['to'] as String?,
-      weight: json['weight'] as String?,
+      weight: json['weight'] == null
+          ? null
+          : GetWeightModel.fromJson(json['weight'] as Map<String, dynamic>),
       status: json['status'] as String?,
       toLat: json['to_lat'] as String?,
       toLng: json['to_lng'] as String?,
@@ -56,7 +68,6 @@ Map<String, dynamic> _$TripDetailsModelToJson(TripDetailsModel instance) =>
       'receiver_name': instance.receiverName,
       'sender_phone': instance.senderPhone,
       'sender_name': instance.senderName,
-      'weight': instance.weight,
       'from_lat': instance.fromLat,
       'from_lng': instance.fromLng,
       'to': instance.to,
@@ -71,4 +82,8 @@ Map<String, dynamic> _$TripDetailsModelToJson(TripDetailsModel instance) =>
       'id': instance.id,
       'driver': instance.driver?.toJson(),
       'passenger': instance.passenger?.toJson(),
+      'stuff_type': instance.stuffType?.toJson(),
+      'review': instance.review?.toJson(),
+      'weight': instance.weight?.toJson(),
+      'worker': instance.worker?.toJson(),
     };

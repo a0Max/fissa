@@ -14,7 +14,9 @@ class TripHistoryProvider extends ChangeNotifier {
   RequestState stateOfHistory = RequestState.initial;
   List<TripDetailsModel> allHistoryTrips = [];
   List<TripDetailsModel> cancelHistoryTrips = [];
+  List<TripDetailsModel> onWayHistoryTrips = [];
   List<TripDetailsModel> completedHistoryTrips = [];
+  List<TripDetailsModel> arrivedHistoryTrips = [];
   String? message;
 
   _eitherLoadedOrErrorState(
@@ -28,12 +30,18 @@ class TripHistoryProvider extends ChangeNotifier {
       },
       (data) {
         stateOfHistory = RequestState.done;
-        allHistoryTrips = data;
-        cancelHistoryTrips = data
+        allHistoryTrips = data.reversed.toList();
+        cancelHistoryTrips = allHistoryTrips
             .where((element) => element.status == StateOfRide.cancel.text())
             .toList();
-        completedHistoryTrips = data
+        completedHistoryTrips = allHistoryTrips
             .where((element) => element.status == StateOfRide.completed.text())
+            .toList();
+        onWayHistoryTrips = allHistoryTrips
+            .where((element) => element.status == StateOfRide.way.text())
+            .toList();
+        arrivedHistoryTrips = allHistoryTrips
+            .where((element) => element.status == StateOfRide.arrived.text())
             .toList();
       },
     );
@@ -47,21 +55,14 @@ class TripHistoryProvider extends ChangeNotifier {
     final failureOrDoneMessage = await tripHistoryUseCases();
     _eitherLoadedOrErrorState(failureOrDoneMessage);
     notifyListeners();
-    if (stateOfHistory == RequestState.done) {
-      _handlingTheCountStateOfTrips();
-    }
+    // if (stateOfHistory == RequestState.done) {
+    //   _handlingTheCountStateOfTrips();
+    // }
   }
 
   int? countOfCancel;
   int? countOfAll;
   int? countOfCompleted;
-
-  _handlingTheCountStateOfTrips() {
-    countOfCancel = cancelHistoryTrips.length;
-    countOfCompleted = completedHistoryTrips.length;
-    countOfAll = allHistoryTrips.length;
-    notifyListeners();
-  }
 }
 
 String _mapFailureToMessage(Failure failure) {

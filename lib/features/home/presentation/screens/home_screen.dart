@@ -25,11 +25,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   List<Widget> listOfWidgets = [
+    Screen1Home(),
     ChangeNotifierProvider<TripHistoryProvider>(
         create: (_) => di.sl<TripHistoryProvider>()..getHistoryTrips(),
         child: TripHistoryScreen()),
     ProfileUserScreen(),
-    Screen1Home()
   ];
   _updateIndex(int index) {
     setState(() {

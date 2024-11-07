@@ -28,6 +28,12 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+
+	<key>NSCameraUsageDescription</key>
+	<string>fisaa require access to the photo library to update your account picture and we don't collect any types of data</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>fisaa require access to the photo library to update your account picture and we don't collect any types of data</string>
+
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>This app needs access to location to show near stores and to locate your position on map when adding address</string>
     <key>NSLocationWhenInUseUsageDescription</key>

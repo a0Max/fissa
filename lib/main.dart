@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
               updateUserDataUseCases: di.sl(),
               checkOtpUseCases: di.sl(),
               loginUseCases: di.sl(),
+              logOutUseCases: di.sl(),
             ),
           ),
           // di.sl<AuthProvider>(),

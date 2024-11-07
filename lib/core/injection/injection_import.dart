@@ -26,6 +26,8 @@ Future<void> init() async {
 
   //UseCase
   sl.registerLazySingleton(() => CancelTripOfPullerUseCases(sl()));
+  sl.registerLazySingleton(() => LogOutUseCases(sl()));
+  sl.registerLazySingleton(() => ReOrderTripUseCases(sl()));
   sl.registerLazySingleton(() => UpdateUserDataUseCases(sl()));
   sl.registerLazySingleton(() => MapInformationUseCases(sl()));
   sl.registerLazySingleton(() => CreateTripOfPullerUseCases(sl()));
@@ -46,6 +48,9 @@ Future<void> init() async {
   //Repository
   sl.registerLazySingleton<IntroRepository>(
       () => IntroRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<RepositoriesTripReOrder>(() =>
+      TransportsReOrderRepositoryImpl(
+          remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<RepositoriesRateTrip>(
       () => RateRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<RepositoriesTripOfPuller>(
@@ -64,6 +69,8 @@ Future<void> init() async {
   //Datasources
   sl.registerLazySingleton<DataSourceRemotelyOfIntro>(
       () => DataSourceRemotelyOfIntroImpl(dio: sl()));
+  sl.registerLazySingleton<ReorderTripDataSources>(
+      () => DataSourceReorderTripImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfTripOfPuller>(
       () => DataSourceRemotelyOfTripOfPullerImpl(dio: sl()));
   sl.registerLazySingleton<DataSourceRemotelyOfSearchLocal>(

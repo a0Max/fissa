@@ -21,7 +21,7 @@ class _TripHistoryScreenState extends State<TripHistoryScreen>
   int index = 0;
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 5, vsync: this);
 
     super.initState();
   }
@@ -53,32 +53,31 @@ class _TripHistoryScreenState extends State<TripHistoryScreen>
               return TabBar(
                 dividerColor: Colors.transparent,
                 indicatorColor: Colors.transparent,
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(bottom: 10),
+                labelPadding: EdgeInsets.symmetric(horizontal: 5),
+                // labelPadding: EdgeInsets.symmetric(horizontal: 5),
                 controller: tabController,
                 tabs: <Tab>[
                   Tab(
                       child: index == 0
-                          ? _widgetOfTabSelected(
-                              title: "الكل", count: "${state.countOfAll ?? 0}")
-                          : _widgetOfTabUnSelected(
-                              title: "الكل",
-                              count: "${state.countOfAll ?? 0}")),
+                          ? _widgetOfTabSelected(title: "الكل")
+                          : _widgetOfTabUnSelected(title: "الكل")),
                   Tab(
                       child: index == 1
-                          ? _widgetOfTabSelected(
-                              title: "المكتمل",
-                              count: "${state.countOfCompleted ?? 0}")
-                          : _widgetOfTabUnSelected(
-                              title: "المكتمل",
-                              count: "${state.countOfCompleted ?? 0}")),
+                          ? _widgetOfTabSelected(title: "في الطريق")
+                          : _widgetOfTabUnSelected(title: "في الطريق")),
                   Tab(
                       child: index == 2
-                          ? _widgetOfTabSelected(
-                              title: "الملغية",
-                              count: "${state.countOfCancel ?? 0}")
-                          : _widgetOfTabUnSelected(
-                              title: "الملغية",
-                              count: "${state.countOfCancel ?? 0}")),
+                          ? _widgetOfTabSelected(title: "تم الوصول")
+                          : _widgetOfTabUnSelected(title: "تم الوصول")),
+                  Tab(
+                      child: index == 3
+                          ? _widgetOfTabSelected(title: "المكتمل")
+                          : _widgetOfTabUnSelected(title: "المكتمل")),
+                  Tab(
+                      child: index == 4
+                          ? _widgetOfTabSelected(title: "الملغية")
+                          : _widgetOfTabUnSelected(title: "الملغية")),
                 ],
                 onTap: (x) => _updateTheIndex(x),
               );
@@ -93,6 +92,14 @@ class _TripHistoryScreenState extends State<TripHistoryScreen>
                 ? const CupertinoActivityIndicator()
                 : _listOfAllTrips(
                     data: state.allHistoryTrips, context: context),
+            state.stateOfHistory == RequestState.loading
+                ? const CupertinoActivityIndicator()
+                : _listOfAllTrips(
+                    data: state.onWayHistoryTrips, context: context),
+            state.stateOfHistory == RequestState.loading
+                ? const CupertinoActivityIndicator()
+                : _listOfAllTrips(
+                    data: state.arrivedHistoryTrips, context: context),
             state.stateOfHistory == RequestState.loading
                 ? const CupertinoActivityIndicator()
                 : _listOfAllTrips(
@@ -118,82 +125,40 @@ class _TripHistoryScreenState extends State<TripHistoryScreen>
     );
   }
 
-  Widget _widgetOfTabSelected({required String title, required String count}) {
-    return Container(
+  Widget _widgetOfTabSelected({required String title}) {
+    return FittedBox(
+        child: Container(
+      padding: EdgeInsets.all(5),
       alignment: Alignment.center,
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(60)),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
-          ),
-          5.pw,
-          FittedBox(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: AppColor.yellowColor,
-                  borderRadius: BorderRadius.circular(60)),
-              child: Text(
-                count,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelLarge
-                    ?.copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
-        ],
+      child: Text(
+        title,
+        style: Theme.of(context)
+            .textTheme
+            .bodySmall
+            ?.copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
       ),
-    );
+    ));
   }
 
-  Widget _widgetOfTabUnSelected(
-      {required String title, required String count}) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(60),
-          border: Border.all(
-            color: Colors.white,
-          )),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge
-                ?.copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
-          ),
-          5.pw,
-          FittedBox(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: AppColor.lightGreyColor2,
-                  borderRadius: BorderRadius.circular(60)),
-              child: Text(
-                count,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
-        ],
+  Widget _widgetOfTabUnSelected({required String title}) {
+    return FittedBox(
+      child: Container(
+        padding: EdgeInsets.all(5),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(60),
+            border: Border.all(
+              color: Colors.white,
+            )),
+        child: Text(
+          title,
+          style: Theme.of(context)
+              .textTheme
+              .labelMedium
+              ?.copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
+        ),
       ),
     );
   }

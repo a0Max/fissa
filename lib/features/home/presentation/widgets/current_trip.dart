@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
 import 'package:fisaa/core/vars.dart';
@@ -52,15 +54,15 @@ class CurrentTrip extends StatelessWidget {
                       children: [
                         RichText(
                           text: TextSpan(
-                            text: data.stuffTypeName ?? data.typeName ?? '',
+                            text: data.stuffType?.name ?? "سحب مركبـــة",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
                                 ?.copyWith(fontSize: 10.sp),
                             children: <TextSpan>[
                               TextSpan(
-                                text: data.weight != null
-                                    ? ' (${data.weight})'
+                                text: data.weight?.weight != null
+                                    ? ' (${data.weight?.weight})'
                                     : '        ',
                                 style: Theme.of(context)
                                     .textTheme

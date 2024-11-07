@@ -3,12 +3,14 @@ import 'package:fisaa/core/app_color.dart';
 import 'package:fisaa/core/assets_images.dart';
 import 'package:fisaa/core/vars.dart';
 import 'package:fisaa/features/login/presentation/manager/auth_provider.dart';
+import 'package:fisaa/features/profile/presentation/pages/privacy_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils.dart';
 import '../../../intro/domain/entities/user_data_model.dart';
+import '../../../login/presentation/screen/login_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileUserScreen extends StatelessWidget {
@@ -79,6 +81,19 @@ class ProfileUserScreen extends StatelessWidget {
               ),
             ),
             GestureDetector(
+              onTap: () {
+                Utils.navigateTo(
+                    PrivacyScreen(
+                      terms: context
+                              .read<AuthProvider>()
+                              .stuffTypesData
+                              ?.support
+                              ?.terms
+                              ?.terms ??
+                          [],
+                    ),
+                    context);
+              },
               child: _itemOfProfile(
                 context: context,
                 title: 'الشروط والاحكام',
@@ -86,6 +101,19 @@ class ProfileUserScreen extends StatelessWidget {
               ),
             ),
             GestureDetector(
+              onTap: () {
+                Utils.navigateTo(
+                    PrivacyScreen(
+                      privacy: context
+                              .read<AuthProvider>()
+                              .stuffTypesData
+                              ?.support
+                              ?.terms
+                              ?.privacy ??
+                          [],
+                    ),
+                    context);
+              },
               child: _itemOfProfile(
                 context: context,
                 title: 'عن التطبيق',
@@ -105,6 +133,10 @@ class ProfileUserScreen extends StatelessWidget {
               ),
             ),
             GestureDetector(
+              onTap: () {
+                context.read<AuthProvider>().logOut();
+                Utils.navigateAndRemoveUntilTo(LoginScreen(), context);
+              },
               child: Column(
                 children: [
                   _iconInProfile(AppImages.logout),

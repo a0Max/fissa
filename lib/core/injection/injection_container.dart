@@ -7,6 +7,10 @@ import '../../features/details_of_transports_goods/data/repositories/transports_
 import '../../features/details_of_transports_goods/domain/repositories/repositories_trip_of_transports_goods.dart';
 import '../../features/details_of_transports_goods/domain/use_cases/create_trip_of_transports_goods_use_case.dart';
 import '../../features/details_of_transports_goods/domain/use_cases/get_price_trip_of_transports_goods_use_case.dart';
+import '../../features/details_trip/data/data_sources/reorder_trip_data_sources.dart';
+import '../../features/details_trip/data/repositories/transports_reoder_impl.dart';
+import '../../features/details_trip/domain/repositories/reorder_trip.dart';
+import '../../features/details_trip/domain/use_cases/create_trip_of_transports_goods_use_case.dart';
 import '../../features/home/data/data_sources/home_data_sources.dart';
 import '../../features/home/data/repositories/home_repository_impl.dart';
 import '../../features/home/domain/repositories/repositories_home.dart';
@@ -23,6 +27,7 @@ import '../../features/login/domain/repositories/repositories_login_update.dart'
 import '../../features/login/domain/use_cases/add_required_data_use_cases.dart';
 import '../../features/login/domain/use_cases/check_otp_use_cases.dart';
 import '../../features/login/domain/use_cases/login_use_cases.dart';
+import '../../features/login/domain/use_cases/logout_use_cases.dart';
 import '../../features/login/domain/use_cases/update_profile_use_cases.dart';
 import '../../features/map_address/data/data_sources/local_search_data_source.dart';
 import '../../features/map_address/data/data_sources/search_about_location_information.dart';

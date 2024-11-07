@@ -3,8 +3,12 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../intro/domain/entities/get_stuff_types_model.dart';
+import '../../../intro/domain/entities/get_weight_model.dart';
+import '../../../intro/domain/entities/get_workers_model.dart';
 import '../../../intro/domain/entities/user_data_model.dart';
 import '../../../order_puller/domain/entities/driver_model.dart';
+import '../../../order_puller/domain/entities/driver_review_model.dart';
 
 part 'trip_details_model.g.dart';
 
@@ -23,7 +27,6 @@ class TripDetailsModel extends Equatable {
   final String? receiverName;
   final String? senderPhone;
   final String? senderName;
-  final String? weight;
   final String? fromLat;
   final String? fromLng;
   final String? to;
@@ -38,13 +41,20 @@ class TripDetailsModel extends Equatable {
   final int? id;
   final DriverModel? driver;
   final UserData? passenger;
+  final GetStuffTypesModel? stuffType;
+  final DriverReviewModel? review;
+  final GetWeightModel? weight;
+  final GetWorkersModel? worker;
 
   TripDetailsModel(
       {this.passengerId,
       this.stuffTypeImage,
+      this.review,
       this.weightName,
+      this.worker,
       this.driver,
       this.passenger,
+      this.stuffType,
       this.workerName,
       this.typeName,
       this.stuffTypeName,
@@ -89,9 +99,12 @@ class TripDetailsModel extends Equatable {
         passengerId,
         stuffTypeImage,
         weightName,
+        stuffType,
         workerName,
+        review,
         passenger,
         typeName,
+        worker,
         stuffTypeName,
         from,
         fromLat,

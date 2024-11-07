@@ -20,6 +20,7 @@ import '../../domain/entities/user_data_with_otp_model.dart';
 import '../../domain/use_cases/add_required_data_use_cases.dart';
 import '../../domain/use_cases/check_otp_use_cases.dart';
 import '../../domain/use_cases/login_use_cases.dart';
+import '../../domain/use_cases/logout_use_cases.dart';
 import '../../domain/use_cases/update_profile_use_cases.dart';
 import '../screen/complete_sign_up.dart';
 import '../screen/name_screen.dart';
@@ -37,11 +38,13 @@ class AuthProvider extends ChangeNotifier {
   final AddRequiredDataUseCases addRequiredDataUseCases;
   final CheckOtpUseCases checkOtpUseCases;
   final LoginUseCases loginUseCases;
+  final LogOutUseCases logOutUseCases;
   final UpdateUserDataUseCases updateUserDataUseCases;
 
   AuthProvider(
       {required this.getUserDataUseCases,
       required this.addRequiredDataUseCases,
+      required this.logOutUseCases,
       required this.updateUserDataUseCases,
       required this.checkOtpUseCases,
       required this.loginUseCases,
@@ -59,6 +62,9 @@ class AuthProvider extends ChangeNotifier {
   UserData? tempUserData;
   num? otp;
   MainAppRequiredModel? stuffTypesData;
+  logOut() async {
+    await logOutUseCases();
+  }
 
   isThereTokenAvailableHere({required BuildContext context}) async {
     try {
@@ -307,6 +313,11 @@ class AuthProvider extends ChangeNotifier {
   File? selectedImage;
   void setImage(XFile image) {
     selectedImage = File(image.path);
+    notifyListeners();
+  }
+
+  void clearImage() {
+    selectedImage = null;
     notifyListeners();
   }
 
