@@ -10,9 +10,9 @@ part 'driver_review_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class DriverReviewModel extends Equatable {
-  int? totalRating;
-  int? ratingCount;
-  int? averageRating;
+  dynamic totalRating;
+  dynamic ratingCount;
+  dynamic averageRating;
 
   DriverReviewModel({this.totalRating, this.ratingCount, this.averageRating});
 

@@ -10,7 +10,7 @@ class RateTripUseCases {
 
   RateTripUseCases(this.repository);
 
-  Future<Either<Failure, bool>> call({required int tripId}) async {
-    return await repository.rateTrip(tripId: tripId);
+  Future<Either<Failure, bool>> call({required int tripId, required int rating}) async {
+    return await repository.rateTrip(tripId: tripId, rating:rating);
   }
 }

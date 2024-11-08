@@ -56,7 +56,7 @@ class MainApiConnection {
   }
 
   String rateTheTripsEndPoint({required int tripId}) {
-    return "trips/$tripId/complete";
+    return "trips/$tripId/review";
   }
 
 ////////////////////////////////////////////////////////////////////////////

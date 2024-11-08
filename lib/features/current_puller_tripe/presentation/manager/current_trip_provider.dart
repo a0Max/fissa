@@ -208,7 +208,13 @@ class CurrentTripProvider extends ChangeNotifier {
     try {
       print(
           '${(event.eventName == "App\\Events\\DriverTripLocationUpdate")}--event:${event.channelName} - ${event.eventName} - ${event.data}');
-      if (event.eventName == "App\\Events\\DriverTripLocationUpdate") {
+
+      CurrentTripModel tempCurrentTripData =
+          CurrentTripModel.fromJson(json.decode(event.data.toString()));
+      print(
+          'tempCurrentTripData.tripId == currentTripData?.tripId:${tempCurrentTripData.tripId} == ${dataOfTrip.tripDetails?.id}');
+      if (event.eventName == "App\\Events\\DriverTripLocationUpdate" &&
+          tempCurrentTripData.tripId == dataOfTrip.tripDetails?.id) {
         print('currentTripData');
         currentTripData =
             CurrentTripModel.fromJson(json.decode(event.data.toString()));

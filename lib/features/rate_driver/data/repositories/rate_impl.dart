@@ -20,10 +20,12 @@ class RateRepositoryImpl implements RepositoriesRateTrip {
       {required this.remoteDataSource, required this.networkInfo});
 
   @override
-  Future<Either<Failure, bool>> rateTrip({required int tripId}) async {
+  Future<Either<Failure, bool>> rateTrip(
+      {required int tripId, required int rating}) async {
     if (await networkInfo.isConnected) {
       try {
-        final res = await remoteDataSource.rateTheTrip(tripId: tripId);
+        final res =
+            await remoteDataSource.rateTheTrip(tripId: tripId, rating: rating);
         print('res:$res');
         return Right(true);
       } on DioException catch (e, s) {

@@ -61,7 +61,8 @@ class RateDriverProvider extends ChangeNotifier {
     stateOfRate = RequestState.loading;
     notifyListeners();
 
-    final failureOrDoneMessage = await rateTripUseCases(tripId: tripId);
+    final failureOrDoneMessage =
+        await rateTripUseCases(tripId: tripId, rating: rate.toInt());
     _eitherRateLoadedOrErrorState(failureOrDoneMessage);
     notifyListeners();
     if (stateOfRate == RequestState.done) {

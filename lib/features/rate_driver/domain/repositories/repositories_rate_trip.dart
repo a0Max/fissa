@@ -5,5 +5,6 @@ import '../../../details_of_transports_goods/domain/entities/trip_details_model.
 import '../../../map_address/domain/entities/full_location_model.dart';
 
 abstract class RepositoriesRateTrip {
-  Future<Either<Failure, bool>> rateTrip({required int tripId});
+  Future<Either<Failure, bool>> rateTrip(
+      {required int tripId, required int rating});
 }
