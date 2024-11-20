@@ -23,7 +23,7 @@ class DetailsTripScreen extends StatelessWidget {
         appBar: AppBar(
           leading: SizedBox(),
           title: Text(
-            '#${state.currentTrip.id}-${state.currentTrip.status}',
+            '#${state.currentTrip.id}',
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
@@ -256,76 +256,78 @@ class DetailsTripScreen extends StatelessWidget {
                     color: AppColor.lightGreyColor3,
                     height: 10,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        10.ph,
-                        Text(
-                          "السواق",
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium
-                              ?.copyWith(fontSize: 18.sp),
-                        ),
-                        15.ph,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "النـــــوع",
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(fontSize: 18.sp),
-                            ),
-                            Text(
-                              state.currentTrip.stuffType?.name ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "الـــوزن",
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(fontSize: 18.sp),
-                            ),
-                            Text(
-                              state.currentTrip.weight?.weight ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ],
+                  if (state.currentTrip.typeId != 1) ...{
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          10.ph,
+                          Text(
+                            "السواق",
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(fontSize: 18.sp),
+                          ),
+                          15.ph,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "النـــــوع",
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(fontSize: 18.sp),
+                              ),
+                              Text(
+                                state.currentTrip.stuffType?.name ?? '',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "الـــوزن",
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(fontSize: 18.sp),
+                              ),
+                              Text(
+                                state.currentTrip.weight?.weight ?? '',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  15.ph,
-                  Container(
-                    color: AppColor.lightGreyColor3,
-                    height: 10,
-                  ),
+                    15.ph,
+                    Container(
+                      color: AppColor.lightGreyColor3,
+                      height: 10,
+                    ),
+                  },
                   Container(
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -479,121 +481,92 @@ class DetailsTripScreen extends StatelessWidget {
                             },
                             15.ph,
                           ])),
-                  15.ph,
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            10.ph,
-                            GestureDetector(
-                              onTap: () {
-                                context
-                                    .read<DetailsTripProvider>()
-                                    .changeShowSecond();
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 10,
-                                        backgroundColor: AppColor.mainColor,
-                                        child: FittedBox(
-                                          child: Icon(
-                                            Icons.check,
-                                            color: Colors.white,
+                  if (state.currentTrip.typeId != 1) ...{
+                    15.ph,
+                    Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              10.ph,
+                              GestureDetector(
+                                onTap: () {
+                                  context
+                                      .read<DetailsTripProvider>()
+                                      .changeShowSecond();
+                                },
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 10,
+                                          backgroundColor: AppColor.mainColor,
+                                          child: FittedBox(
+                                            child: Icon(
+                                              Icons.check,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      10.pw,
-                                      Text(
-                                        "نقطة النهاية",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(fontSize: 15.sp),
-                                      ),
-                                    ],
-                                  ),
-                                  Icon(
-                                    state.showSecond
-                                        ? Icons.expand_less
-                                        : Icons.expand_more,
-                                  ),
-                                ],
+                                        10.pw,
+                                        Text(
+                                          "نقطة النهاية",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.copyWith(fontSize: 15.sp),
+                                        ),
+                                      ],
+                                    ),
+                                    Icon(
+                                      state.showSecond
+                                          ? Icons.expand_less
+                                          : Icons.expand_more,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            if (state.showSecond == true) ...{
-                              Row(
-                                children: [
-                                  9.pw,
-                                  Container(
-                                    width: 2,
-                                    height: 100,
-                                    color: AppColor.mainColor,
-                                  ),
-                                  10.pw,
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: AppColor.lightGreyColor3)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  AppImages.user2,
-                                                  height: 15.h,
-                                                ),
-                                                10.pw,
-                                                Text(
-                                                  state.currentTrip
-                                                          .receiverName ??
-                                                      '',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall
-                                                      ?.copyWith(
-                                                          fontSize: 16.sp,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                )
-                                              ],
-                                            ),
-                                            5.ph,
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2,
-                                              color: AppColor.lightGreyColor3,
-                                              height: 2,
-                                            ),
-                                            5.ph,
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.phone,
-                                                  color: AppColor.mainColor,
-                                                ),
-                                                10.pw,
-                                                Text(
+                              if (state.showSecond == true) ...{
+                                Row(
+                                  children: [
+                                    9.pw,
+                                    Container(
+                                      width: 2,
+                                      height: 100,
+                                      color: AppColor.mainColor,
+                                    ),
+                                    10.pw,
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: AppColor.lightGreyColor3)),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    AppImages.user2,
+                                                    height: 15.h,
+                                                  ),
+                                                  10.pw,
+                                                  Text(
                                                     state.currentTrip
-                                                            .receiverPhone ??
+                                                            .receiverName ??
                                                         '',
                                                     style: Theme.of(context)
                                                         .textTheme
@@ -602,58 +575,96 @@ class DetailsTripScreen extends StatelessWidget {
                                                             fontSize: 16.sp,
                                                             fontWeight:
                                                                 FontWeight
-                                                                    .w500))
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            launchUrl(Uri.parse(
-                                                "tel://${state.currentTrip.driver?.countryCode}${state.currentTrip.receiverPhone}"));
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.green),
-                                                color: Colors.green.shade100,
-                                                borderRadius:
-                                                    BorderRadius.circular(50)),
-                                            // width: MediaQuery.of(context).size.width / 4,
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Transform.flip(
-                                                  flipX: true,
-                                                  child: const Icon(
-                                                      CupertinoIcons.phone_fill,
+                                                                    .w500),
+                                                  )
+                                                ],
+                                              ),
+                                              5.ph,
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2,
+                                                color: AppColor.lightGreyColor3,
+                                                height: 2,
+                                              ),
+                                              5.ph,
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.phone,
+                                                    color: AppColor.mainColor,
+                                                  ),
+                                                  10.pw,
+                                                  Text(
+                                                      state.currentTrip
+                                                              .receiverPhone ??
+                                                          '',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall
+                                                          ?.copyWith(
+                                                              fontSize: 16.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500))
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              launchUrl(Uri.parse(
+                                                  "tel://${state.currentTrip.driver?.countryCode}${state.currentTrip.receiverPhone}"));
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
                                                       color: Colors.green),
-                                                ),
-                                                5.pw,
-                                                Text(
-                                                  'اتصال',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelLarge
-                                                      ?.copyWith(
-                                                          fontSize: 13.sp,
-                                                          color: Colors.green),
-                                                )
-                                              ],
+                                                  color: Colors.green.shade100,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              // width: MediaQuery.of(context).size.width / 4,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Transform.flip(
+                                                    flipX: true,
+                                                    child: const Icon(
+                                                        CupertinoIcons
+                                                            .phone_fill,
+                                                        color: Colors.green),
+                                                  ),
+                                                  5.pw,
+                                                  Text(
+                                                    'اتصال',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge
+                                                        ?.copyWith(
+                                                            fontSize: 13.sp,
+                                                            color:
+                                                                Colors.green),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )
-                            },
-                            15.ph,
-                          ]))
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                              },
+                              15.ph,
+                            ]))
+                  }
                 ],
               ),
             ),
