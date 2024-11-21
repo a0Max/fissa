@@ -47,7 +47,6 @@ A Flutter-based delivery app designed to provide towing and goods transportation
 ## Driver Screenshots
 
 [//]: # (![Home Screen]&#40;assets/readme/1.jpg&#41;)
-<img alt="Home Screen" src="assets/readme/13.png" width="300" height="600" />
 <img alt="Sections Screen" src="assets/readme/14.png" width="300" height="600" />
 <img alt="Sections Screen" src="assets/readme/15.png" width="300" height="600" />
 <img alt="Search Screen" src="assets/readme/16.png" width="300" height="600" />
@@ -55,7 +54,7 @@ A Flutter-based delivery app designed to provide towing and goods transportation
 <img alt="Offers Screen" src="assets/readme/18.png" width="300" height="600" />
 <img alt="Magazine Screen" src="assets/readme/19.png" width="300" height="600" />
 <img alt="Magazine Screen" src="assets/readme/20.png" width="300" height="600" />
-<img alt="Magazine Screen" src="assets/readme/113113.png" width="300" height="600" />
+<img alt="Magazine Screen" src="assets/readme/11313.png" width="300" height="600" />
 <
 ## Driver Screenshots
 <img alt="Magazine Screen" src="assets/readme/12.png" width="300" height="600" />
