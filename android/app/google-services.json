@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "178924674442",
+    "project_id": "fisaa-4bb35",
+    "storage_bucket": "fisaa-4bb35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178924674442:android:636c8ca72785885746bc73",
+        "android_client_info": {
+          "package_name": "com.fisaa.fisaa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmurFKjZRp3KDnIZ7fkVBNDIIv-WH97Jk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
